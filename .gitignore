@@ -3,3 +3,15 @@
 /.idea/**
 /.idea/libraries/Maven__org_apache_commons_commons_lang3_3_10.xml
 /bns.iml
+/.classpath
+/.project
+/HELP.md
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.properties
+/.mvn/wrapper/MavenWrapperDownloader.java
+/mvnw
+/mvnw.cmd
+/.settings/org.eclipse.core.resources.prefs
+/.settings/org.eclipse.jdt.apt.core.prefs
+/.settings/org.eclipse.jdt.core.prefs
+/.settings/org.eclipse.m2e.core.prefs

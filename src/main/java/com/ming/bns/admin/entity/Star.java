@@ -1,5 +1,14 @@
 package com.ming.bns.admin.entity;
 
+import com.ming.tools.generate.template.annotation.Generate;
+import com.ming.tools.generate.template.annotation.database.Column;
+import com.ming.tools.generate.template.annotation.database.Comment;
+import com.ming.tools.generate.template.annotation.database.PrimaryKey;
+import com.ming.tools.generate.template.annotation.database.Text;
+import com.sun.istack.internal.NotNull;
+
+import java.io.Serializable;
+
 /**
  * 星级	所需经验值
  * 1	              500,000
@@ -37,5 +46,67 @@ package com.ming.bns.admin.entity;
  * 33	   3,505,442,297
  * 34	   3,961,149,797
  */
-public class Star {
+@Generate(isEffective = true,isCover = false,desc = "星级",tablePrefix = "bns")
+public class Star implements Serializable {
+
+    @Column
+    @PrimaryKey
+    private Long id;
+
+    @Column
+    @Comment("星级")
+    private Integer star;
+
+    @Column
+    @Comment("经验")
+    private Integer exp;
+
+    @Column
+    @Comment("备注")
+    private String remark;
+
+    public Star() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getStar() {
+        return star;
+    }
+
+    public void setStar(Integer star) {
+        this.star = star;
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "Star{" +
+                "id=" + id +
+                ", star=" + star +
+                ", exp=" + exp +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 }

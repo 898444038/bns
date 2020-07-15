@@ -1,0 +1,45 @@
+${package}
+
+${import}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+${classComment}
+@Service
+public class ${serviceImplName} implements ${serviceName} {
+
+    @Autowired
+    private ${mapperName} ${lowerMapperName};
+
+    ${selectListComment}
+    @Override
+    public List<${className}> selectList(${voName} ${lowerVoName}) {
+        return ${lowerMapperName}.selectList(${lowerVoName});
+    }
+
+    ${selectOneComment}
+    @Override
+    public ${className} selectOne(${voName} ${lowerVoName}) {
+        return ${lowerMapperName}.selectOne(${lowerVoName});
+    }
+
+    ${insertComment}
+    @Override
+    public int insert(${className} ${lowerClassName}) {
+        return ${lowerMapperName}.insert(${lowerClassName});
+    }
+
+    ${updateComment}
+    @Override
+    public int update(${className} ${lowerClassName}) {
+        return ${lowerMapperName}.update(${lowerClassName});
+    }
+
+    ${deleteComment}
+    @Override
+    public int delete(Long id) {
+        return ${lowerMapperName}.delete(id);
+    }
+}

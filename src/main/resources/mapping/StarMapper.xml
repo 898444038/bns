@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.StarMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.Star">
+	    <result column="id" property="id"/>
+	    <result column="star" property="star"/>
+	    <result column="exp" property="exp"/>
+	    <result column="remark" property="remark"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    star,
+	    exp,
+	    remark
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="star != null"> and star = #{star}</if>
+		    <if test="exp != null"> and exp = #{exp}</if>
+		    <if test="remark != null"> and remark = #{remark}</if>
+		</where>
+	</sql>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.StarVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_star
+		<include refid="baseCondition"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.StarVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_star
+		<include refid="baseCondition"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.Star">
+		insert into bns_star
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">id,</if>
+			<if test="star != null">star,</if>
+			<if test="exp != null">exp,</if>
+			<if test="remark != null">remark,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="id != null">#{id},</if>
+		    <if test="star != null">#{star},</if>
+		    <if test="exp != null">#{exp},</if>
+		    <if test="remark != null">#{remark},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.Star">
+		update bns_star
+		<set>
+			<if test="id != null">id = #{id},</if>
+			<if test="star != null">star = #{star},</if>
+			<if test="exp != null">exp = #{exp},</if>
+			<if test="remark != null">remark = #{remark},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from bns_star
+		where id = #{id}
+	</delete>
+
+</mapper>

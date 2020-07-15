@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${mapperPackage}">
+
+	<resultMap id="baseResultMap" type="${classPackage}">
+	    ${each::<result column="@[column]" property="@[property]"/>}
+	</resultMap>
+
+	<sql id="baseColumn">
+	    ${each::@[_column]}
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    ${each::<if test="@[property] != null"> and @[column] = @[_property]</if>}
+		</where>
+	</sql>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="${voPackage}">
+		SELECT <include refid="baseColumn"></include>
+		from ${tableName}
+		<include refid="baseCondition"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="${voPackage}">
+		SELECT <include refid="baseColumn"></include>
+		from ${tableName}
+		<include refid="baseCondition"></include>
+	</select>
+
+	<insert id="insert" parameterType="${classPackage}">
+		insert into ${tableName}
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			${each::<if test="@[property] != null">@[column],</if>}
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    ${each::<if test="@[property] != null">@[_property],</if>}
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="${classPackage}">
+		update ${tableName}
+		<set>
+			${each::<if test="@[property] != null">@[column] = @[_property],</if>}
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from ${tableName}
+		where id = #{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,26 @@
+${package}
+
+${import}
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+${classComment}
+public interface ${serviceName} {
+
+    ${selectListComment}
+    List<${className}> selectList(${voName} ${lowerVoName});
+
+    ${selectOneComment}
+    ${className} selectOne(${voName} ${lowerVoName});
+
+    ${insertComment}
+    int insert(${className} ${lowerClassName});
+
+    ${updateComment}
+    int update(${className} ${lowerClassName});
+
+    ${deleteComment}
+    int delete(Long id);
+
+}

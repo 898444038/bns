@@ -1,0 +1,52 @@
+${package}
+
+${import}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+${classComment}
+@RestController
+@RequestMapping("${requestMapping}")
+public class ${controllerName} {
+
+    @Autowired
+    private ${serviceName} ${lowerServiceName};
+
+    ${selectListComment}
+    @GetMapping("/selectList")
+    public List<${className}> selectList(${voName} ${lowerVoName}){
+        return ${lowerServiceName}.selectList(${lowerVoName});
+    }
+
+    ${selectOneComment}
+    @GetMapping("/selectOne")
+    public ${className} selectOne(${voName} ${lowerVoName}){
+        return ${lowerServiceName}.selectOne(${lowerVoName});
+    }
+
+    ${insertComment}
+    @PostMapping("/insert")
+    public int insert(@RequestBody ${className} ${lowerClassName}){
+        return ${lowerServiceName}.insert(${lowerClassName});
+    }
+
+    ${updateComment}
+    @PutMapping("/update")
+    public int update(@RequestBody ${className} ${lowerClassName}){
+        return ${lowerServiceName}.update(${lowerClassName});
+    }
+
+    ${deleteComment}
+    @DeleteMapping("/delete")
+    public int delete(Long id){
+        return ${lowerServiceName}.delete(id);
+    }
+}
