@@ -5,9 +5,9 @@ import com.ming.bns.admin.vo.MaterialVo;
 import com.ming.bns.admin.service.MaterialService;
 import com.ming.bns.admin.entity.Material;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class MaterialServiceImpl implements MaterialService {
 
-    @Autowired
+    @Resource
     private MaterialMapper materialMapper;
 
 	/**

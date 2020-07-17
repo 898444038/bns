@@ -62,7 +62,7 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public int update(@RequestBody Material material){
         return materialService.update(material);
     }
@@ -72,7 +72,7 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public int delete(Long id){
         return materialService.delete(id);
     }
