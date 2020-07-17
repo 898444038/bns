@@ -219,7 +219,7 @@ public class GenerateHelper {
                     entry.setValue(entry.getValue().replaceAll(reg,info.getTableName()));
                 }
 
-                if(str2.startsWith("each::")){
+                if(str2.startsWith("each::") || str2.startsWith("eachNotId::")){
                     String express = str2.split("::")[1];
                     List<String> resultList = new ArrayList<String>();
                     Pattern p0 = Pattern.compile("@\\[(.*?)\\]");
@@ -227,7 +227,14 @@ public class GenerateHelper {
                     String strTrim0 = null;
                     String reg0 = null;
                     int index = 0;
+                    boolean flag = false;
+                    if(str2.startsWith("eachNotId::")){
+                        flag = true;
+                    }
                     for (FieldColumn fieldColumn : info.getFieldColumnList()){
+                        if(flag && fieldColumn.getPrimaryKey()){
+                            continue;
+                        }
                         Matcher matcher0 = p0.matcher(express);
                         String result = express;
                         while (matcher0.find()) {
