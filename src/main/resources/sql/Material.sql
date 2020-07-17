@@ -3,7 +3,7 @@ CREATE TABLE `bns_material` (
 `id` BIGINT(20)  NOT NULL AUTO_INCREMENT ,
 `name` VARCHAR(32)  DEFAULT NULL  COMMENT '材料名称',
 `image` VARCHAR(32)  DEFAULT NULL  COMMENT '材料图片',
-`price` DECIMAL(11)  DEFAULT NULL  COMMENT '材料价格',
+`price` DECIMAL(11,2)  DEFAULT NULL  COMMENT '材料价格',
 `create_time` datetime  DEFAULT NULL  COMMENT '创建时间',
 `del_flag` TINYINT(1)  DEFAULT NULL  COMMENT '删除标识【0：未删除，1：已删除】',
 `type` INTEGER(11)  DEFAULT NULL  COMMENT '材料类型【0：材料 1：装备】',

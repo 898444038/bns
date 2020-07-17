@@ -163,7 +163,7 @@ public class GenerateUtil {
                 fieldColumn.setLength("(11)");
             }else if("java.math.BigDecimal".equalsIgnoreCase(typeName)){
                 fieldColumn.setJdbcType("DECIMAL");
-                fieldColumn.setLength("(11)");
+                fieldColumn.setLength("(12,2)");
             }else if("java.lang.Double".equalsIgnoreCase(typeName)){
                 fieldColumn.setJdbcType("DECIMAL");
                 fieldColumn.setLength("(10,2)");
