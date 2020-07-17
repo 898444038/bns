@@ -8,6 +8,8 @@ import java.util.List;
 ${classComment}
 public interface ${serviceName} {
 
+	List<${className}> selectPage(${voName} ${lowerVoName});
+
     ${selectListComment}
     List<${className}> selectList(${voName} ${lowerVoName});
 

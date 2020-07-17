@@ -1,6 +1,7 @@
 ${package}
 
 ${import}
+import com.ming.bns.admin.utils.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,11 @@ public class ${controllerName} {
     @Autowired
     private ${serviceName} ${lowerServiceName};
 
+	@GetMapping("/selectPage")
+	public List<${className}> selectPage(${voName} ${lowerVoName}){
+		return ${lowerServiceName}.selectPage(${lowerVoName});
+	}
+
     ${selectListComment}
     @GetMapping("/selectList")
     public List<${className}> selectList(${voName} ${lowerVoName}){
@@ -32,19 +38,40 @@ public class ${controllerName} {
 
     ${insertComment}
     @PostMapping("/insert")
-    public int insert(@RequestBody ${className} ${lowerClassName}){
-        return ${lowerServiceName}.insert(${lowerClassName});
+    public ResultMsg insert(@RequestBody ${className} ${lowerClassName}){
+        if(${lowerClassName} == null){
+            return ResultMsg.failed();
+        }
+        int i = ${lowerServiceName}.insert(${lowerClassName});
+        if(i>0){
+            return ResultMsg.success();
+        }
+        return ResultMsg.failed();
     }
 
     ${updateComment}
     @PostMapping("/update")
-    public int update(@RequestBody ${className} ${lowerClassName}){
-        return ${lowerServiceName}.update(${lowerClassName});
+    public ResultMsg update(@RequestBody ${className} ${lowerClassName}){
+        if(${lowerClassName} == null || ${lowerClassName}.getId() == null){
+            return ResultMsg.failed("ID不能为空！");
+        }
+        int i = ${lowerServiceName}.update(${lowerClassName});
+        if(i>0){
+            return ResultMsg.success();
+        }
+        return ResultMsg.failed();
     }
 
     ${deleteComment}
     @PostMapping("/delete")
-    public int delete(Long id){
-        return ${lowerServiceName}.delete(id);
+    public ResultMsg delete(Long id){
+        if(id == null){
+            return ResultMsg.failed("ID不能为空！");
+        }
+        int i = ${lowerServiceName}.delete(id);
+        if(i>0){
+            return ResultMsg.success();
+        }
+        return ResultMsg.failed();
     }
 }

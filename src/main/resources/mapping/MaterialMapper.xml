@@ -37,10 +37,31 @@
 		</where>
 	</sql>
 
+	<sql id="basePage">
+		<if test="pageStart != null and pageSize != null">
+			LIMIT #{pageStart},#{pageSize}
+		</if>
+	</sql>
+
+	<sql id="baseSort">
+		<if test="pageSort != null and pageSort != ''">
+			ORDER BY ${pageSort}
+		</if>
+	</sql>
+
+	<select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.MaterialVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_material
+		<include refid="baseCondition"></include>
+		<include refid="basePage"></include>
+		<include refid="baseSort"></include>
+	</select>
+
 	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.MaterialVo">
 		SELECT <include refid="baseColumn"></include>
 		from bns_material
 		<include refid="baseCondition"></include>
+		<include refid="baseSort"></include>
 	</select>
 
 	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.MaterialVo">
@@ -52,7 +73,6 @@
 	<insert id="insert" parameterType="com.ming.bns.admin.entity.Material">
 		insert into bns_material
 		<trim prefix="(" suffix=")" suffixOverrides="," >
-			<if test="id != null">id,</if>
 			<if test="name != null">name,</if>
 			<if test="image != null">image,</if>
 			<if test="price != null">price,</if>
@@ -62,7 +82,6 @@
 			<if test="num != null">num,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
-		    <if test="id != null">#{id},</if>
 		    <if test="name != null">#{name},</if>
 		    <if test="image != null">#{image},</if>
 		    <if test="price != null">#{price},</if>
@@ -76,7 +95,6 @@
 	<update id="update" parameterType="com.ming.bns.admin.entity.Material">
 		update bns_material
 		<set>
-			<if test="id != null">id = #{id},</if>
 			<if test="name != null">name = #{name},</if>
 			<if test="image != null">image = #{image},</if>
 			<if test="price != null">price = #{price},</if>

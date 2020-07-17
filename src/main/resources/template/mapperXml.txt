@@ -16,32 +16,47 @@
 		</where>
 	</sql>
 
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
 	<select id="selectList" resultMap="baseResultMap" parameterType="${voPackage}">
 		SELECT <include refid="baseColumn"></include>
 		from ${tableName}
 		<include refid="baseCondition"></include>
+		<include refid="basePage"></include>
+        <include refid="baseSort"></include>
 	</select>
 
 	<select id="selectOne" resultMap="baseResultMap" parameterType="${voPackage}">
 		SELECT <include refid="baseColumn"></include>
 		from ${tableName}
 		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
 	</select>
 
 	<insert id="insert" parameterType="${classPackage}">
 		insert into ${tableName}
 		<trim prefix="(" suffix=")" suffixOverrides="," >
-			${each::<if test="@[property] != null">@[column],</if>}
+			${eachNotId::<if test="@[property] != null">@[column],</if>}
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
-		    ${each::<if test="@[property] != null">@[_property],</if>}
+		    ${eachNotId::<if test="@[property] != null">@[_property],</if>}
 		</trim>
 	</insert>
 
 	<update id="update" parameterType="${classPackage}">
 		update ${tableName}
 		<set>
-			${each::<if test="@[property] != null">@[column] = @[_property],</if>}
+			${eachNotId::<if test="@[property] != null">@[column] = @[_property],</if>}
 		</set>
 		where id = #{id}
 	</update>

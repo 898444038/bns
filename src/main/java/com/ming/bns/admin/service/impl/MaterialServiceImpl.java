@@ -22,6 +22,16 @@ public class MaterialServiceImpl implements MaterialService {
     private MaterialMapper materialMapper;
 
 	/**
+	 * 查询分页列表
+	 * @author: Administrator
+	 * @date: 2020-07-16
+	 */
+	@Override
+	public List<Material> selectPage(MaterialVo materialVo) {
+		return materialMapper.selectPage(materialVo);
+	}
+
+	/**
 	 * 查询列表
 	 * @author: Administrator
 	 * @date: 2020-07-16

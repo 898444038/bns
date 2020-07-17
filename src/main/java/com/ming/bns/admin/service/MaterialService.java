@@ -15,6 +15,13 @@ import java.util.List;
 public interface MaterialService {
 
 	/**
+	 * 查询分页列表
+	 * @author: Administrator
+	 * @date: 2020-07-16
+	 */
+	List<Material> selectPage(MaterialVo materialVo);
+
+	/**
 	 * 查询列表
 	 * @author: Administrator
 	 * @date: 2020-07-16

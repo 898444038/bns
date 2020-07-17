@@ -1,5 +1,6 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.utils.ResultMsg;
 import com.ming.bns.admin.vo.MaterialVo;
 import com.ming.bns.admin.service.MaterialService;
 import com.ming.bns.admin.entity.Material;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +28,16 @@ public class MaterialController {
 
     @Autowired
     private MaterialService materialService;
+
+	/**
+	 * 查询分页列表
+	 * @author: Administrator
+	 * @date: 2020-07-16
+	 */
+	@GetMapping("/selectPage")
+	public List<Material> selectPage(MaterialVo materialVo){
+		return materialService.selectPage(materialVo);
+	}
 
 	/**
 	 * 查询列表
@@ -53,8 +65,17 @@ public class MaterialController {
 	 * @date: 2020-07-16
 	 */
     @PostMapping("/insert")
-    public int insert(@RequestBody Material material){
-        return materialService.insert(material);
+    public ResultMsg insert(@RequestBody Material material){
+    	if(material == null){
+    		return ResultMsg.failed();
+		}
+		material.setCreateTime(new Date());
+    	material.setDelFlag(false);
+		int i = materialService.insert(material);
+    	if(i>0){
+			return ResultMsg.success();
+		}
+        return ResultMsg.failed();
     }
 
 	/**
@@ -63,8 +84,15 @@ public class MaterialController {
 	 * @date: 2020-07-16
 	 */
     @PostMapping("/update")
-    public int update(@RequestBody Material material){
-        return materialService.update(material);
+    public ResultMsg update(@RequestBody Material material){
+    	if(material == null || material.getId() == null){
+			return ResultMsg.failed("ID不能为空！");
+		}
+        int i = materialService.update(material);
+		if(i>0){
+			return ResultMsg.success();
+		}
+		return ResultMsg.failed();
     }
 
 	/**
@@ -73,7 +101,14 @@ public class MaterialController {
 	 * @date: 2020-07-16
 	 */
     @PostMapping("/delete")
-    public int delete(Long id){
-        return materialService.delete(id);
+    public ResultMsg delete(Long id){
+		if(id == null){
+			return ResultMsg.failed("ID不能为空！");
+		}
+        int i = materialService.delete(id);
+		if(i>0){
+			return ResultMsg.success();
+		}
+		return ResultMsg.failed();
     }
 }

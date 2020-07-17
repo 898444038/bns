@@ -13,6 +13,11 @@ public class ${serviceImplName} implements ${serviceName} {
     @Resource
     private ${mapperName} ${lowerMapperName};
 
+	@Override
+	public List<${className}> selectPage(${voName} ${lowerVoName}) {
+		return ${lowerMapperName}.selectPage(${lowerVoName});
+	}
+
     ${selectListComment}
     @Override
     public List<${className}> selectList(${voName} ${lowerVoName}) {
