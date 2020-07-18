@@ -5,15 +5,16 @@ import com.ming.bns.admin.mapper.StarMapper;
 import com.ming.bns.admin.vo.StarVo;
 import com.ming.bns.admin.service.StarService;
 
+import com.ming.bns.admin.utils.Pagination;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * 星级
  * @author: Administrator
- * @date: 2020-07-15
+ * @date: 2020-07-18
  */
 @Service
 public class StarServiceImpl implements StarService {
@@ -21,10 +22,22 @@ public class StarServiceImpl implements StarService {
     @Resource
     private StarMapper starMapper;
 
+	@Override
+	public Pagination<Star> selectPage(StarVo starVo) {
+        Pagination<Star> pagination = new Pagination<>();
+        int count = starMapper.selectCount(starVo);
+        List<Star> list = starMapper.selectPage(starVo);
+        pagination.setPageNo(starVo.getPageNo());
+        pagination.setPageSize(starVo.getPageSize());
+        pagination.setTotalPage(count);
+        pagination.setData(list);
+        return pagination;
+	}
+
 	/**
 	 * 查询列表
 	 * @author: Administrator
-	 * @date: 2020-07-15
+	 * @date: 2020-07-18
 	 */
     @Override
     public List<Star> selectList(StarVo starVo) {
@@ -34,7 +47,7 @@ public class StarServiceImpl implements StarService {
 	/**
 	 * 查询详情
 	 * @author: Administrator
-	 * @date: 2020-07-15
+	 * @date: 2020-07-18
 	 */
     @Override
     public Star selectOne(StarVo starVo) {
@@ -44,7 +57,7 @@ public class StarServiceImpl implements StarService {
 	/**
 	 * 新增
 	 * @author: Administrator
-	 * @date: 2020-07-15
+	 * @date: 2020-07-18
 	 */
     @Override
     public int insert(Star star) {
@@ -54,7 +67,7 @@ public class StarServiceImpl implements StarService {
 	/**
 	 * 根据id更新
 	 * @author: Administrator
-	 * @date: 2020-07-15
+	 * @date: 2020-07-18
 	 */
     @Override
     public int update(Star star) {
@@ -64,7 +77,7 @@ public class StarServiceImpl implements StarService {
 	/**
 	 * 根据id删除
 	 * @author: Administrator
-	 * @date: 2020-07-15
+	 * @date: 2020-07-18
 	 */
     @Override
     public int delete(Long id) {

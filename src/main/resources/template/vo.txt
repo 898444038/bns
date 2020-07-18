@@ -13,7 +13,7 @@ public class ${voName} extends ${className} {
 
     private String pageSort;
 
-    public MaterialVo() {
+    public ${voName}() {
         if (pageSize == null) {
             this.pageSize = 20;
         }

@@ -34,11 +34,18 @@
         <include refid="baseCondition"></include>
     </select>
 
+    <select id="selectPage" resultMap="baseResultMap" parameterType="${voPackage}">
+        SELECT <include refid="baseColumn"></include>
+        from ${tableName}
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
 	<select id="selectList" resultMap="baseResultMap" parameterType="${voPackage}">
 		SELECT <include refid="baseColumn"></include>
 		from ${tableName}
 		<include refid="baseCondition"></include>
-		<include refid="basePage"></include>
         <include refid="baseSort"></include>
 	</select>
 

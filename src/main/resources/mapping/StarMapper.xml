@@ -25,28 +25,54 @@
 		</where>
 	</sql>
 
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.StarVo">
+        SELECT count(1)
+        from bns_star
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.StarVo">
+        SELECT <include refid="baseColumn"></include>
+        from bns_star
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
 	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.StarVo">
 		SELECT <include refid="baseColumn"></include>
 		from bns_star
 		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
 	</select>
 
 	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.StarVo">
 		SELECT <include refid="baseColumn"></include>
 		from bns_star
 		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
 	</select>
 
 	<insert id="insert" parameterType="com.ming.bns.admin.entity.Star">
 		insert into bns_star
 		<trim prefix="(" suffix=")" suffixOverrides="," >
-			<if test="id != null">id,</if>
 			<if test="star != null">star,</if>
 			<if test="exp != null">exp,</if>
 			<if test="remark != null">remark,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
-		    <if test="id != null">#{id},</if>
 		    <if test="star != null">#{star},</if>
 		    <if test="exp != null">#{exp},</if>
 		    <if test="remark != null">#{remark},</if>
@@ -56,7 +82,6 @@
 	<update id="update" parameterType="com.ming.bns.admin.entity.Star">
 		update bns_star
 		<set>
-			<if test="id != null">id = #{id},</if>
 			<if test="star != null">star = #{star},</if>
 			<if test="exp != null">exp = #{exp},</if>
 			<if test="remark != null">remark = #{remark},</if>

@@ -44,7 +44,7 @@ import java.io.Serializable;
  * 33	   3,505,442,297
  * 34	   3,961,149,797
  */
-@Generate(isEffective = false,isCover = false,desc = "星级",tablePrefix = "bns")
+@Generate(isEffective = true,isCover = false,desc = "星级",tablePrefix = "bns")
 public class Star implements Serializable {
 
     @Column
