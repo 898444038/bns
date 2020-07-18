@@ -59,4 +59,5 @@ public interface MaterialMapper {
 	 */
     int delete(Long id);
 
+    List<Material> simpleList(MaterialVo materialVo);
 }

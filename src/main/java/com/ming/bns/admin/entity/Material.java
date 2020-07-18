@@ -49,6 +49,12 @@ public class Material {
     public Material() {
     }
 
+    public Material(String name, BigDecimal price, Integer num) {
+        this.name = name;
+        this.price = price;
+        this.num = num;
+    }
+
     public Long getId() {
         return id;
     }

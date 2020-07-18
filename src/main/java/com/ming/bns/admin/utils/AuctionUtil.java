@@ -10,19 +10,21 @@ import java.util.Map;
 public class AuctionUtil {
     public static void main(String[] args) {
         //taxEvasion(2,new BigDecimal("12000.00"),new BigDecimal("0.00"));
-        auction(5,new BigDecimal("100.00"));
+        //auction(5,new BigDecimal("100.00"));
     }
 
     /**
      * 竞拍计算
      * @param count 人数
      * @param price 单价
+     * @param fyfCount 封印符数量
+     * @param fyfPrice 封印符单价
      */
-    public static Map<String,Object> auction(Integer count, BigDecimal price){
+    public static Map<String,Object> auction(Integer count, BigDecimal price,Integer fyfCount, BigDecimal fyfPrice){
         Map<String,Object> data = new HashMap<>();
         //逃税
-        Map<String,Object> taxEvasionMap = taxEvasion(1,price,new BigDecimal("0.00"));
-        BigDecimal tsdj = new BigDecimal((double) taxEvasionMap.get("tsdj")).setScale(2, BigDecimal.ROUND_HALF_UP);
+        Map<String,Object> taxEvasionMap = taxEvasion(1,price,fyfCount,fyfPrice,price);
+        BigDecimal tsdj = new BigDecimal((double) taxEvasionMap.get("qftsdj")).setScale(2, BigDecimal.ROUND_HALF_UP);
         System.out.println(tsdj);
         BigDecimal personCount = new BigDecimal(count);
         BigDecimal personCount2 = new BigDecimal(count-1);
@@ -31,11 +33,13 @@ public class AuctionUtil {
         BigDecimal middle = tsdj.divide(personCount, 2, BigDecimal.ROUND_HALF_UP);
         BigDecimal middleAuction = middle.multiply(personCount2).setScale(2, BigDecimal.ROUND_HALF_UP);
         System.out.println("平分竞拍价: "+middleAuction.doubleValue()+", mine: "+middle.doubleValue()+", other: "+middle.doubleValue());
+
         //最低竞拍价
         BigDecimal minAuction = middle.multiply(personCount2).multiply(new BigDecimal("0.9")).setScale(2, BigDecimal.ROUND_HALF_UP);
         BigDecimal minMine = tsdj.subtract(minAuction).setScale(2, BigDecimal.ROUND_HALF_UP);
         BigDecimal minOther = minAuction.divide(personCount2, 2, BigDecimal.ROUND_HALF_UP);
         System.out.println("最低竞拍价: "+minAuction.doubleValue()+", mine: "+minMine.doubleValue()+", other: "+minOther.doubleValue());
+
         //最高竞拍价
         BigDecimal max = price.divide(personCount, 2, BigDecimal.ROUND_HALF_UP);
         BigDecimal maxAuction = max.multiply(personCount2).setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -69,7 +73,7 @@ public class AuctionUtil {
      * @param price 单价
      * @param dayPrice 日交易
      */
-    public static Map<String,Object> taxEvasion(Integer count, BigDecimal price, BigDecimal dayPrice){
+    public static Map<String,Object> taxEvasion(Integer count, BigDecimal price,Integer fyfCount,BigDecimal fyfPrice, BigDecimal dayPrice){
         //单笔税
         double start = 0d;
         double end = 0d;
@@ -96,8 +100,8 @@ public class AuctionUtil {
         BigDecimal zsj = yzj.subtract(tszj);
 
         //日交易税
+        AuctionGoldDayEnum cuurDay = null;
         if(dayPrice!=null && dayPrice.intValue()!=0){
-            AuctionGoldDayEnum cuurDay = null;
             for(AuctionGoldDayEnum auctionGoldDayEnum : AuctionGoldDayEnum.values()) {
                 start = auctionGoldDayEnum.getStartPrice();
                 end = auctionGoldDayEnum.getEndPrice();
@@ -105,27 +109,44 @@ public class AuctionUtil {
                     cuurDay = auctionGoldDayEnum;
                 }
             }
-            if(cuurDay!=null){
-
-            }
         }
 
+        BigDecimal rjy = null;
+        if(cuurDay!=null){
+            rjy = ydj.multiply(new BigDecimal(cuurDay.getTax()+"")).setScale(2, BigDecimal.ROUND_HALF_UP);
+            tsdj = tsdj.subtract(rjy).setScale(2, BigDecimal.ROUND_HALF_UP);
+            tszj = tszj.subtract(rjy.multiply(new BigDecimal(count+""))).setScale(2, BigDecimal.ROUND_HALF_UP);
+            dsj = dsj.add(rjy).setScale(2, BigDecimal.ROUND_HALF_UP);
+            zsj = zsj.add(rjy.multiply(new BigDecimal(count+""))).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+
+        BigDecimal qftsdj = new BigDecimal("0.00");
+        BigDecimal qftszj = new BigDecimal("0.00");
+        if(fyfCount!=null){
+            qftsdj = tsdj.subtract(fyfPrice.multiply(new BigDecimal(fyfCount+""))).setScale(2, BigDecimal.ROUND_HALF_UP);
+            qftszj = tszj.subtract(new BigDecimal(count+"").multiply(fyfPrice.multiply(new BigDecimal(fyfCount+"")))).setScale(2, BigDecimal.ROUND_HALF_UP);
+            //dsj = dsj.add(fyfPrice.multiply(new BigDecimal(fyfCount+""))).setScale(2, BigDecimal.ROUND_HALF_UP);
+            //zsj = zsj.add(new BigDecimal(count+"").multiply(fyfPrice.multiply(new BigDecimal(fyfCount+"")))).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
 
         //上架数量税
-
         System.out.println("数量："+count);
         System.out.println("原单价："+ydj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         System.out.println("原总价："+yzj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         System.out.println("逃税单价："+tsdj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         System.out.println("逃税总价："+tszj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        System.out.println("去符逃税单价："+qftsdj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        System.out.println("去符逃税总价："+qftszj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         System.out.println("单税价："+dsj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         System.out.println("总税价："+zsj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
         Map<String,Object> data = new HashMap<>();
-        data.put("tsdj",tsdj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-        data.put("tszj",tszj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-        data.put("dsj",dsj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-        data.put("zsj",zsj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        data.put("tsdj",tsdj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());//单个收益
+        data.put("tszj",tszj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());//总收益
+        data.put("qftsdj",qftsdj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());//去符单个收益
+        data.put("qftszj",qftszj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());//去符总收益
+        data.put("dsj",dsj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());//单个亏损
+        data.put("zsj",zsj.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());//总亏损
         return data;
     }
 

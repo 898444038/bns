@@ -57,4 +57,5 @@ public interface MaterialService {
 	 */
     int delete(Long id);
 
+	List<Material> simpleList(MaterialVo materialVo);
 }

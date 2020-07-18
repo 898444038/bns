@@ -21,11 +21,11 @@ public class ToolsController {
      * @return
      */
     @PostMapping("/auction")
-    public ResultMsg auction(Integer count,String price){
+    public ResultMsg auction(Integer count,String price,Integer fyfCount,String fyfPrice){
         if(StringUtils.isBlank(price)){
             return ResultMsg.failed("请输入材料单价！");
         }
-        Map<String,Object> data = AuctionUtil.auction(count,new BigDecimal(price));
+        Map<String,Object> data = AuctionUtil.auction(count,new BigDecimal(price),fyfCount,new BigDecimal(fyfPrice));
         return ResultMsg.success(data);
     }
 
@@ -36,11 +36,13 @@ public class ToolsController {
      * @return
      */
     @PostMapping("/taxEvasion")
-    public ResultMsg taxEvasion(Integer count,String price){
+    public ResultMsg taxEvasion(Integer count,String price,Integer fyfCount,String fyfPrice){
         if(StringUtils.isBlank(price)){
             return ResultMsg.failed("请输入材料单价！");
         }
-        Map<String,Object> data = AuctionUtil.taxEvasion(count,new BigDecimal(price),new BigDecimal("0.00"));
+        //日交易
+        BigDecimal day = new BigDecimal(count).multiply(new BigDecimal(price));
+        Map<String,Object> data = AuctionUtil.taxEvasion(count,new BigDecimal(price),fyfCount,new BigDecimal(fyfPrice),day);
         return ResultMsg.success(data);
     }
 }

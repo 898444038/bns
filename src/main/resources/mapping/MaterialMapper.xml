@@ -24,6 +24,14 @@
 	    num
 	</sql>
 
+	<sql id="simpleColumn">
+	    id,
+	    name,
+	    price,
+	    type,
+	    num
+	</sql>
+
 	<sql id="baseCondition">
 		<where>
 		    <if test="id != null"> and id = #{id}</if>
@@ -65,6 +73,13 @@
 
 	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.MaterialVo">
 		SELECT <include refid="baseColumn"></include>
+		from bns_material
+		<include refid="baseCondition"></include>
+		<include refid="baseSort"></include>
+	</select>
+
+	<select id="simpleList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.MaterialVo">
+		SELECT <include refid="simpleColumn"></include>
 		from bns_material
 		<include refid="baseCondition"></include>
 		<include refid="baseSort"></include>

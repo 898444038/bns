@@ -88,4 +88,9 @@ public class MaterialServiceImpl implements MaterialService {
     public int delete(Long id) {
         return materialMapper.delete(id);
     }
+
+	@Override
+	public List<Material> simpleList(MaterialVo materialVo) {
+		return materialMapper.simpleList(materialVo);
+	}
 }
