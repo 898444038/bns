@@ -1,21 +1,19 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
 import com.ming.bns.admin.vo.MaterialVo;
 import com.ming.bns.admin.service.MaterialService;
 import com.ming.bns.admin.entity.Material;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 材料
@@ -35,8 +33,9 @@ public class MaterialController {
 	 * @date: 2020-07-16
 	 */
 	@GetMapping("/selectPage")
-	public List<Material> selectPage(MaterialVo materialVo){
-		return materialService.selectPage(materialVo);
+	public ResultMsg selectPage(MaterialVo materialVo){
+		Pagination<Material> materialList = materialService.selectPage(materialVo);
+		return ResultMsg.success(materialList);
 	}
 
 	/**
@@ -45,8 +44,8 @@ public class MaterialController {
 	 * @date: 2020-07-16
 	 */
     @GetMapping("/selectList")
-    public List<Material> selectList(MaterialVo materialVo){
-        return materialService.selectList(materialVo);
+    public ResultMsg selectList(MaterialVo materialVo){
+        return ResultMsg.success(materialService.selectList(materialVo));
     }
 
 	/**
@@ -55,8 +54,8 @@ public class MaterialController {
 	 * @date: 2020-07-16
 	 */
     @GetMapping("/selectOne")
-    public Material selectOne(MaterialVo materialVo){
-        return materialService.selectOne(materialVo);
+    public ResultMsg selectOne(MaterialVo materialVo){
+        return ResultMsg.success(materialService.selectOne(materialVo));
     }
 
 	/**

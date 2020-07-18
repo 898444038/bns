@@ -1,5 +1,6 @@
 package com.ming.bns.admin.service;
 
+import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.vo.MaterialVo;
 import com.ming.bns.admin.entity.Material;
 
@@ -19,7 +20,7 @@ public interface MaterialService {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
-	List<Material> selectPage(MaterialVo materialVo);
+	Pagination<Material> selectPage(MaterialVo materialVo);
 
 	/**
 	 * 查询列表

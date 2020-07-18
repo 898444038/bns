@@ -49,6 +49,12 @@
 		</if>
 	</sql>
 
+	<select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.MaterialVo">
+		SELECT count(1)
+		from bns_material
+		<include refid="baseCondition"></include>
+	</select>
+
 	<select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.MaterialVo">
 		SELECT <include refid="baseColumn"></include>
 		from bns_material

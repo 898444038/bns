@@ -1,6 +1,7 @@
 package com.ming.bns.admin.service.impl;
 
 import com.ming.bns.admin.mapper.MaterialMapper;
+import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.vo.MaterialVo;
 import com.ming.bns.admin.service.MaterialService;
 import com.ming.bns.admin.entity.Material;
@@ -27,8 +28,15 @@ public class MaterialServiceImpl implements MaterialService {
 	 * @date: 2020-07-16
 	 */
 	@Override
-	public List<Material> selectPage(MaterialVo materialVo) {
-		return materialMapper.selectPage(materialVo);
+	public Pagination<Material> selectPage(MaterialVo materialVo) {
+		Pagination<Material> pagination = new Pagination<>();
+		int count = materialMapper.selectCount(materialVo);
+		List<Material> list = materialMapper.selectPage(materialVo);
+		pagination.setPageNo(materialVo.getPageNo());
+		pagination.setPageSize(materialVo.getPageSize());
+		pagination.setTotalPage(count);
+		pagination.setData(list);
+		return pagination;
 	}
 
 	/**

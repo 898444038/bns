@@ -28,6 +28,12 @@
         </if>
     </sql>
 
+    <select id="selectCount" resultType="int" parameterType="${voPackage}">
+        SELECT count(1)
+        from ${tableName}
+        <include refid="baseCondition"></include>
+    </select>
+
 	<select id="selectList" resultMap="baseResultMap" parameterType="${voPackage}">
 		SELECT <include refid="baseColumn"></include>
 		from ${tableName}

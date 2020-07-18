@@ -9,6 +9,8 @@ ${classComment}
 @Mapper
 public interface ${mapperName} {
 
+	int selectCount(${voName} ${lowerVoName});
+
 	List<${className}> selectPage(${voName} ${lowerVoName});
 
     ${selectListComment}

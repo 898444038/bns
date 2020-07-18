@@ -1,6 +1,7 @@
 ${package}
 
 ${import}
+import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,20 +21,21 @@ public class ${controllerName} {
     private ${serviceName} ${lowerServiceName};
 
 	@GetMapping("/selectPage")
-	public List<${className}> selectPage(${voName} ${lowerVoName}){
-		return ${lowerServiceName}.selectPage(${lowerVoName});
-	}
+    public ResultMsg selectPage(${voName} ${lowerVoName}){
+        Pagination<${className}> pagination = ${lowerServiceName}.selectPage(${lowerVoName});
+        return ResultMsg.success(pagination);
+    }
 
     ${selectListComment}
     @GetMapping("/selectList")
-    public List<${className}> selectList(${voName} ${lowerVoName}){
-        return ${lowerServiceName}.selectList(${lowerVoName});
+    public ResultMsg selectList(${voName} ${lowerVoName}){
+        return ResultMsg.success(${lowerServiceName}.selectList(${lowerVoName}));
     }
 
     ${selectOneComment}
     @GetMapping("/selectOne")
-    public ${className} selectOne(${voName} ${lowerVoName}){
-        return ${lowerServiceName}.selectOne(${lowerVoName});
+    public ResultMsg selectOne(${voName} ${lowerVoName}){
+        return ResultMsg.success(${lowerServiceName}.selectOne(${lowerVoName}));
     }
 
     ${insertComment}

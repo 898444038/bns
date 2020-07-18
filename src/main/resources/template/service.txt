@@ -1,6 +1,7 @@
 ${package}
 
 ${import}
+import com.ming.bns.admin.utils.Pagination;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 ${classComment}
 public interface ${serviceName} {
 
-	List<${className}> selectPage(${voName} ${lowerVoName});
+	Pagination<${className}> selectPage(${voName} ${lowerVoName});
 
     ${selectListComment}
     List<${className}> selectList(${voName} ${lowerVoName});

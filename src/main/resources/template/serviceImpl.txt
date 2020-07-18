@@ -1,6 +1,7 @@
 ${package}
 
 ${import}
+import com.ming.bns.admin.utils.Pagination;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,15 @@ public class ${serviceImplName} implements ${serviceName} {
     private ${mapperName} ${lowerMapperName};
 
 	@Override
-	public List<${className}> selectPage(${voName} ${lowerVoName}) {
-		return ${lowerMapperName}.selectPage(${lowerVoName});
+	public Pagination<${className}> selectPage(${voName} ${lowerVoName}) {
+        Pagination<${className}> pagination = new Pagination<>();
+        int count = ${lowerMapperName}.selectCount(${lowerVoName});
+        List<${className}> list = ${lowerMapperName}.selectPage(${lowerVoName});
+        pagination.setPageNo(${lowerVoName}.getPageNo());
+        pagination.setPageSize(${lowerVoName}.getPageSize());
+        pagination.setTotalPage(count);
+        pagination.setData(list);
+        return pagination;
 	}
 
     ${selectListComment}

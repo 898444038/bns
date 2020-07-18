@@ -15,6 +15,8 @@ import java.util.List;
 @Mapper
 public interface MaterialMapper {
 
+	int selectCount(MaterialVo materialVo);
+
 	/**
 	 * 查询分页列表
 	 * @author: Administrator
