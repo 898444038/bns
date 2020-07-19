@@ -7,18 +7,16 @@ import com.ming.bns.admin.service.StarService;
 import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 星级
  * @author: Administrator
- * @date: 2020-07-18
+ * @date: 2020-07-19
  */
 @RestController
 @RequestMapping("/star")
@@ -26,6 +24,16 @@ public class StarController {
 
     @Autowired
     private StarService starService;
+
+
+    /**
+     * 计算星级
+     */
+    @PostMapping("/countStar")
+    public ResultMsg countStar(StarVo starVo){
+        Map<String,Object> data = starService.countStarExp(starVo);
+        return ResultMsg.success(data);
+    }
 
 	@GetMapping("/selectPage")
     public ResultMsg selectPage(StarVo starVo){
@@ -36,7 +44,7 @@ public class StarController {
 	/**
 	 * 查询列表
 	 * @author: Administrator
-	 * @date: 2020-07-18
+	 * @date: 2020-07-19
 	 */
     @GetMapping("/selectList")
     public ResultMsg selectList(StarVo starVo){
@@ -46,7 +54,7 @@ public class StarController {
 	/**
 	 * 查询详情
 	 * @author: Administrator
-	 * @date: 2020-07-18
+	 * @date: 2020-07-19
 	 */
     @GetMapping("/selectOne")
     public ResultMsg selectOne(StarVo starVo){
@@ -56,10 +64,10 @@ public class StarController {
 	/**
 	 * 新增
 	 * @author: Administrator
-	 * @date: 2020-07-18
+	 * @date: 2020-07-19
 	 */
     @PostMapping("/insert")
-    public ResultMsg insert(@RequestBody Star star){
+    public ResultMsg insert(Star star){
         if(star == null){
             return ResultMsg.failed();
         }
@@ -73,10 +81,10 @@ public class StarController {
 	/**
 	 * 根据id更新
 	 * @author: Administrator
-	 * @date: 2020-07-18
+	 * @date: 2020-07-19
 	 */
     @PostMapping("/update")
-    public ResultMsg update(@RequestBody Star star){
+    public ResultMsg update(Star star){
         if(star == null || star.getId() == null){
             return ResultMsg.failed("ID不能为空！");
         }
@@ -90,10 +98,10 @@ public class StarController {
 	/**
 	 * 根据id删除
 	 * @author: Administrator
-	 * @date: 2020-07-18
+	 * @date: 2020-07-19
 	 */
-    @PostMapping("/delete")
-    public ResultMsg delete(Long id){
+    @PostMapping("/delete/{id}")
+    public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){
             return ResultMsg.failed("ID不能为空！");
         }

@@ -6,7 +6,7 @@ import com.ming.bns.admin.entity.Star;
 /**
  * 星级
  * @author: Administrator
- * @date: 2020-07-18
+ * @date: 2020-07-19
  */
 public class StarVo extends Star {
 
@@ -18,6 +18,11 @@ public class StarVo extends Star {
 
     private String pageSort;
 
+    private Long start;//起始星级
+    private Long end;//截至星级
+    private Long currExp;//当前经验
+    private String dayExp;//每日获取经验 支持逗号分隔
+
     public StarVo() {
         if (pageSize == null) {
             this.pageSize = 20;
@@ -26,6 +31,38 @@ public class StarVo extends Star {
             this.pageNo = 1;
             this.pageStart = 0;
         }
+    }
+
+    public String getDayExp() {
+        return dayExp;
+    }
+
+    public void setDayExp(String dayExp) {
+        this.dayExp = dayExp;
+    }
+
+    public Long getStart() {
+        return start;
+    }
+
+    public void setStart(Long start) {
+        this.start = start;
+    }
+
+    public Long getEnd() {
+        return end;
+    }
+
+    public void setEnd(Long end) {
+        this.end = end;
+    }
+
+    public Long getCurrExp() {
+        return currExp;
+    }
+
+    public void setCurrExp(Long currExp) {
+        this.currExp = currExp;
     }
 
     public Integer getPageSize() {

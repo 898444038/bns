@@ -57,7 +57,7 @@ public class Star implements Serializable {
 
     @Column
     @Comment("经验")
-    private Integer exp;
+    private Long exp;
 
     @Column
     @Comment("备注")
@@ -82,11 +82,11 @@ public class Star implements Serializable {
         this.star = star;
     }
 
-    public Integer getExp() {
+    public Long getExp() {
         return exp;
     }
 
-    public void setExp(Integer exp) {
+    public void setExp(Long exp) {
         this.exp = exp;
     }
 
