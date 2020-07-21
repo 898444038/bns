@@ -2,30 +2,37 @@ ${package}
 
 ${import}
 import org.apache.ibatis.annotations.Mapper;
-
+import com.ming.bns.system.config.datasource.TargetDataSource;
 import java.util.List;
 
 ${classComment}
 @Mapper
 public interface ${mapperName} {
 
+    @TargetDataSource("dataSource1")
 	int selectCount(${voName} ${lowerVoName});
 
+    @TargetDataSource("dataSource1")
 	List<${className}> selectPage(${voName} ${lowerVoName});
 
     ${selectListComment}
+    @TargetDataSource("dataSource1")
     List<${className}> selectList(${voName} ${lowerVoName});
 
     ${selectOneComment}
+    @TargetDataSource("dataSource1")
     ${className} selectOne(${voName} ${lowerVoName});
 
     ${insertComment}
+    @TargetDataSource("dataSource1")
     int insert(${className} ${lowerClassName});
 
     ${updateComment}
+    @TargetDataSource("dataSource1")
     int update(${className} ${lowerClassName});
 
     ${deleteComment}
+    @TargetDataSource("dataSource1")
     int delete(Long id);
 
 }

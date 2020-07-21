@@ -3,6 +3,7 @@ package com.ming.bns.admin.mapper;
 import com.ming.bns.admin.vo.MaterialVo;
 import com.ming.bns.admin.entity.Material;
 
+import com.ming.bns.system.config.datasource.TargetDataSource;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @Mapper
 public interface MaterialMapper {
 
+	@TargetDataSource("dataSource1")
 	int selectCount(MaterialVo materialVo);
 
 	/**
@@ -22,6 +24,7 @@ public interface MaterialMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@TargetDataSource("dataSource1")
 	List<Material> selectPage(MaterialVo materialVo);
 
 	/**
@@ -29,6 +32,7 @@ public interface MaterialMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@TargetDataSource("dataSource1")
     List<Material> selectList(MaterialVo materialVo);
 
 	/**
@@ -36,6 +40,7 @@ public interface MaterialMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@TargetDataSource("dataSource1")
     Material selectOne(MaterialVo materialVo);
 
 	/**
@@ -43,6 +48,7 @@ public interface MaterialMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@TargetDataSource("dataSource1")
     int insert(Material material);
 
 	/**
@@ -50,6 +56,7 @@ public interface MaterialMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@TargetDataSource("dataSource1")
     int update(Material material);
 
 	/**
@@ -57,7 +64,9 @@ public interface MaterialMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@TargetDataSource("dataSource1")
     int delete(Long id);
 
+	@TargetDataSource("dataSource1")
     List<Material> simpleList(MaterialVo materialVo);
 }

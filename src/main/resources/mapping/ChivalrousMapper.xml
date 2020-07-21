@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.ChivalrousMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.Chivalrous">
+	    <result column="id" property="id"/>
+	    <result column="chivalrous" property="chivalrous"/>
+	    <result column="exp" property="exp"/>
+	    <result column="remark" property="remark"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    chivalrous,
+	    exp,
+	    remark
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="chivalrous != null"> and chivalrous = #{chivalrous}</if>
+		    <if test="exp != null"> and exp = #{exp}</if>
+		    <if test="remark != null"> and remark = #{remark}</if>
+		</where>
+	</sql>
+
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.ChivalrousVo">
+        SELECT count(1)
+        from bns_chivalrous
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ChivalrousVo">
+        SELECT <include refid="baseColumn"></include>
+        from bns_chivalrous
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ChivalrousVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_chivalrous
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ChivalrousVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_chivalrous
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.Chivalrous">
+		insert into bns_chivalrous
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="chivalrous != null">chivalrous,</if>
+			<if test="exp != null">exp,</if>
+			<if test="remark != null">remark,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="chivalrous != null">#{chivalrous},</if>
+		    <if test="exp != null">#{exp},</if>
+		    <if test="remark != null">#{remark},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.Chivalrous">
+		update bns_chivalrous
+		<set>
+			<if test="chivalrous != null">chivalrous = #{chivalrous},</if>
+			<if test="exp != null">exp = #{exp},</if>
+			<if test="remark != null">remark = #{remark},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from bns_chivalrous
+		where id = #{id}
+	</delete>
+
+</mapper>

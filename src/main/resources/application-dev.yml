@@ -2,13 +2,25 @@ server:
   port: 8090
   servlet:
     context-path: /bns
-
-spring:
-  datasource:
+hikari:
+  dataSource1:
+    jdbc-url: jdbc:mysql://101.37.38.159:3306/bns?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: root
     password: 123456
-    url: jdbc:mysql://101.37.38.159:3306/bns?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-    driver-class-name: com.mysql.jdbc.Driver
+    maximum-pool-size: 10
+  dataSource2:
+    jdbc-url: jdbc:mysql://101.37.38.159:3306/bns2?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: root
+    password: 123456
+    maximum-pool-size: 10
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  #  datasource:
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://101.37.38.159:3306/bns?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+#    driver-class-name: com.mysql.jdbc.Driver
   servlet:
     multipart:
       max-file-size: 10

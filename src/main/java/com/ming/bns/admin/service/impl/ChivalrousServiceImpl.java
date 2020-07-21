@@ -1,35 +1,41 @@
 package com.ming.bns.admin.service.impl;
 
-import com.ming.bns.admin.entity.Star;
-import com.ming.bns.admin.mapper.StarMapper;
-import com.ming.bns.admin.vo.StarVo;
-import com.ming.bns.admin.service.StarService;
+import com.ming.bns.admin.mapper.ChivalrousMapper;
+import com.ming.bns.admin.entity.Chivalrous;
+import com.ming.bns.admin.vo.ChivalrousVo;
+import com.ming.bns.admin.service.ChivalrousService;
 
 import com.ming.bns.admin.utils.Pagination;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 星级
+ * 侠义团等级
  * @author: Administrator
- * @date: 2020-07-19
+ * @date: 2020-07-21
  */
 @Service
-public class StarServiceImpl implements StarService {
+public class ChivalrousServiceImpl implements ChivalrousService {
 
     @Resource
-    private StarMapper starMapper;
+    private ChivalrousMapper chivalrousMapper;
 
 	@Override
-	public Pagination<Star> selectPage(StarVo starVo) {
-        Pagination<Star> pagination = new Pagination<>();
-        int count = starMapper.selectCount(starVo);
-        List<Star> list = starMapper.selectPage(starVo);
-        pagination.setPageNo(starVo.getPageNo());
-        pagination.setPageSize(starVo.getPageSize());
+	public Pagination<Chivalrous> selectPage(ChivalrousVo chivalrousVo) {
+        Pagination<Chivalrous> pagination = new Pagination<>();
+        int count = chivalrousMapper.selectCount(chivalrousVo);
+        List<Chivalrous> list = chivalrousMapper.selectPage(chivalrousVo);
+        pagination.setPageNo(chivalrousVo.getPageNo());
+        pagination.setPageSize(chivalrousVo.getPageSize());
         pagination.setTotalPage(count);
         pagination.setData(list);
         return pagination;
@@ -38,72 +44,72 @@ public class StarServiceImpl implements StarService {
 	/**
 	 * 查询列表
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @Override
-    public List<Star> selectList(StarVo starVo) {
-        return starMapper.selectList(starVo);
+    public List<Chivalrous> selectList(ChivalrousVo chivalrousVo) {
+        return chivalrousMapper.selectList(chivalrousVo);
     }
 
 	/**
 	 * 查询详情
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @Override
-    public Star selectOne(StarVo starVo) {
-        return starMapper.selectOne(starVo);
+    public Chivalrous selectOne(ChivalrousVo chivalrousVo) {
+        return chivalrousMapper.selectOne(chivalrousVo);
     }
 
 	/**
 	 * 新增
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @Override
-    public int insert(Star star) {
-        return starMapper.insert(star);
+    public int insert(Chivalrous chivalrous) {
+        return chivalrousMapper.insert(chivalrous);
     }
 
 	/**
 	 * 根据id更新
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @Override
-    public int update(Star star) {
-        return starMapper.update(star);
+    public int update(Chivalrous chivalrous) {
+        return chivalrousMapper.update(chivalrous);
     }
 
 	/**
 	 * 根据id删除
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @Override
     public int delete(Long id) {
-        return starMapper.delete(id);
+        return chivalrousMapper.delete(id);
     }
 
     @Override
-    public Map<String, Object> countStarExp(StarVo starVo) {
-        List<Star> list = starMapper.selectList(starVo);
+    public Map<String, Object> countExp(ChivalrousVo chivalrousVo) {
+        List<Chivalrous> list = chivalrousMapper.selectList(chivalrousVo);
         Map<String, Object> data = new HashMap<>();
-        Map<Integer,Long> map = list.stream().collect(Collectors.toMap(Star::getStar,Star::getExp));
+        Map<Integer,Long> map = list.stream().limit(120).filter(c -> null != c.getChivalrous()).collect(Collectors.toMap(Chivalrous::getChivalrous,Chivalrous::getExp));
         Long startExp = null;
-        if(starVo.getCurrExp() != null){
-            startExp = starVo.getCurrExp()*10000L;
+        if(chivalrousVo.getCurrExp() != null){
+            startExp = chivalrousVo.getCurrExp()*10000L;
         }
-        //Long endExp = map.get(starVo.getStart());
+        //Long endExp = map.get(chivalrousVo.getStart());
         String[] dayExps = null;
-        if(starVo.getDayExp().contains(",")){
-            dayExps = starVo.getDayExp().split(",");
-        }else if(starVo.getDayExp().contains("，")){
-            dayExps = starVo.getDayExp().split("，");
+        if(chivalrousVo.getDayExp().contains(",")){
+            dayExps = chivalrousVo.getDayExp().split(",");
+        }else if(chivalrousVo.getDayExp().contains("，")){
+            dayExps = chivalrousVo.getDayExp().split("，");
         }
 
 
-        List<Map<String,Object>> groupList = group(starVo.getStart(),starVo.getEnd(),map);
+        List<Map<String,Object>> groupList = group(chivalrousVo.getStart(),chivalrousVo.getEnd(),map);
         if(startExp!=null){
             groupList.get(0).put("startExp",startExp);
         }
@@ -111,10 +117,10 @@ public class StarServiceImpl implements StarService {
 //        for (Map<String,Object> group : groupList){
 //            count((Long) group.get("level"),(Long) group.get("startExp"),(Long) group.get("endExp"),Long.valueOf(dayExps[0])*10000);
 //        }
-        //counts(groupList,starVo.getStart(),Long.valueOf(dayExps[0])*10000);
+        //counts(groupList,chivalrousVo.getStart(),Long.valueOf(dayExps[0])*10000);
 
         for (String dayExp : dayExps){
-            List<Map<String,Object>> mapList = count(groupList,starVo.getStart(),Long.valueOf(dayExp)*10000L);
+            List<Map<String,Object>> mapList = count(groupList,chivalrousVo.getStart(),Long.valueOf(dayExp)*10000L);
             data.put(dayExp,mapList);
         }
 
@@ -186,13 +192,13 @@ public class StarServiceImpl implements StarService {
      */
     private List<Map<String,Object>> group(Long startLevel,Long endLevel,Map<Integer,Long> map){
         Map<Integer,Long> maps = map.entrySet().stream().filter(m -> m.getKey() >= startLevel && m.getKey() < endLevel)
-        .sorted(Map.Entry.comparingByKey())
-        .collect(Collectors.toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue,
-                (oldVal,newVal)->oldVal,
-                LinkedHashMap::new
-        ));
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldVal,newVal)->oldVal,
+                        LinkedHashMap::new
+                ));
         List<Map<String,Object>> mapList = new ArrayList<>();
         for (Map.Entry<Integer,Long> entry : maps.entrySet()){
             Map<String,Object> objectMap = new HashMap<>();
@@ -202,37 +208,5 @@ public class StarServiceImpl implements StarService {
             mapList.add(objectMap);
         }
         return mapList;
-    }
-
-//    private void count(Long level,Long startExp,Long endExp,Long dayExp){
-//        System.out.println("当前等级："+level+",经验"+(endExp-startExp)+",需"+(endExp-startExp)/dayExp+"天");
-//
-//    }
-
-    private void counts(List<Map<String,Object>> groupList,Long level,Long dayExp){
-        int day = 1;
-        long lv = level;
-        List<Map<String,Object>> mapList = new ArrayList<>();
-        for (Map<String,Object> group : groupList){
-            Long startExp = (Long)group.get("startExp");
-            Long endExp = (Long)group.get("endExp");
-            while (startExp < endExp){
-                Map<String,Object> map = new HashMap<>();
-                map.put("day",day);
-                map.put("level",lv);
-                map.put("cuurExp",startExp+dayExp);
-                day++;
-                startExp += dayExp;
-                mapList.add(map);
-            }
-            lv++;
-            if(startExp>endExp){
-                Map<String,Object> map = new HashMap<>();
-                map.put("day",day);
-                map.put("level",lv);
-                map.put("cuurExp",startExp+dayExp);
-            }
-        }
-        System.out.println();
     }
 }

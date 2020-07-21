@@ -1,76 +1,76 @@
 package com.ming.bns.admin.controller;
 
-import com.ming.bns.admin.entity.Star;
-import com.ming.bns.admin.vo.StarVo;
-import com.ming.bns.admin.service.StarService;
+import com.ming.bns.admin.vo.ChivalrousVo;
+import com.ming.bns.admin.entity.Chivalrous;
+import com.ming.bns.admin.service.ChivalrousService;
 
 import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
+import com.ming.bns.admin.vo.StarVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 星级
+ * 侠义团等级
  * @author: Administrator
- * @date: 2020-07-19
+ * @date: 2020-07-21
  */
 @RestController
-@RequestMapping("/star")
-public class StarController {
+@RequestMapping("/chivalrous")
+public class ChivalrousController {
 
     @Autowired
-    private StarService starService;
+    private ChivalrousService chivalrousService;
 
     /**
-     * 计算星级
+     * 计算
      */
-    @PostMapping("/countStar")
-    public ResultMsg countStar(StarVo starVo){
-        Map<String,Object> data = starService.countStarExp(starVo);
+    @PostMapping("/countChivalrous")
+    public ResultMsg countChivalrous(ChivalrousVo chivalrousVo){
+        Map<String,Object> data = chivalrousService.countExp(chivalrousVo);
         return ResultMsg.success(data);
     }
 
 	@GetMapping("/selectPage")
-    public ResultMsg selectPage(StarVo starVo){
-        Pagination<Star> pagination = starService.selectPage(starVo);
+    public ResultMsg selectPage(ChivalrousVo chivalrousVo){
+        Pagination<Chivalrous> pagination = chivalrousService.selectPage(chivalrousVo);
         return ResultMsg.success(pagination);
     }
 
 	/**
 	 * 查询列表
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @GetMapping("/selectList")
-    public ResultMsg selectList(StarVo starVo){
-        return ResultMsg.success(starService.selectList(starVo));
+    public ResultMsg selectList(ChivalrousVo chivalrousVo){
+        return ResultMsg.success(chivalrousService.selectList(chivalrousVo));
     }
 
 	/**
 	 * 查询详情
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @GetMapping("/selectOne")
-    public ResultMsg selectOne(StarVo starVo){
-        return ResultMsg.success(starService.selectOne(starVo));
+    public ResultMsg selectOne(ChivalrousVo chivalrousVo){
+        return ResultMsg.success(chivalrousService.selectOne(chivalrousVo));
     }
 
 	/**
 	 * 新增
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @PostMapping("/insert")
-    public ResultMsg insert(Star star){
-        if(star == null){
+    public ResultMsg insert(Chivalrous chivalrous){
+        if(chivalrous == null){
             return ResultMsg.failed();
         }
-        int i = starService.insert(star);
+        int i = chivalrousService.insert(chivalrous);
         if(i>0){
             return ResultMsg.success();
         }
@@ -80,14 +80,14 @@ public class StarController {
 	/**
 	 * 根据id更新
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @PostMapping("/update")
-    public ResultMsg update(Star star){
-        if(star == null || star.getId() == null){
+    public ResultMsg update(Chivalrous chivalrous){
+        if(chivalrous == null || chivalrous.getId() == null){
             return ResultMsg.failed("ID不能为空！");
         }
-        int i = starService.update(star);
+        int i = chivalrousService.update(chivalrous);
         if(i>0){
             return ResultMsg.success();
         }
@@ -97,14 +97,14 @@ public class StarController {
 	/**
 	 * 根据id删除
 	 * @author: Administrator
-	 * @date: 2020-07-19
+	 * @date: 2020-07-21
 	 */
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){
             return ResultMsg.failed("ID不能为空！");
         }
-        int i = starService.delete(id);
+        int i = chivalrousService.delete(id);
         if(i>0){
             return ResultMsg.success();
         }

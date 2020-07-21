@@ -1,5 +1,12 @@
 package com.ming.bns.admin.entity;
 
+import com.ming.tools.generate.template.annotation.Generate;
+import com.ming.tools.generate.template.annotation.database.Column;
+import com.ming.tools.generate.template.annotation.database.Comment;
+import com.ming.tools.generate.template.annotation.database.PrimaryKey;
+
+import java.io.Serializable;
+
 /**
  * 侠义
  * 1-5      10000、10400、10900、11600、12500
@@ -28,5 +35,57 @@ package com.ming.bns.admin.entity;
  * 116-120  1355600、1378900、1402400、1426100、1450000
  *
  */
-public class Chivalrous {
+@Generate(isEffective = true,isCover = false,desc = "侠义团等级",tablePrefix = "bns")
+public class Chivalrous implements Serializable {
+
+    @Column
+    @PrimaryKey
+    private Long id;
+
+    @Column
+    @Comment("侠义团等级")
+    private Integer chivalrous;
+
+    @Column
+    @Comment("经验")
+    private Long exp;
+
+    @Column
+    @Comment("备注")
+    private String remark;
+
+    public Chivalrous() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getChivalrous() {
+        return chivalrous;
+    }
+
+    public void setChivalrous(Integer chivalrous) {
+        this.chivalrous = chivalrous;
+    }
+
+    public Long getExp() {
+        return exp;
+    }
+
+    public void setExp(Long exp) {
+        this.exp = exp;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }

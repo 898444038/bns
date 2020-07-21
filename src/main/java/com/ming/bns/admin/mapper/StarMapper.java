@@ -3,6 +3,7 @@ package com.ming.bns.admin.mapper;
 import com.ming.bns.admin.entity.Star;
 import com.ming.bns.admin.vo.StarVo;
 
+import com.ming.bns.system.config.datasource.TargetDataSource;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,8 +16,10 @@ import java.util.List;
 @Mapper
 public interface StarMapper {
 
+	@TargetDataSource("dataSource1")
 	int selectCount(StarVo starVo);
 
+	@TargetDataSource("dataSource1")
 	List<Star> selectPage(StarVo starVo);
 
 	/**
@@ -24,6 +27,7 @@ public interface StarMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+	@TargetDataSource("dataSource1")
     List<Star> selectList(StarVo starVo);
 
 	/**
@@ -31,6 +35,7 @@ public interface StarMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+	@TargetDataSource("dataSource1")
     Star selectOne(StarVo starVo);
 
 	/**
@@ -38,6 +43,7 @@ public interface StarMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+	@TargetDataSource("dataSource1")
     int insert(Star star);
 
 	/**
@@ -45,6 +51,7 @@ public interface StarMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+	@TargetDataSource("dataSource1")
     int update(Star star);
 
 	/**
@@ -52,6 +59,7 @@ public interface StarMapper {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+	@TargetDataSource("dataSource1")
     int delete(Long id);
 
 }
