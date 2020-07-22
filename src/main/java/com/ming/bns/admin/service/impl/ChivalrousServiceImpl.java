@@ -95,12 +95,11 @@ public class ChivalrousServiceImpl implements ChivalrousService {
     public Map<String, Object> countExp(ChivalrousVo chivalrousVo) {
         List<Chivalrous> list = chivalrousMapper.selectList(chivalrousVo);
         Map<String, Object> data = new HashMap<>();
-        Map<Integer,Long> map = list.stream().limit(120).filter(c -> null != c.getChivalrous()).collect(Collectors.toMap(Chivalrous::getChivalrous,Chivalrous::getExp));
+        Map<Integer,Long> map = list.stream().collect(Collectors.toMap(Chivalrous::getChivalrous,Chivalrous::getExp));
         Long startExp = null;
         if(chivalrousVo.getCurrExp() != null){
             startExp = chivalrousVo.getCurrExp()*10000L;
         }
-        //Long endExp = map.get(chivalrousVo.getStart());
         String[] dayExps = null;
         if(chivalrousVo.getDayExp().contains(",")){
             dayExps = chivalrousVo.getDayExp().split(",");
@@ -113,11 +112,6 @@ public class ChivalrousServiceImpl implements ChivalrousService {
         if(startExp!=null){
             groupList.get(0).put("startExp",startExp);
         }
-
-//        for (Map<String,Object> group : groupList){
-//            count((Long) group.get("level"),(Long) group.get("startExp"),(Long) group.get("endExp"),Long.valueOf(dayExps[0])*10000);
-//        }
-        //counts(groupList,chivalrousVo.getStart(),Long.valueOf(dayExps[0])*10000);
 
         for (String dayExp : dayExps){
             List<Map<String,Object>> mapList = count(groupList,chivalrousVo.getStart(),Long.valueOf(dayExp)*10000L);
