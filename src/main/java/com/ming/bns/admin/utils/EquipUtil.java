@@ -3,41 +3,111 @@ package com.ming.bns.admin.utils;
 import com.ming.bns.admin.entity.Equip;
 import com.ming.bns.admin.entity.EquipGrow;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class EquipUtil {
 
     public static void main(String[] args) {
-        List<Equip> equipList = getEquipList();
+        List<Equip> equipList = getEquipList(false);
+        List<Equip> equipAllList = getEquipList(true);
+
         List<EquipGrow> equipGrowList = getEquipGrowList();
-        Long startId = 7L;
-        Long endId = 26L;
-        route(startId,endId,equipList,equipGrowList);
+        Long startId = 3L;
+        Long endId = 27L;
+        //route(startId,endId,equipList,equipGrowList);
+
+        List<List<Equip>> routeList = routeTree(startId,endId,equipAllList,equipGrowList);
+        System.out.println();
+    }
+
+    /**
+     * 成长路线计算
+     */
+    public static void routeCount(){
+
+    }
+
+    /**
+     * 生成成长路线
+     * @param startId
+     * @param endId
+     * @param equipAllList
+     * @param equipGrowList
+     * @return
+     */
+    public static List<List<Equip>> routeTree(Long startId,Long endId,List<Equip> equipAllList,List<EquipGrow> equipGrowList){
+        TreeNode treeAll = TreeUtil.getTree(equipAllList);
+        List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
+
+        List<List<Equip>> lists = new ArrayList<>();
+        boolean flag = false;
+        for (List<TreeNode> nodeList : routeTreeAll){
+            List<Equip> equips = new ArrayList<>();
+            for (TreeNode node : nodeList){
+                if(startId.equals((long)node.getId())){
+                    flag = true;
+                }
+                if(flag){
+                    equips.add(new Equip((long)node.getId(),node.getName(),(long)node.getParentId()));
+                }
+                if(endId.equals((long)node.getId())){
+                    flag = false;
+                }
+            }
+            if(equips.size()!=0 && equips.get(0).getId().equals(startId) && equips.get(equips.size()-1).getId().equals(endId)){
+                lists.add(equips);
+            }
+        }
+
+        for (List<Equip> equips : lists){
+            for (Equip equip : equips){
+                List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartEquipId().equals(equip.getId())).collect(Collectors.toList());
+                equip.setEquipGrowList(equipGrowLists);
+            }
+        }
+        return lists;
     }
 
     /**
      * 路线
      * @return
      */
-    public static void route(Long startId,Long endId,List<Equip> equipList,List<EquipGrow> equipGrowList){
+    /*public static void route(Long startId,Long endId,List<Equip> equipList,List<EquipGrow> equipGrowList){
         List<EquipGrow> newEquipGrowList = new LinkedList<>();
         loop(startId, endId, equipList, equipGrowList,newEquipGrowList);
         Collections.reverse(newEquipGrowList);//元素反转
         System.out.println(newEquipGrowList);
-    }
 
-    public static void loop(Long startId,Long endId,List<Equip> equipList,List<EquipGrow> equipGrowList,List<EquipGrow> newEquipGrowList){
+        Set<Equip> equipSet = new LinkedHashSet<>();
+        for (EquipGrow equipGrow : newEquipGrowList){
+            for(Equip equip : equipList){
+                if(equip.getId().equals(equipGrow.getStartEquipId()) || equip.getId().equals(equipGrow.getEndEquipId())){
+                    equipSet.add(equip);
+                }
+            }
+        }
+        for (Equip equip : equipSet){
+            System.out.print(equip.getName()+" -> ");
+        }
+    }*/
+
+    /*public static void loop(Long startId,Long endId,List<Equip> equipList,List<EquipGrow> equipGrowList,List<EquipGrow> newEquipGrowList){
         List<EquipGrow> equipGrows = equipGrowList.stream().filter(g->g.getEndEquipId().equals(endId)).collect(Collectors.toList());//.findFirst().orElse(equipGrowList.get(equipGrowList.size() - 1));
-        System.out.println(equipGrows);
-        /*newEquipGrowList.add(equipGrow);
-        if(!equipGrow.getStartEquipId().equals(startId)){
-            loop(startId, equipGrow.getStartEquipId(), equipList, equipGrowList,newEquipGrowList);
-        }*/
-    }
+        for (EquipGrow equipGrow : equipGrows){
+            newEquipGrowList.add(equipGrow);
+            if(!equipGrow.getStartEquipId().equals(startId)){
+                loop(startId, equipGrow.getStartEquipId(), equipList, equipGrowList,newEquipGrowList);
+            }
+        }
+
+        //EquipGrow equipGrow = equipGrowList.stream().filter(g->g.getEndEquipId().equals(endId)).findFirst().orElse(equipGrowList.get(equipGrowList.size() - 1));
+        //System.out.println(equipGrows);
+        //newEquipGrowList.add(equipGrow);
+        //if(!equipGrow.getStartEquipId().equals(startId)){
+        //    loop(startId, equipGrow.getStartEquipId(), equipList, equipGrowList,newEquipGrowList);
+        //}
+    }*/
 
     public static List<EquipGrow> getEquipGrowList(){
         List<EquipGrow> equipGrowList = new ArrayList<EquipGrow>();
@@ -76,7 +146,11 @@ public class EquipUtil {
         return equipGrowList;
     }
 
-    public static List<Equip> getEquipList(){
+    /**
+     *
+     * @return
+     */
+    public static List<Equip> getEquipList(boolean flag){
         List<Equip> equipList = new ArrayList<Equip>(){{
             add(new Equip(1L,"晨辉星1段",0L));
             add(new Equip(2L,"晨辉星2段",1L));
@@ -109,6 +183,12 @@ public class EquipUtil {
             add(new Equip(28L,"金雷星13段",27L));
             add(new Equip(29L,"金雷星14段",28L));
             add(new Equip(30L,"金雷星15段",29L));
+
+            if(flag){
+                add(new Equip(26L,"金雷星11段",15L));
+                add(new Equip(23L,"金雷星8段",12L));
+            }
+
         }};
         return equipList;
     }

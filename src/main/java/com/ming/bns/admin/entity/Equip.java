@@ -7,6 +7,7 @@ import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Generate(isEffective = true,isCover = false,desc = "装备",tablePrefix = "bns")
 public class Equip implements Serializable {
@@ -20,8 +21,14 @@ public class Equip implements Serializable {
     private String name;
 
     @Column
+    @Comment("类型【】")
+    private Integer type;
+
+    @Column
     @Comment("父级")
     private Long parentId;
+
+    private List<EquipGrow> equipGrowList;
 
     public Equip() {
     }
@@ -54,5 +61,13 @@ public class Equip implements Serializable {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public List<EquipGrow> getEquipGrowList() {
+        return equipGrowList;
+    }
+
+    public void setEquipGrowList(List<EquipGrow> equipGrowList) {
+        this.equipGrowList = equipGrowList;
     }
 }
