@@ -136,6 +136,7 @@ public class StarServiceImpl implements StarService {
         Map<String,Object> result = new HashMap<>();
         result.put("xAxis",xAxisSet.toArray());
         result.put("list",dataMap);
+        result.put("rank",list.stream().filter(s -> s.getStar()>=starVo.getStart() && s.getStar()<starVo.getEnd()).collect(Collectors.toList()));
         return result;
     }
 

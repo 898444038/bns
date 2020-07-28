@@ -136,6 +136,7 @@ public class ChivalrousServiceImpl implements ChivalrousService {
         Map<String,Object> result = new HashMap<>();
         result.put("xAxis",xAxisSet.toArray());
         result.put("list",dataMap);
+        result.put("rank",list.stream().filter(s -> s.getChivalrous()>=chivalrousVo.getStart() && s.getChivalrous()<chivalrousVo.getEnd()).collect(Collectors.toList()));
         return result;
     }
 
