@@ -19,12 +19,15 @@ public class EquipUtil {
 
         List<List<Equip>> routeList = routeTree(startId,endId,equipAllList,equipGrowList);
         System.out.println();
+        for(List<Equip> route : routeList){
+            routeCount(route);
+        }
     }
 
     /**
      * 成长路线计算
      */
-    public static void routeCount(){
+    public static void routeCount(List<Equip> list){
 
     }
 
