@@ -105,8 +105,9 @@ public class ChivalrousServiceImpl implements ChivalrousService {
             dayExps = chivalrousVo.getDayExp().split(",");
         }else if(chivalrousVo.getDayExp().contains("，")){
             dayExps = chivalrousVo.getDayExp().split("，");
+        }else{
+            dayExps = chivalrousVo.getDayExp().split(",");
         }
-
 
         List<Map<String,Object>> groupList = group(chivalrousVo.getStart(),chivalrousVo.getEnd(),map);
         if(startExp!=null){

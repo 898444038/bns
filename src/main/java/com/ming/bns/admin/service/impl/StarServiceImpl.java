@@ -100,8 +100,9 @@ public class StarServiceImpl implements StarService {
             dayExps = starVo.getDayExp().split(",");
         }else if(starVo.getDayExp().contains("，")){
             dayExps = starVo.getDayExp().split("，");
+        }else{
+            dayExps = starVo.getDayExp().split(",");
         }
-
 
         List<Map<String,Object>> groupList = group(starVo.getStart(),starVo.getEnd(),map);
         if(startExp!=null){

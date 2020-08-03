@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.EquipGrowMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.EquipGrow">
+	    <result column="id" property="id"/>
+	    <result column="start_equip_id" property="startEquipId"/>
+	    <result column="end_equip_id" property="endEquipId"/>
+	    <result column="grow_type" property="growType"/>
+	    <result column="discount" property="discount"/>
+	    <result column="gold" property="gold"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    start_equip_id,
+	    end_equip_id,
+	    grow_type,
+	    discount,
+	    gold
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="startEquipId != null"> and start_equip_id = #{startEquipId}</if>
+		    <if test="endEquipId != null"> and end_equip_id = #{endEquipId}</if>
+		    <if test="growType != null"> and grow_type = #{growType}</if>
+		    <if test="discount != null"> and discount = #{discount}</if>
+		    <if test="gold != null"> and gold = #{gold}</if>
+		</where>
+	</sql>
+
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.EquipGrowVo">
+        SELECT count(1)
+        from bns_equip_grow
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.EquipGrowVo">
+        SELECT <include refid="baseColumn"></include>
+        from bns_equip_grow
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.EquipGrowVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_equip_grow
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.EquipGrowVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_equip_grow
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.EquipGrow">
+		insert into bns_equip_grow
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="startEquipId != null">start_equip_id,</if>
+			<if test="endEquipId != null">end_equip_id,</if>
+			<if test="growType != null">grow_type,</if>
+			<if test="discount != null">discount,</if>
+			<if test="gold != null">gold,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="startEquipId != null">#{startEquipId},</if>
+		    <if test="endEquipId != null">#{endEquipId},</if>
+		    <if test="growType != null">#{growType},</if>
+		    <if test="discount != null">#{discount},</if>
+		    <if test="gold != null">#{gold},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.EquipGrow">
+		update bns_equip_grow
+		<set>
+			<if test="startEquipId != null">start_equip_id = #{startEquipId},</if>
+			<if test="endEquipId != null">end_equip_id = #{endEquipId},</if>
+			<if test="growType != null">grow_type = #{growType},</if>
+			<if test="discount != null">discount = #{discount},</if>
+			<if test="gold != null">gold = #{gold},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from bns_equip_grow
+		where id = #{id}
+	</delete>
+
+</mapper>
