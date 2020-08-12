@@ -1,5 +1,6 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.aspect.log.Log;
 import com.ming.bns.admin.service.EquipGrowService;
 import com.ming.bns.admin.entity.EquipGrow;
 import com.ming.bns.admin.vo.EquipGrowVo;
@@ -23,6 +24,7 @@ public class EquipGrowController {
     @Autowired
     private EquipGrowService equipGrowService;
 
+    @Log("EquipGrow")
 	@GetMapping("/selectPage")
     public ResultMsg selectPage(EquipGrowVo equipGrowVo){
         Pagination<EquipGrow> pagination = equipGrowService.selectPage(equipGrowVo);
@@ -34,6 +36,7 @@ public class EquipGrowController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("EquipGrow")
     @GetMapping("/selectList")
     public ResultMsg selectList(EquipGrowVo equipGrowVo){
         return ResultMsg.success(equipGrowService.selectList(equipGrowVo));
@@ -44,6 +47,7 @@ public class EquipGrowController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("EquipGrow")
     @GetMapping("/selectOne")
     public ResultMsg selectOne(EquipGrowVo equipGrowVo){
         return ResultMsg.success(equipGrowService.selectOne(equipGrowVo));
@@ -54,6 +58,7 @@ public class EquipGrowController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("EquipGrow")
     @PostMapping("/insert")
     public ResultMsg insert(EquipGrow equipGrow){
         if(equipGrow == null){
@@ -71,6 +76,7 @@ public class EquipGrowController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("EquipGrow")
     @PostMapping("/update")
     public ResultMsg update(EquipGrow equipGrow){
         if(equipGrow == null || equipGrow.getId() == null){
@@ -88,6 +94,7 @@ public class EquipGrowController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("EquipGrow")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){

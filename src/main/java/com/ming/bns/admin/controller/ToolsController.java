@@ -1,5 +1,7 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.aspect.log.Log;
+import com.ming.bns.admin.aspect.statistics.VisitStatistics;
 import com.ming.bns.admin.utils.AuctionUtil;
 import com.ming.bns.admin.utils.ResultMsg;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +22,8 @@ public class ToolsController {
      * @param price
      * @return
      */
+    @Log("Tools")
+    @VisitStatistics(type = "auction",desc = "竞拍计算")
     @PostMapping("/auction")
     public ResultMsg auction(Integer count,String price,Integer fyfCount,String fyfPrice){
         if(StringUtils.isBlank(price)){
@@ -35,6 +39,8 @@ public class ToolsController {
      * @param price
      * @return
      */
+    @Log("Tools")
+    @VisitStatistics(type = "taxEvasion",desc = "逃税计算")
     @PostMapping("/taxEvasion")
     public ResultMsg taxEvasion(Integer count,String price,Integer fyfCount,String fyfPrice){
         if(StringUtils.isBlank(price)){

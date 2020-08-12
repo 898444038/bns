@@ -1,9 +1,9 @@
 package com.ming.bns.admin.controller;
 
 import com.ming.bns.admin.aspect.log.Log;
-import com.ming.bns.admin.service.EquipMaterialService;
-import com.ming.bns.admin.vo.EquipMaterialVo;
-import com.ming.bns.admin.entity.EquipMaterial;
+import com.ming.bns.admin.service.SystemLogService;
+import com.ming.bns.admin.vo.SystemLogVo;
+import com.ming.bns.admin.entity.SystemLog;
 
 import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
@@ -13,58 +13,58 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 装备材料
+ * 日志
  * @author: Administrator
- * @date: 2020-08-03
+ * @date: 2020-08-12
  */
 @RestController
-@RequestMapping("/equip/material")
-public class EquipMaterialController {
+@RequestMapping("/system/log")
+public class SystemLogController {
 
     @Autowired
-    private EquipMaterialService equipMaterialService;
+    private SystemLogService systemLogService;
 
-    @Log("EquipMaterial")
+    @Log("SystemLog")
 	@GetMapping("/selectPage")
-    public ResultMsg selectPage(EquipMaterialVo equipMaterialVo){
-        Pagination<EquipMaterial> pagination = equipMaterialService.selectPage(equipMaterialVo);
+    public ResultMsg selectPage(SystemLogVo systemLogVo){
+        Pagination<SystemLog> pagination = systemLogService.selectPage(systemLogVo);
         return ResultMsg.success(pagination);
     }
 
 	/**
 	 * 查询列表
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-08-12
 	 */
-    @Log("EquipMaterial")
+    @Log("SystemLog")
     @GetMapping("/selectList")
-    public ResultMsg selectList(EquipMaterialVo equipMaterialVo){
-        return ResultMsg.success(equipMaterialService.selectList(equipMaterialVo));
+    public ResultMsg selectList(SystemLogVo systemLogVo){
+        return ResultMsg.success(systemLogService.selectList(systemLogVo));
     }
 
 	/**
 	 * 查询详情
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-08-12
 	 */
-    @Log("EquipMaterial")
+    @Log("SystemLog")
     @GetMapping("/selectOne")
-    public ResultMsg selectOne(EquipMaterialVo equipMaterialVo){
-        return ResultMsg.success(equipMaterialService.selectOne(equipMaterialVo));
+    public ResultMsg selectOne(SystemLogVo systemLogVo){
+        return ResultMsg.success(systemLogService.selectOne(systemLogVo));
     }
 
 	/**
 	 * 新增
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-08-12
 	 */
-    @Log("EquipMaterial")
+    @Log("SystemLog")
     @PostMapping("/insert")
-    public ResultMsg insert(EquipMaterial equipMaterial){
-        if(equipMaterial == null){
+    public ResultMsg insert(SystemLog systemLog){
+        if(systemLog == null){
             return ResultMsg.failed();
         }
-        int i = equipMaterialService.insert(equipMaterial);
+        int i = systemLogService.insert(systemLog);
         if(i>0){
             return ResultMsg.success();
         }
@@ -74,15 +74,15 @@ public class EquipMaterialController {
 	/**
 	 * 根据id更新
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-08-12
 	 */
-    @Log("EquipMaterial")
+    @Log("SystemLog")
     @PostMapping("/update")
-    public ResultMsg update(EquipMaterial equipMaterial){
-        if(equipMaterial == null || equipMaterial.getId() == null){
+    public ResultMsg update(SystemLog systemLog){
+        if(systemLog == null || systemLog.getId() == null){
             return ResultMsg.failed("ID不能为空！");
         }
-        int i = equipMaterialService.update(equipMaterial);
+        int i = systemLogService.update(systemLog);
         if(i>0){
             return ResultMsg.success();
         }
@@ -92,15 +92,15 @@ public class EquipMaterialController {
 	/**
 	 * 根据id删除
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-08-12
 	 */
-    @Log("EquipMaterial")
+    @Log("SystemLog")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){
             return ResultMsg.failed("ID不能为空！");
         }
-        int i = equipMaterialService.delete(id);
+        int i = systemLogService.delete(id);
         if(i>0){
             return ResultMsg.success();
         }

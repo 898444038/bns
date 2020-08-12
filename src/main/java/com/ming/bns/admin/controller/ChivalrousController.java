@@ -1,5 +1,7 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.aspect.log.Log;
+import com.ming.bns.admin.aspect.statistics.VisitStatistics;
 import com.ming.bns.admin.vo.ChivalrousVo;
 import com.ming.bns.admin.entity.Chivalrous;
 import com.ming.bns.admin.service.ChivalrousService;
@@ -28,12 +30,15 @@ public class ChivalrousController {
     /**
      * 计算
      */
+    @Log("Chivalrous")
+    @VisitStatistics(type = "countChivalrous",desc = "计算侠义团")
     @PostMapping("/countChivalrous")
     public ResultMsg countChivalrous(ChivalrousVo chivalrousVo){
         Map<String,Object> data = chivalrousService.countExp(chivalrousVo);
         return ResultMsg.success(data);
     }
 
+    @Log("Chivalrous")
 	@GetMapping("/selectPage")
     public ResultMsg selectPage(ChivalrousVo chivalrousVo){
         Pagination<Chivalrous> pagination = chivalrousService.selectPage(chivalrousVo);
@@ -45,6 +50,7 @@ public class ChivalrousController {
 	 * @author: Administrator
 	 * @date: 2020-07-21
 	 */
+    @Log("Chivalrous")
     @GetMapping("/selectList")
     public ResultMsg selectList(ChivalrousVo chivalrousVo){
         return ResultMsg.success(chivalrousService.selectList(chivalrousVo));
@@ -55,6 +61,7 @@ public class ChivalrousController {
 	 * @author: Administrator
 	 * @date: 2020-07-21
 	 */
+    @Log("Chivalrous")
     @GetMapping("/selectOne")
     public ResultMsg selectOne(ChivalrousVo chivalrousVo){
         return ResultMsg.success(chivalrousService.selectOne(chivalrousVo));
@@ -65,6 +72,7 @@ public class ChivalrousController {
 	 * @author: Administrator
 	 * @date: 2020-07-21
 	 */
+    @Log("Chivalrous")
     @PostMapping("/insert")
     public ResultMsg insert(Chivalrous chivalrous){
         if(chivalrous == null){
@@ -82,6 +90,7 @@ public class ChivalrousController {
 	 * @author: Administrator
 	 * @date: 2020-07-21
 	 */
+    @Log("Chivalrous")
     @PostMapping("/update")
     public ResultMsg update(Chivalrous chivalrous){
         if(chivalrous == null || chivalrous.getId() == null){
@@ -99,6 +108,7 @@ public class ChivalrousController {
 	 * @author: Administrator
 	 * @date: 2020-07-21
 	 */
+    @Log("Chivalrous")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){

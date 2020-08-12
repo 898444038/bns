@@ -1,5 +1,6 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.aspect.log.Log;
 import com.ming.bns.admin.entity.Equip;
 import com.ming.bns.admin.service.EquipService;
 import com.ming.bns.admin.vo.EquipVo;
@@ -23,6 +24,7 @@ public class EquipController {
     @Autowired
     private EquipService equipService;
 
+    @Log("Equip")
 	@GetMapping("/selectPage")
     public ResultMsg selectPage(EquipVo equipVo){
         Pagination<Equip> pagination = equipService.selectPage(equipVo);
@@ -34,6 +36,7 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("Equip")
     @GetMapping("/selectList")
     public ResultMsg selectList(EquipVo equipVo){
         return ResultMsg.success(equipService.selectList(equipVo));
@@ -44,6 +47,7 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("Equip")
     @GetMapping("/selectOne")
     public ResultMsg selectOne(EquipVo equipVo){
         return ResultMsg.success(equipService.selectOne(equipVo));
@@ -54,6 +58,7 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("Equip")
     @PostMapping("/insert")
     public ResultMsg insert(Equip equip){
         if(equip == null){
@@ -71,6 +76,7 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("Equip")
     @PostMapping("/update")
     public ResultMsg update(Equip equip){
         if(equip == null || equip.getId() == null){
@@ -88,6 +94,7 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-08-03
 	 */
+    @Log("Equip")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){

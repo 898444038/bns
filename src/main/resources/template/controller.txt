@@ -5,7 +5,7 @@ import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import com.ming.bns.admin.aspect.log.Log;
 import java.util.List;
 
 ${classComment}
@@ -16,6 +16,7 @@ public class ${controllerName} {
     @Autowired
     private ${serviceName} ${lowerServiceName};
 
+    @Log("${className}")
 	@GetMapping("/selectPage")
     public ResultMsg selectPage(${voName} ${lowerVoName}){
         Pagination<${className}> pagination = ${lowerServiceName}.selectPage(${lowerVoName});
@@ -23,18 +24,21 @@ public class ${controllerName} {
     }
 
     ${selectListComment}
+    @Log("${className}")
     @GetMapping("/selectList")
     public ResultMsg selectList(${voName} ${lowerVoName}){
         return ResultMsg.success(${lowerServiceName}.selectList(${lowerVoName}));
     }
 
     ${selectOneComment}
+    @Log("${className}")
     @GetMapping("/selectOne")
     public ResultMsg selectOne(${voName} ${lowerVoName}){
         return ResultMsg.success(${lowerServiceName}.selectOne(${lowerVoName}));
     }
 
     ${insertComment}
+    @Log("${className}")
     @PostMapping("/insert")
     public ResultMsg insert(${className} ${lowerClassName}){
         if(${lowerClassName} == null){
@@ -48,6 +52,7 @@ public class ${controllerName} {
     }
 
     ${updateComment}
+    @Log("${className}")
     @PostMapping("/update")
     public ResultMsg update(${className} ${lowerClassName}){
         if(${lowerClassName} == null || ${lowerClassName}.getId() == null){
@@ -61,6 +66,7 @@ public class ${controllerName} {
     }
 
     ${deleteComment}
+    @Log("${className}")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){

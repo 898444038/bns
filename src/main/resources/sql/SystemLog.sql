@@ -1,0 +1,25 @@
+-- 建表语句
+CREATE TABLE `s_system_log` (
+`id` BIGINT(20)  NOT NULL AUTO_INCREMENT ,
+`login_ip` VARCHAR(32)  DEFAULT NULL  COMMENT '登录IP',
+`mapping` VARCHAR(255)  DEFAULT NULL  COMMENT '访问路径',
+`method` VARCHAR(255)  DEFAULT NULL  COMMENT '访问方法',
+`args` VARCHAR(255)  DEFAULT NULL  COMMENT '方法参数',
+`result` TEXT  DEFAULT NULL  COMMENT '返回结果',
+`type` VARCHAR(32)  DEFAULT NULL  COMMENT '日志类型',
+`create_time` datetime  DEFAULT NULL  COMMENT '创建时间',
+`execute_time` VARCHAR(32)  DEFAULT NULL  COMMENT '执行时间',
+PRIMARY KEY (`id`)
+)ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- 新增字段
+ALTER TABLE `s_system_log` ADD COLUMN id BIGINT(20)  DEFAULT NULL ;
+ALTER TABLE `s_system_log` ADD COLUMN login_ip VARCHAR(32)  DEFAULT NULL  COMMENT '登录IP';
+ALTER TABLE `s_system_log` ADD COLUMN mapping VARCHAR(32)  DEFAULT NULL  COMMENT '访问路径';
+ALTER TABLE `s_system_log` ADD COLUMN method VARCHAR(32)  DEFAULT NULL  COMMENT '访问路径';
+ALTER TABLE `s_system_log` ADD COLUMN args VARCHAR(32)  DEFAULT NULL  COMMENT '方法参数';
+ALTER TABLE `s_system_log` ADD COLUMN result VARCHAR(32)  DEFAULT NULL  COMMENT '返回结果';
+ALTER TABLE `s_system_log` ADD COLUMN type VARCHAR(32)  DEFAULT NULL  COMMENT '日志类型';
+ALTER TABLE `s_system_log` ADD COLUMN create_time datetime  DEFAULT NULL  COMMENT '创建时间';
+ALTER TABLE `s_system_log` ADD COLUMN execute_time VARCHAR(32)  DEFAULT NULL  COMMENT '执行时间';
+

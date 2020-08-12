@@ -1,5 +1,6 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.aspect.log.Log;
 import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
 import com.ming.bns.admin.vo.MaterialVo;
@@ -29,6 +30,7 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@Log("Material")
 	@GetMapping("/selectPage")
 	public ResultMsg selectPage(MaterialVo materialVo){
 		Pagination<Material> materialList = materialService.selectPage(materialVo);
@@ -40,12 +42,14 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@Log("Material")
     @GetMapping("/selectList")
     public ResultMsg selectList(MaterialVo materialVo){
 		materialVo.setDelFlag(false);
         return ResultMsg.success(materialService.selectList(materialVo));
     }
 
+	@Log("Material")
 	@GetMapping("/simpleList")
 	public ResultMsg simpleList(MaterialVo materialVo){
 		materialVo.setDelFlag(false);
@@ -71,6 +75,7 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@Log("Material")
     @GetMapping("/selectOne")
     public ResultMsg selectOne(MaterialVo materialVo){
         return ResultMsg.success(materialService.selectOne(materialVo));
@@ -81,6 +86,7 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@Log("Material")
     @PostMapping("/insert")
     public ResultMsg insert(Material material){
     	if(material == null){
@@ -100,6 +106,7 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@Log("Material")
     @PostMapping("/update")
     public ResultMsg update(Material material){
     	if(material == null || material.getId() == null){
@@ -117,6 +124,7 @@ public class MaterialController {
 	 * @author: Administrator
 	 * @date: 2020-07-16
 	 */
+	@Log("Material")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
 		if(id == null){

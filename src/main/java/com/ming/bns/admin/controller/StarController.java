@@ -1,5 +1,7 @@
 package com.ming.bns.admin.controller;
 
+import com.ming.bns.admin.aspect.log.Log;
+import com.ming.bns.admin.aspect.statistics.VisitStatistics;
 import com.ming.bns.admin.entity.Star;
 import com.ming.bns.admin.vo.StarVo;
 import com.ming.bns.admin.service.StarService;
@@ -28,12 +30,15 @@ public class StarController {
     /**
      * 计算星级
      */
+    @Log("Star")
+    @VisitStatistics(type = "countStar",desc = "计算星级")
     @PostMapping("/countStar")
     public ResultMsg countStar(StarVo starVo){
         Map<String,Object> data = starService.countStarExp(starVo);
         return ResultMsg.success(data);
     }
 
+    @Log("Star")
 	@GetMapping("/selectPage")
     public ResultMsg selectPage(StarVo starVo){
         Pagination<Star> pagination = starService.selectPage(starVo);
@@ -45,6 +50,7 @@ public class StarController {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+    @Log("Star")
     @GetMapping("/selectList")
     public ResultMsg selectList(StarVo starVo){
         return ResultMsg.success(starService.selectList(starVo));
@@ -55,6 +61,7 @@ public class StarController {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+    @Log("Star")
     @GetMapping("/selectOne")
     public ResultMsg selectOne(StarVo starVo){
         return ResultMsg.success(starService.selectOne(starVo));
@@ -65,6 +72,7 @@ public class StarController {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+    @Log("Star")
     @PostMapping("/insert")
     public ResultMsg insert(Star star){
         if(star == null){
@@ -82,6 +90,7 @@ public class StarController {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+    @Log("Star")
     @PostMapping("/update")
     public ResultMsg update(Star star){
         if(star == null || star.getId() == null){
@@ -99,6 +108,7 @@ public class StarController {
 	 * @author: Administrator
 	 * @date: 2020-07-19
 	 */
+    @Log("Star")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){
