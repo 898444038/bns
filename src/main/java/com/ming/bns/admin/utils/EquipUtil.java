@@ -28,7 +28,10 @@ public class EquipUtil {
      * 成长路线计算
      */
     public static void routeCount(List<Equip> list){
-
+        System.out.println("-------------------");
+        for(Equip equip : list){
+            System.out.println(equip);
+        }
     }
 
     /**

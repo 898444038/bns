@@ -70,4 +70,15 @@ public class Equip implements Serializable {
     public void setEquipGrowList(List<EquipGrow> equipGrowList) {
         this.equipGrowList = equipGrowList;
     }
+
+    @Override
+    public String toString() {
+        return "Equip{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", parentId=" + parentId +
+                ", equipGrowList=" + equipGrowList +
+                '}';
+    }
 }

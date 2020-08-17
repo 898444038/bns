@@ -26,6 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,7 +39,13 @@ public class VisitStatisticsAspect {
     @Resource
     private StatisticsItemService statisticsItemService;
 
-    //@Pointcut(value = "@annotation(com.ming.bns.admin.aspect.log.Log) || @within(com.ming.bns.admin.aspect.log.Log)")
+    private static ThreadLocal<DateFormat> localDate = new ThreadLocal<DateFormat>(){
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
+
     @Pointcut(value = "@annotation(com.ming.bns.admin.aspect.statistics.VisitStatistics)")
     public void point(){}
 
@@ -47,20 +54,13 @@ public class VisitStatisticsAspect {
 
     @Around("point()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        //String args = AspectUtils.getInstance().bulidParams(joinPoint);
-        //Class clazz = joinPoint.getTarget().getClass();
         Method method = ((MethodSignature)joinPoint.getSignature()).getMethod();
         long startTime = System.currentTimeMillis();
         Object obj = joinPoint.proceed();
         long endTime = System.currentTimeMillis();
         VisitStatistics visitStatistics = method.getAnnotation(VisitStatistics.class);
-        //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();//获取request
-        //HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();//获取response
-        //String ip = AspectUtils.getIpAddress(request);
-        //String mapping = AspectUtils.getMapping(clazz,method);
         ThreadPool.execute(()-> {
             Date d = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             StatisticsVo statisticsVo = new StatisticsVo();
             statisticsVo.setType(visitStatistics.type());
@@ -78,7 +78,7 @@ public class VisitStatisticsAspect {
 
             StatisticsItemVo statisticsItemVo = new StatisticsItemVo();
             statisticsItemVo.setStatisticsId(statistics.getId());
-            statisticsItemVo.setDate(sdf.format(d));
+            statisticsItemVo.setDate(localDate.get().format(d));
             StatisticsItem statisticsItem = statisticsItemService.selectOne(statisticsItemVo);
             if(statisticsItem == null){
                 statisticsItem = new StatisticsItem();
