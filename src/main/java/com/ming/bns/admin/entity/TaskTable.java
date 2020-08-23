@@ -6,6 +6,8 @@ import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 @Generate(isEffective = true,isCover = false,desc = "任务表",tablePrefix = "bns")
 public class TaskTable implements Serializable {
@@ -19,8 +21,65 @@ public class TaskTable implements Serializable {
     private String weekName;
 
     @Column
-    @Comment("类型[0:任务,1:入门,2:普通,3:熟练]")
+    @Comment("类型[1:任务,2:入门,3:普通,4:熟练]")
     private Integer type;
 
+    @Column
+    @Comment("taskChallenge主键")
+    private Long taskChallengeId;
 
+    private TaskChallenge taskChallenge;
+
+    private List<Map<String,Object>> taskChallengeMapList;
+
+    public TaskTable() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getWeekName() {
+        return weekName;
+    }
+
+    public void setWeekName(String weekName) {
+        this.weekName = weekName;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Long getTaskChallengeId() {
+        return taskChallengeId;
+    }
+
+    public void setTaskChallengeId(Long taskChallengeId) {
+        this.taskChallengeId = taskChallengeId;
+    }
+
+    public TaskChallenge getTaskChallenge() {
+        return taskChallenge;
+    }
+
+    public void setTaskChallenge(TaskChallenge taskChallenge) {
+        this.taskChallenge = taskChallenge;
+    }
+
+    public List<Map<String, Object>> getTaskChallengeMapList() {
+        return taskChallengeMapList;
+    }
+
+    public void setTaskChallengeMapList(List<Map<String, Object>> taskChallengeMapList) {
+        this.taskChallengeMapList = taskChallengeMapList;
+    }
 }

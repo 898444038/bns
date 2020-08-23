@@ -18,7 +18,7 @@ public class TaskChallenge {
 
     @Column
     @Comment("任务名称")
-    private String challenge;
+    private String name;
 
     @Column
     @Comment("任务侠义值")
@@ -31,4 +31,47 @@ public class TaskChallenge {
     @Column
     @Comment("斩首侠义值")
     private String chivalrous3;
+
+    public TaskChallenge() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getChivalrous1() {
+        return chivalrous1;
+    }
+
+    public void setChivalrous1(String chivalrous1) {
+        this.chivalrous1 = chivalrous1;
+    }
+
+    public String getChivalrous2() {
+        return chivalrous2;
+    }
+
+    public void setChivalrous2(String chivalrous2) {
+        this.chivalrous2 = chivalrous2;
+    }
+
+    public String getChivalrous3() {
+        return chivalrous3;
+    }
+
+    public void setChivalrous3(String chivalrous3) {
+        this.chivalrous3 = chivalrous3;
+    }
 }

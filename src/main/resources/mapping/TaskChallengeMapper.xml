@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.TaskChallengeMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.TaskChallenge">
+	    <result column="id" property="id"/>
+	    <result column="name" property="name"/>
+	    <result column="chivalrous1" property="chivalrous1"/>
+	    <result column="chivalrous2" property="chivalrous2"/>
+	    <result column="chivalrous3" property="chivalrous3"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    name,
+	    chivalrous1,
+	    chivalrous2,
+	    chivalrous3
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="name != null"> and name = #{name}</if>
+		    <if test="chivalrous1 != null"> and chivalrous1 = #{chivalrous1}</if>
+		    <if test="chivalrous2 != null"> and chivalrous2 = #{chivalrous2}</if>
+		    <if test="chivalrous3 != null"> and chivalrous3 = #{chivalrous3}</if>
+		</where>
+	</sql>
+
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.TaskChallengeVo">
+        SELECT count(1)
+        from bns_task_challenge
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.TaskChallengeVo">
+        SELECT <include refid="baseColumn"></include>
+        from bns_task_challenge
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.TaskChallengeVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_task_challenge
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.TaskChallengeVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_task_challenge
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.TaskChallenge">
+		insert into bns_task_challenge
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="name != null">name,</if>
+			<if test="chivalrous1 != null">chivalrous1,</if>
+			<if test="chivalrous2 != null">chivalrous2,</if>
+			<if test="chivalrous3 != null">chivalrous3,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="name != null">#{name},</if>
+		    <if test="chivalrous1 != null">#{chivalrous1},</if>
+		    <if test="chivalrous2 != null">#{chivalrous2},</if>
+		    <if test="chivalrous3 != null">#{chivalrous3},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.TaskChallenge">
+		update bns_task_challenge
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="chivalrous1 != null">chivalrous1 = #{chivalrous1},</if>
+			<if test="chivalrous2 != null">chivalrous2 = #{chivalrous2},</if>
+			<if test="chivalrous3 != null">chivalrous3 = #{chivalrous3},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from bns_task_challenge
+		where id = #{id}
+	</delete>
+
+</mapper>
