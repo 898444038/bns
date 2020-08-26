@@ -5,14 +5,14 @@
 	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.Statistics">
 	    <result column="id" property="id"/>
 	    <result column="type" property="type"/>
-	    <result column="desc" property="desc"/>
+	    <result column="remark" property="remark"/>
 	    <result column="total_count" property="totalCount"/>
 	</resultMap>
 
 	<sql id="baseColumn">
 	    id,
 	    type,
-	    desc,
+	    remark,
 	    total_count
 	</sql>
 
@@ -20,7 +20,7 @@
 		<where>
 		    <if test="id != null"> and id = #{id}</if>
 		    <if test="type != null"> and type = #{type}</if>
-		    <if test="desc != null"> and desc = #{desc}</if>
+		    <if test="remark != null"> and remark = #{remark}</if>
 		    <if test="totalCount != null"> and total_count = #{totalCount}</if>
 		</where>
 	</sql>
@@ -69,12 +69,12 @@
 		insert into bns_statistics
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="type != null">type,</if>
-			<if test="desc != null">desc,</if>
+			<if test="remark != null">remark,</if>
 			<if test="totalCount != null">total_count,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 		    <if test="type != null">#{type},</if>
-		    <if test="desc != null">#{desc},</if>
+		    <if test="remark != null">#{remark},</if>
 		    <if test="totalCount != null">#{totalCount},</if>
 		</trim>
 	</insert>
@@ -83,7 +83,7 @@
 		update bns_statistics
 		<set>
 			<if test="type != null">type = #{type},</if>
-			<if test="desc != null">desc = #{desc},</if>
+			<if test="remark != null">remark = #{remark},</if>
 			<if test="totalCount != null">total_count = #{totalCount},</if>
 		</set>
 		where id = #{id}

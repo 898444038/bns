@@ -68,7 +68,7 @@ public class VisitStatisticsAspect {
             if(statistics == null){
                 statistics = new Statistics();
                 statistics.setType(visitStatistics.type());
-                statistics.setDesc(visitStatistics.desc());
+                statistics.setRemark(visitStatistics.desc());
                 statistics.setTotalCount(1);
                 statisticsService.insert(statistics);
             }else{

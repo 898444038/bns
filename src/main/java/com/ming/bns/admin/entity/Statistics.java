@@ -23,7 +23,7 @@ public class Statistics implements Serializable {
 
     @Column
     @Comment("描述")
-    private String desc;
+    private String remark;
 
     @Column
     @Comment("总次数")
@@ -48,12 +48,12 @@ public class Statistics implements Serializable {
         this.type = type;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Integer getTotalCount() {
