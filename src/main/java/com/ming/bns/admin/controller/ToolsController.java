@@ -2,19 +2,35 @@ package com.ming.bns.admin.controller;
 
 import com.ming.bns.admin.aspect.log.Log;
 import com.ming.bns.admin.aspect.statistics.VisitStatistics;
-import com.ming.bns.admin.utils.AuctionUtil;
+import com.ming.bns.admin.entity.TaskChallenge;
+import com.ming.bns.admin.entity.TaskTable;
+import com.ming.bns.admin.service.TaskChallengeService;
+import com.ming.bns.admin.service.TaskTableService;
+import com.ming.bns.admin.utils.count.AuctionUtil;
 import com.ming.bns.admin.utils.ResultMsg;
+import com.ming.bns.admin.utils.Tools;
+import com.ming.bns.admin.utils.count.ChallengeUtil;
+import com.ming.bns.admin.vo.TaskChallengeVo;
+import com.ming.bns.admin.vo.TaskTableVo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/tools")
 public class ToolsController {
+
+    @Autowired
+    private TaskTableService taskTableService;
+    @Autowired
+    private TaskChallengeService taskChallengeService;
 
     /**
      * 竞拍计算
@@ -50,5 +66,15 @@ public class ToolsController {
         BigDecimal day = new BigDecimal(count).multiply(new BigDecimal(price));
         Map<String,Object> data = AuctionUtil.taxEvasion(count,new BigDecimal(price),fyfCount,new BigDecimal(fyfPrice),day);
         return ResultMsg.success(data);
+    }
+
+
+    @Log("Tools")
+    @VisitStatistics(type = "countChallenge",desc = "侠义车计算")
+    @PostMapping("/countChallenge")
+    public ResultMsg countChallenge(TaskChallengeVo vo){
+        List<TaskChallenge> list = taskChallengeService.selectList(vo);
+        ChallengeUtil.handle(vo,list);
+        return ResultMsg.success();
     }
 }

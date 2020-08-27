@@ -2,6 +2,7 @@ package com.ming.bns.admin.controller;
 
 import com.ming.bns.admin.entity.TaskChallenge;
 import com.ming.bns.admin.service.TaskTableService;
+import com.ming.bns.admin.utils.Tools;
 import com.ming.bns.admin.vo.TaskTableVo;
 import com.ming.bns.admin.entity.TaskTable;
 
@@ -46,6 +47,23 @@ public class TaskTableController {
     @GetMapping("/selectList")
     public ResultMsg selectList(TaskTableVo taskTableVo){
         return ResultMsg.success(taskTableService.selectList(taskTableVo));
+    }
+
+    @Log("TaskTable")
+    @GetMapping("/selectListByWeek")
+    public ResultMsg selectListByWeek(TaskTableVo taskTableVo){
+        String week = Tools.getWeek();
+        taskTableVo.setWeekName(week);
+        List<TaskTable> list = taskTableService.selectList(taskTableVo);
+        for (TaskTable taskTable : list){
+            taskTable.getTaskChallenge().setColor("danger");
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("data_1",getGroupList(week,1,list));
+        map.put("data_2",getGroupList(week,2,list));
+        map.put("data_3",getGroupList(week,3,list));
+        map.put("data_4",getGroupList(week,4,list));
+        return ResultMsg.success(map);
     }
 
     @GetMapping("/selectGroupList")

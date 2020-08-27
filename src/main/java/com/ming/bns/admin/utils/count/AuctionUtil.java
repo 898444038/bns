@@ -1,4 +1,4 @@
-package com.ming.bns.admin.utils;
+package com.ming.bns.admin.utils.count;
 
 import com.ming.bns.admin.enums.AuctionGoldDayEnum;
 import com.ming.bns.admin.enums.AuctionGoldEnum;

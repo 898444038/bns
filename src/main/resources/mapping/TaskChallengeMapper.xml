@@ -8,6 +8,8 @@
 	    <result column="chivalrous1" property="chivalrous1"/>
 	    <result column="chivalrous2" property="chivalrous2"/>
 	    <result column="chivalrous3" property="chivalrous3"/>
+	    <result column="reset" property="reset"/>
+	    <result column="sort" property="sort"/>
 	</resultMap>
 
 	<sql id="baseColumn">
@@ -15,7 +17,9 @@
 	    name,
 	    chivalrous1,
 	    chivalrous2,
-	    chivalrous3
+	    chivalrous3,
+	    reset,
+	    sort
 	</sql>
 
 	<sql id="baseCondition">
@@ -25,6 +29,9 @@
 		    <if test="chivalrous1 != null"> and chivalrous1 = #{chivalrous1}</if>
 		    <if test="chivalrous2 != null"> and chivalrous2 = #{chivalrous2}</if>
 		    <if test="chivalrous3 != null"> and chivalrous3 = #{chivalrous3}</if>
+		    <if test="reset != null"> and reset = #{reset}</if>
+		    <if test="sort != null"> and sort = #{sort}</if>
+			<!--<if test="ids1 != null and ids1 != ''"></if>-->
 		</where>
 	</sql>
 
@@ -75,12 +82,16 @@
 			<if test="chivalrous1 != null">chivalrous1,</if>
 			<if test="chivalrous2 != null">chivalrous2,</if>
 			<if test="chivalrous3 != null">chivalrous3,</if>
+			<if test="reset != null">reset,</if>
+			<if test="sort != null">sort,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 		    <if test="name != null">#{name},</if>
 		    <if test="chivalrous1 != null">#{chivalrous1},</if>
 		    <if test="chivalrous2 != null">#{chivalrous2},</if>
 		    <if test="chivalrous3 != null">#{chivalrous3},</if>
+		    <if test="reset != null">#{reset},</if>
+		    <if test="sort != null">#{sort},</if>
 		</trim>
 	</insert>
 
@@ -91,6 +102,8 @@
 			<if test="chivalrous1 != null">chivalrous1 = #{chivalrous1},</if>
 			<if test="chivalrous2 != null">chivalrous2 = #{chivalrous2},</if>
 			<if test="chivalrous3 != null">chivalrous3 = #{chivalrous3},</if>
+			<if test="reset != null">reset = #{reset},</if>
+			<if test="sort != null">sort = #{sort},</if>
 		</set>
 		where id = #{id}
 	</update>

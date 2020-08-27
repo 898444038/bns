@@ -32,7 +32,53 @@ public class TaskChallenge {
     @Comment("斩首侠义值")
     private String chivalrous3;
 
+    @Column
+    @Comment("排序")
+    private Integer sort;
+
+    @Column
+    @Comment("重置[0：不需要重置，1：需要重置]")
+    private Integer reset;
+
+    private String color;//颜色
+
+    private Integer type;//类型
+
+
+
     public TaskChallenge() {
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getReset() {
+        return reset;
+    }
+
+    public void setReset(Integer reset) {
+        this.reset = reset;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Long getId() {
