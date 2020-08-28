@@ -44,9 +44,17 @@ public class TaskChallenge {
 
     private Integer type;//类型
 
-
+    private Integer flag;//
 
     public TaskChallenge() {
+    }
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     public Integer getType() {

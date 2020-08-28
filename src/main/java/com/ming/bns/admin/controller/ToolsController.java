@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tools")
@@ -74,7 +76,14 @@ public class ToolsController {
     @PostMapping("/countChallenge")
     public ResultMsg countChallenge(TaskChallengeVo vo){
         List<TaskChallenge> list = taskChallengeService.selectList(vo);
-        ChallengeUtil.handle(vo,list);
-        return ResultMsg.success();
+
+        String week = Tools.getWeek();
+        TaskTableVo taskTableVo = new TaskTableVo();
+        taskTableVo.setWeekName(week);
+        List<TaskTable> tableList = taskTableService.selectList(taskTableVo);
+        tableList = tableList.stream().filter(t->week.equals(t.getWeekName())).collect(Collectors.toList());
+
+        List<Map<String,Object>> result = ChallengeUtil.handle(vo,list,tableList);
+        return ResultMsg.success(result);
     }
 }
