@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/tools")
+@RequestMapping("/bns/tools")
 public class ToolsController {
 
     @Autowired

@@ -17,7 +17,7 @@ import java.util.List;
  * @date: 2020-08-12
  */
 @RestController
-@RequestMapping("/statistics")
+@RequestMapping("/bns/statistics")
 public class StatisticsController {
 
     @Autowired

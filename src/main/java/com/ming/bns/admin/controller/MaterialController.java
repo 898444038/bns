@@ -19,7 +19,7 @@ import java.util.*;
  * @date: 2020-07-16
  */
 @RestController
-@RequestMapping("/material")
+@RequestMapping("/bns/material")
 public class MaterialController {
 
     @Autowired

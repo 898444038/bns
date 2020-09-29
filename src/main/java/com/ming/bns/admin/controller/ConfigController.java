@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @date: 2020-08-25
  */
 @RestController
-@RequestMapping("/config")
+@RequestMapping("/bns/config")
 public class ConfigController {
 
     @Autowired

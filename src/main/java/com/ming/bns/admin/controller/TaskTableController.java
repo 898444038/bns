@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @date: 2020-08-22
  */
 @RestController
-@RequestMapping("/task/table")
+@RequestMapping("/bns/task/table")
 public class TaskTableController {
 
     @Autowired

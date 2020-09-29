@@ -14,7 +14,7 @@ public class JdbcDaoHelper {
 
     private static final String PASSWORD = "123456";
 
-    private static final String URL = "jdbc:mysql://101.37.38.159:3306/yw";
+    private static final String URL = "jdbc:mysql://101.37.38.159:3306/ppsg?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC";
 
     private static Connection con;
 

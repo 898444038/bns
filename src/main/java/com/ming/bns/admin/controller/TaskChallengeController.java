@@ -17,7 +17,7 @@ import java.util.List;
  * @date: 2020-08-22
  */
 @RestController
-@RequestMapping("/task/challenge")
+@RequestMapping("/bns/task/challenge")
 public class TaskChallengeController {
 
     @Autowired

@@ -21,7 +21,7 @@ import java.util.Map;
  * @date: 2020-07-21
  */
 @RestController
-@RequestMapping("/chivalrous")
+@RequestMapping("/bns/chivalrous")
 public class ChivalrousController {
 
     @Autowired

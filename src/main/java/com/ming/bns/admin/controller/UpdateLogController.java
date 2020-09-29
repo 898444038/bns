@@ -17,7 +17,7 @@ import java.util.List;
  * @date: 2020-08-26
  */
 @RestController
-@RequestMapping("/update/log")
+@RequestMapping("/bns/update/log")
 public class UpdateLogController {
 
     @Autowired

@@ -1,7 +1,8 @@
 package com.ming.tools.bind.core;
 
 
-import com.ming.tools.pool.dao.BaseDaoImpl;
+import com.ming.tools.bind.dao.BaseDaoImpl;
+import com.sun.org.apache.xml.internal.utils.ObjectPool;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,17 +19,17 @@ import java.util.Map;
  * getNumIdle()	获得空闲对象数量
  * getNumActive()	获得被借出对象数量
  */
-public class ObjectPool {
+public class BindUtils {
 
-    private volatile static ObjectPool instance = null;
+    private volatile static BindUtils instance = null;
 
-    private ObjectPool(){}
+    private BindUtils(){}
 
-    public static ObjectPool getInstance(){
+    public static BindUtils getInstance(){
         if (instance==null){
-            synchronized (ObjectPool.class){
+            synchronized (BindUtils.class){
                 if (instance==null){
-                    instance = new ObjectPool();
+                    instance = new BindUtils();
                 }
             }
         }

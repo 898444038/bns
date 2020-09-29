@@ -18,7 +18,7 @@ import java.util.List;
  * @date: 2020-08-03
  */
 @RestController
-@RequestMapping("/equip/type")
+@RequestMapping("/bns/equip/type")
 public class EquipTypeController {
 
     @Autowired
