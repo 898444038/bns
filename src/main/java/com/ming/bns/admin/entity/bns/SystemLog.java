@@ -5,10 +5,12 @@ import com.ming.tools.generate.template.annotation.database.Column;
 import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
 import com.ming.tools.generate.template.annotation.database.Text;
+import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@GenerateDataSource(dataSource = "dataSource1")
 @Generate(isEffective = true,isCover = false,desc = "日志",tablePrefix = "s",parentPackage = "bns")
 public class SystemLog implements Serializable {
 

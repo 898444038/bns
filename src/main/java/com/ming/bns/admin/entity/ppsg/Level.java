@@ -4,7 +4,9 @@ import com.ming.tools.generate.template.annotation.Generate;
 import com.ming.tools.generate.template.annotation.database.Column;
 import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
+import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 
+@GenerateDataSource(dataSource = "dataSource2")
 @Generate(isEffective = true,isCover = false,desc = "等级表",tablePrefix = "ppsg",parentPackage = "ppsg")
 public class Level {
 

@@ -38,7 +38,7 @@ public class DataSourceConfig {
         //按照目标数据源名称和目标数据源对象的映射存放在Map中
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put("dataSource1", properties.getDataSource1());
-        //targetDataSources.put("dataSource2", properties.getDataSource2());
+        targetDataSources.put("dataSource2", properties.getDataSource2());
         //采用是想AbstractRoutingDataSource的对象包装多数据源
         DynamicDataSource dataSource = new DynamicDataSource();
         dataSource.setTargetDataSources(targetDataSources);

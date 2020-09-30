@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.ppsg.LevelMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.ppsg.Level">
+	    <result column="id" property="id"/>
+	    <result column="name" property="name"/>
+	    <result column="combat" property="combat"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    name,
+	    combat
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="name != null"> and name = #{name}</if>
+		    <if test="combat != null"> and combat = #{combat}</if>
+		</where>
+	</sql>
+
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.ppsg.LevelVo">
+        SELECT count(1)
+        from ppsg_level
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ppsg.LevelVo">
+        SELECT <include refid="baseColumn"></include>
+        from ppsg_level
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ppsg.LevelVo">
+		SELECT <include refid="baseColumn"></include>
+		from ppsg_level
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ppsg.LevelVo">
+		SELECT <include refid="baseColumn"></include>
+		from ppsg_level
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.ppsg.Level">
+		insert into ppsg_level
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="name != null">name,</if>
+			<if test="combat != null">combat,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="name != null">#{name},</if>
+		    <if test="combat != null">#{combat},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.ppsg.Level">
+		update ppsg_level
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="combat != null">combat = #{combat},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from ppsg_level
+		where id = #{id}
+	</delete>
+
+</mapper>

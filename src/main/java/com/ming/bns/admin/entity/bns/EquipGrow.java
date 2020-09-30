@@ -4,11 +4,13 @@ import com.ming.tools.generate.template.annotation.Generate;
 import com.ming.tools.generate.template.annotation.database.Column;
 import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
+import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+@GenerateDataSource(dataSource = "dataSource1")
 @Generate(isEffective = true,isCover = false,desc = "装备成长",tablePrefix = "bns",parentPackage = "bns")
 public class EquipGrow implements Serializable {
 

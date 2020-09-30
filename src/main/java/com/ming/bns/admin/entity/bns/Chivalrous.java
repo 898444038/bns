@@ -4,6 +4,7 @@ import com.ming.tools.generate.template.annotation.Generate;
 import com.ming.tools.generate.template.annotation.database.Column;
 import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
+import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 
 import java.io.Serializable;
 
@@ -35,6 +36,7 @@ import java.io.Serializable;
  * 116-120  1355600、1378900、1402400、1426100、1450000
  *
  */
+@GenerateDataSource(dataSource = "dataSource1")
 @Generate(isEffective = true,isCover = false,desc = "侠义团等级",tablePrefix = "bns",parentPackage = "bns")
 public class Chivalrous implements Serializable {
 

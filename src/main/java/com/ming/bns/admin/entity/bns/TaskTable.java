@@ -4,11 +4,13 @@ import com.ming.tools.generate.template.annotation.Generate;
 import com.ming.tools.generate.template.annotation.database.Column;
 import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
+import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+@GenerateDataSource(dataSource = "dataSource1")
 @Generate(isEffective = true,isCover = false,desc = "任务表",tablePrefix = "bns",parentPackage = "bns")
 public class TaskTable implements Serializable {
 

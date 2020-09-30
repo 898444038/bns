@@ -145,9 +145,11 @@ public class GenerateHelper {
                 str = matcher.group();
                 str2 = str.substring(2,str.length()-1).trim();
                 reg = "\\$\\{"+str.substring(2,str.length()-1)+"\\}";
+                String parentPackage1 = StringUtils.isNotBlank(info.getParentPackage())?"."+info.getParentPackage():"";
+                String parentPackage2 = StringUtils.isNotBlank(info.getParentPackage())?"/"+info.getParentPackage():"";
+                String parentPackage3 = StringUtils.isNotBlank(info.getParentPackage())?info.getParentPackage()+".":"";
                 if("package".equalsIgnoreCase(str2)){
-                    String parentPackage = StringUtils.isNotBlank(info.getParentPackage())?"."+info.getParentPackage():"";
-                    entry.setValue(entry.getValue().replaceAll(reg,"package "+info.getBasePackage()+"."+pack+parentPackage+";"));
+                    entry.setValue(entry.getValue().replaceAll(reg,"package "+info.getBasePackage()+"."+pack+parentPackage1+";"));
                 }
                 else if("voName".equalsIgnoreCase(str2)){
                     if(!GenerateConfig.getVoSrcPath().equals(pack)){
@@ -159,6 +161,10 @@ public class GenerateHelper {
                 }else if("className".equalsIgnoreCase(str2)){
                     importSet.add(info.getCla().getName());
                     entry.setValue(entry.getValue().replaceAll(reg,info.getClassName()));
+                }else if("logName".equalsIgnoreCase(str2)){
+                    entry.setValue(entry.getValue().replaceAll(reg,parentPackage3+info.getClassName()));
+                }else if("dataSource".equalsIgnoreCase(str2)){
+                    entry.setValue(entry.getValue().replaceAll(reg,info.getDataSource()));
                 }else if("lowerClassName".equalsIgnoreCase(str2)){
                     entry.setValue(entry.getValue().replaceAll(reg,info.getLowerClassName()));
                 }else if("serviceName".equalsIgnoreCase(str2)){
@@ -210,7 +216,7 @@ public class GenerateHelper {
                     GenerateString gs = GenerateString.build().appendDesc(info, DescType.DELETE,1);
                     entry.setValue(gs.toString());
                 }else if("requestMapping".equalsIgnoreCase(str2)){
-                    entry.setValue(entry.getValue().replaceAll(reg,info.getClassMapping()));
+                    entry.setValue(entry.getValue().replaceAll(reg,parentPackage2+info.getClassMapping()));
                 }else if("mapperPackage".equalsIgnoreCase(str2)){
                     entry.setValue(entry.getValue().replaceAll(reg,info.getMapperSrcPath()));
                 }else if("classPackage".equalsIgnoreCase(str2)){

@@ -4,6 +4,7 @@ import com.ming.tools.generate.template.annotation.Generate;
 import com.ming.tools.generate.template.annotation.database.Column;
 import com.ming.tools.generate.template.annotation.database.Comment;
 import com.ming.tools.generate.template.annotation.database.PrimaryKey;
+import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 
 import java.io.Serializable;
 
@@ -44,6 +45,7 @@ import java.io.Serializable;
  * 33	   3,505,442,297
  * 34	   3,961,149,797
  */
+@GenerateDataSource(dataSource = "dataSource1")
 @Generate(isEffective = true,isCover = false,desc = "星级",tablePrefix = "bns",parentPackage = "bns")
 public class Star implements Serializable {
 

@@ -16,7 +16,7 @@ public class ${controllerName} {
     @Autowired
     private ${serviceName} ${lowerServiceName};
 
-    @Log("${className}")
+    @Log("${logName}")
 	@GetMapping("/selectPage")
     public ResultMsg selectPage(${voName} ${lowerVoName}){
         Pagination<${className}> pagination = ${lowerServiceName}.selectPage(${lowerVoName});
@@ -24,21 +24,21 @@ public class ${controllerName} {
     }
 
     ${selectListComment}
-    @Log("${className}")
+    @Log("${logName}")
     @GetMapping("/selectList")
     public ResultMsg selectList(${voName} ${lowerVoName}){
         return ResultMsg.success(${lowerServiceName}.selectList(${lowerVoName}));
     }
 
     ${selectOneComment}
-    @Log("${className}")
+    @Log("${logName}")
     @GetMapping("/selectOne")
     public ResultMsg selectOne(${voName} ${lowerVoName}){
         return ResultMsg.success(${lowerServiceName}.selectOne(${lowerVoName}));
     }
 
     ${insertComment}
-    @Log("${className}")
+    @Log("${logName}")
     @PostMapping("/insert")
     public ResultMsg insert(${className} ${lowerClassName}){
         if(${lowerClassName} == null){
@@ -52,7 +52,7 @@ public class ${controllerName} {
     }
 
     ${updateComment}
-    @Log("${className}")
+    @Log("${logName}")
     @PostMapping("/update")
     public ResultMsg update(${className} ${lowerClassName}){
         if(${lowerClassName} == null || ${lowerClassName}.getId() == null){
@@ -66,7 +66,7 @@ public class ${controllerName} {
     }
 
     ${deleteComment}
-    @Log("${className}")
+    @Log("${logName}")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){

@@ -14,6 +14,7 @@ public class GenerateInfo {
     private String desc;
     private Class cla;
     private String classMapping;
+    private String dataSource;
 
     private String className;
     private String lowerClassName;
@@ -75,6 +76,14 @@ public class GenerateInfo {
     private List<FieldColumn> fieldColumnList;
 
     public GenerateInfo() {
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
     }
 
     public String getParentPackage() {

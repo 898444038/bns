@@ -1,0 +1,25 @@
+router.js
+{
+    path: '/task/week',
+    name: 'taskWeek',
+    component: () => import('./views/task/week/week.vue'),
+    meta: { rule: 'editor', no_scroll: true }
+},
+
+
+navMenuItems.js
+{
+    header: "Task",
+    icon: "PackageIcon",
+    i18n: "Task",
+    items: [
+        {url: "/task/week", name: "TaskWeek", slug: "taskWeek", icon: "MailIcon",i18n: "TaskWeek"},
+    ]
+},
+
+
+i18nData.js
+TaskWeek: '挑战任务',
+
+navbarSearchAndPinList.js
+{title: "每日挑战",          url: "/task/week",                icon: "HomeIcon",           is_bookmarked: false},

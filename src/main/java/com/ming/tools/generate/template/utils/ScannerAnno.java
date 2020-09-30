@@ -6,6 +6,7 @@ import com.ming.tools.generate.template.annotation.GenerateService;
 import com.ming.tools.generate.template.annotation.GenerateServiceImpl;
 import com.ming.tools.generate.template.annotation.GenerateVo;
 import com.ming.tools.generate.template.annotation.database.mysql.GenerateSql;
+import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 import com.ming.tools.generate.template.annotation.orm.mybatis.GenerateMapper;
 import com.ming.tools.generate.template.annotation.orm.mybatis.GenerateMapperXml;
 import com.ming.tools.generate.template.core.GenerateConfig;
@@ -59,7 +60,11 @@ public class ScannerAnno {
                         GenerateMapper generateMapper = cls.getAnnotation(GenerateMapper.class);
                         GenerateMapperXml generateMapperXml = cls.getAnnotation(GenerateMapperXml.class);
                         GenerateSql generateSql = cls.getAnnotation(GenerateSql.class);
+                        GenerateDataSource dataSource = cls.getAnnotation(GenerateDataSource.class);
                         info = new GenerateInfo();
+                        if(dataSource != null){
+                            info.setDataSource(dataSource.dataSource());
+                        }
                         info.setCla(cls);
                         if(generateVo!=null){info.setGenerateVo(true);}
                         if(generateController!=null){info.setGenerateController(true);}

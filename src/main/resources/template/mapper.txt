@@ -9,30 +9,30 @@ ${classComment}
 @Mapper
 public interface ${mapperName} {
 
-    @TargetDataSource("dataSource1")
+    @TargetDataSource("${dataSource}")
 	int selectCount(${voName} ${lowerVoName});
 
-    @TargetDataSource("dataSource1")
+    @TargetDataSource("${dataSource}")
 	List<${className}> selectPage(${voName} ${lowerVoName});
 
     ${selectListComment}
-    @TargetDataSource("dataSource1")
+    @TargetDataSource("${dataSource}")
     List<${className}> selectList(${voName} ${lowerVoName});
 
     ${selectOneComment}
-    @TargetDataSource("dataSource1")
+    @TargetDataSource("${dataSource}")
     ${className} selectOne(${voName} ${lowerVoName});
 
     ${insertComment}
-    @TargetDataSource("dataSource1")
+    @TargetDataSource("${dataSource}")
     int insert(${className} ${lowerClassName});
 
     ${updateComment}
-    @TargetDataSource("dataSource1")
+    @TargetDataSource("${dataSource}")
     int update(${className} ${lowerClassName});
 
     ${deleteComment}
-    @TargetDataSource("dataSource1")
+    @TargetDataSource("${dataSource}")
     int delete(Long id);
 
 }
