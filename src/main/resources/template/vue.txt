@@ -17,9 +17,10 @@ navMenuItems.js
     ]
 },
 
+navbarSearchAndPinList.js
+{title: "每日挑战",          url: "/task/week",                icon: "HomeIcon",           is_bookmarked: false},
+
 
 i18nData.js
 TaskWeek: '挑战任务',
 
-navbarSearchAndPinList.js
-{title: "每日挑战",          url: "/task/week",                icon: "HomeIcon",           is_bookmarked: false},
