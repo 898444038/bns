@@ -65,4 +65,7 @@ public @interface Generate {
      * @return
      */
     String moduleName() default "";
+
+    //父包名
+    String parentPackage() default "";
 }

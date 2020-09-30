@@ -10,6 +10,7 @@ import com.ming.tools.generate.template.annotation.orm.mybatis.GenerateMapper;
 import com.ming.tools.generate.template.annotation.orm.mybatis.GenerateMapperXml;
 import com.ming.tools.generate.template.core.GenerateConfig;
 import com.ming.tools.generate.template.core.GenerateInfo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -126,6 +127,9 @@ public class ScannerAnno {
 
                         info.setBasePackage(packageName);
                         info.setModuleName(generate.moduleName());
+                        String parentPackage1 = StringUtils.isNotBlank(generate.parentPackage())?"."+generate.parentPackage():"";
+                        String parentPackage2 = StringUtils.isNotBlank(generate.parentPackage())?"/"+generate.parentPackage():"";
+                        info.setParentPackage(generate.parentPackage());
 
                         name = GenerateUtil.firstUpperCase(GenerateConfig.getControllerSrcPath());
                         info.setControllerName(className + name);
@@ -148,13 +152,13 @@ public class ScannerAnno {
                         info.setMapperName(className + name);
                         info.setMapperLowerName(lowerClassName + name);
 
-                        info.setVoSrcPath(packageName+"."+GenerateConfig.getVoSrcPath()+"."+info.getVoName());
-                        info.setControllerSrcPath(packageName+"."+GenerateConfig.getControllerSrcPath()+"."+info.getControllerName());
-                        info.setServiceSrcPath(packageName+"."+GenerateConfig.getServiceSrcPath()+"."+info.getServiceName());
-                        info.setServiceImplSrcPath(packageName+"."+GenerateConfig.getServiceImplSrcPath()+"."+info.getServiceImplName());
-                        info.setMapperSrcPath(packageName+"."+GenerateConfig.getMapperSrcPath()+"."+info.getMapperName());
-                        info.setMapperXmlSrcPath("/"+GenerateConfig.getMapperXmlSrcPath()+"/"+info.getMapperName());
-                        info.setSqlSrcPath("/"+GenerateConfig.getSqlSrcPath()+"/"+className);
+                        info.setVoSrcPath(packageName+"."+GenerateConfig.getVoSrcPath()+parentPackage1+"."+info.getVoName());
+                        info.setControllerSrcPath(packageName+"."+GenerateConfig.getControllerSrcPath()+parentPackage1+"."+info.getControllerName());
+                        info.setServiceSrcPath(packageName+"."+GenerateConfig.getServiceSrcPath()+parentPackage1+"."+info.getServiceName());
+                        info.setServiceImplSrcPath(packageName+"."+GenerateConfig.getServiceImplSrcPath()+parentPackage1+"."+info.getServiceImplName());
+                        info.setMapperSrcPath(packageName+"."+GenerateConfig.getMapperSrcPath()+parentPackage1+"."+info.getMapperName());
+                        info.setMapperXmlSrcPath("/"+GenerateConfig.getMapperXmlSrcPath()+parentPackage2+"/"+info.getMapperName());
+                        info.setSqlSrcPath("/"+GenerateConfig.getSqlSrcPath()+parentPackage2+"/"+className);
 
                         info.setVoSuffix(".java");
                         info.setControllerSuffix(".java");

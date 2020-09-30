@@ -10,6 +10,7 @@ public class GenerateInfo {
     private String userName;
     private String tableName;
     private String moduleName;
+    private String parentPackage;
     private String desc;
     private Class cla;
     private String classMapping;
@@ -74,6 +75,14 @@ public class GenerateInfo {
     private List<FieldColumn> fieldColumnList;
 
     public GenerateInfo() {
+    }
+
+    public String getParentPackage() {
+        return parentPackage;
+    }
+
+    public void setParentPackage(String parentPackage) {
+        this.parentPackage = parentPackage;
     }
 
     public String getModuleName() {

@@ -3,6 +3,7 @@ package com.ming.tools.generate.template.core;
 import com.ming.tools.generate.template.enums.DescType;
 import com.ming.tools.generate.template.utils.GenerateString;
 import com.ming.tools.generate.template.utils.GenerateUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,7 +146,8 @@ public class GenerateHelper {
                 str2 = str.substring(2,str.length()-1).trim();
                 reg = "\\$\\{"+str.substring(2,str.length()-1)+"\\}";
                 if("package".equalsIgnoreCase(str2)){
-                    entry.setValue(entry.getValue().replaceAll(reg,"package "+info.getBasePackage()+"."+pack+";"));
+                    String parentPackage = StringUtils.isNotBlank(info.getParentPackage())?"."+info.getParentPackage():"";
+                    entry.setValue(entry.getValue().replaceAll(reg,"package "+info.getBasePackage()+"."+pack+parentPackage+";"));
                 }
                 else if("voName".equalsIgnoreCase(str2)){
                     if(!GenerateConfig.getVoSrcPath().equals(pack)){
