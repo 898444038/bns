@@ -1,7 +1,7 @@
 package com.ming.bns.admin.utils;
 
-import com.ming.bns.admin.entity.Equip;
-import com.ming.bns.admin.entity.EquipGrow;
+import com.ming.bns.admin.entity.bns.Equip;
+import com.ming.bns.admin.entity.bns.EquipGrow;
 
 import java.util.*;
 import java.util.stream.Collectors;

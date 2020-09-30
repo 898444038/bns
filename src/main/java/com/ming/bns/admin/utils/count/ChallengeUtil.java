@@ -1,9 +1,9 @@
 package com.ming.bns.admin.utils.count;
 
-import com.ming.bns.admin.entity.TaskChallenge;
-import com.ming.bns.admin.entity.TaskTable;
+import com.ming.bns.admin.entity.bns.TaskChallenge;
+import com.ming.bns.admin.entity.bns.TaskTable;
 import com.ming.bns.admin.utils.ListUtils;
-import com.ming.bns.admin.vo.TaskChallengeVo;
+import com.ming.bns.admin.vo.bns.TaskChallengeVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

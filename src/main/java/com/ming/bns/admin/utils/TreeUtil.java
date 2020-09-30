@@ -1,11 +1,5 @@
 package com.ming.bns.admin.utils;
 
-import com.ming.bns.admin.entity.EquipGrow;
-
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class TreeUtil {

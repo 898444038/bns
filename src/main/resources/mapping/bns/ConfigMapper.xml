@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.bns.ConfigMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.bns.Config">
+	    <result column="id" property="id"/>
+	    <result column="name" property="name"/>
+	    <result column="code" property="code"/>
+	    <result column="val" property="val"/>
+	    <result column="default_val" property="defaultVal"/>
+	    <result column="remark" property="remark"/>
+	    <result column="is_enable" property="isEnable"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    name,
+	    code,
+	    val,
+	    default_val,
+	    remark,
+	    is_enable
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="name != null"> and name = #{name}</if>
+		    <if test="code != null"> and code = #{code}</if>
+		    <if test="val != null"> and val = #{val}</if>
+		    <if test="defaultVal != null"> and default_val = #{defaultVal}</if>
+		    <if test="remark != null"> and remark = #{remark}</if>
+		    <if test="isEnable != null"> and is_enable = #{isEnable}</if>
+			<if test="codes != null and codes!=''">
+				and code IN
+				<foreach item="item" collection="codes.split(',')" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</sql>
+
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.ConfigVo">
+        SELECT count(1)
+        from bns_config
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.ConfigVo">
+        SELECT <include refid="baseColumn"></include>
+        from bns_config
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.ConfigVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_config
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.ConfigVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_config
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.bns.Config">
+		insert into bns_config
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="name != null">name,</if>
+			<if test="code != null">code,</if>
+			<if test="val != null">val,</if>
+			<if test="defaultVal != null">default_val,</if>
+			<if test="remark != null">remark,</if>
+			<if test="isEnable != null">is_enable,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="name != null">#{name},</if>
+		    <if test="code != null">#{code},</if>
+		    <if test="val != null">#{val},</if>
+		    <if test="defaultVal != null">#{defaultVal},</if>
+		    <if test="remark != null">#{remark},</if>
+		    <if test="isEnable != null">#{isEnable},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.bns.Config">
+		update bns_config
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="code != null">code = #{code},</if>
+			<if test="val != null">val = #{val},</if>
+			<if test="defaultVal != null">default_val = #{defaultVal},</if>
+			<if test="remark != null">remark = #{remark},</if>
+			<if test="isEnable != null">is_enable = #{isEnable},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from bns_config
+		where id = #{id}
+	</delete>
+
+</mapper>

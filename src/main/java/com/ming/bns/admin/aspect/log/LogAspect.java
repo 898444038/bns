@@ -2,8 +2,8 @@ package com.ming.bns.admin.aspect.log;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import com.ming.bns.admin.entity.SystemLog;
-import com.ming.bns.admin.service.SystemLogService;
+import com.ming.bns.admin.entity.bns.SystemLog;
+import com.ming.bns.admin.service.bns.SystemLogService;
 import com.ming.bns.admin.utils.AspectUtils;
 import com.ming.bns.system.thread.ThreadPool;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -1,15 +1,11 @@
 package com.ming.bns.admin.aspect.statistics;
 
-import com.ming.bns.admin.aspect.log.Log;
-import com.ming.bns.admin.entity.Statistics;
-import com.ming.bns.admin.entity.StatisticsItem;
-import com.ming.bns.admin.entity.SystemLog;
-import com.ming.bns.admin.service.StatisticsItemService;
-import com.ming.bns.admin.service.StatisticsService;
-import com.ming.bns.admin.service.SystemLogService;
-import com.ming.bns.admin.utils.AspectUtils;
-import com.ming.bns.admin.vo.StatisticsItemVo;
-import com.ming.bns.admin.vo.StatisticsVo;
+import com.ming.bns.admin.entity.bns.Statistics;
+import com.ming.bns.admin.entity.bns.StatisticsItem;
+import com.ming.bns.admin.service.bns.StatisticsItemService;
+import com.ming.bns.admin.service.bns.StatisticsService;
+import com.ming.bns.admin.vo.bns.StatisticsItemVo;
+import com.ming.bns.admin.vo.bns.StatisticsVo;
 import com.ming.bns.system.thread.ThreadPool;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -20,11 +16,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

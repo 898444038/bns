@@ -1,7 +1,7 @@
 package com.ming.bns.admin.utils.count;
 
-import com.ming.bns.admin.enums.AuctionGoldDayEnum;
-import com.ming.bns.admin.enums.AuctionGoldEnum;
+import com.ming.bns.admin.enums.bns.AuctionGoldDayEnum;
+import com.ming.bns.admin.enums.bns.AuctionGoldEnum;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

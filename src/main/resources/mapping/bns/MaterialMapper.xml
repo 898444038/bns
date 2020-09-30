@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.bns.MaterialMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.bns.Material">
+	    <result column="id" property="id"/>
+	    <result column="name" property="name"/>
+	    <result column="image" property="image"/>
+	    <result column="price" property="price"/>
+	    <result column="create_time" property="createTime"/>
+	    <result column="del_flag" property="delFlag"/>
+	    <result column="type" property="type"/>
+	    <result column="num" property="num"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    name,
+	    image,
+	    price,
+	    create_time,
+	    del_flag,
+	    type,
+	    num
+	</sql>
+
+	<sql id="simpleColumn">
+	    id,
+	    name,
+	    price,
+	    type,
+	    num
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="name != null"> and name = #{name}</if>
+		    <if test="image != null"> and image = #{image}</if>
+		    <if test="price != null"> and price = #{price}</if>
+		    <if test="createTime != null"> and create_time = #{createTime}</if>
+		    <if test="delFlag != null"> and del_flag = #{delFlag}</if>
+		    <if test="type != null"> and type = #{type}</if>
+		    <if test="num != null"> and num = #{num}</if>
+		</where>
+	</sql>
+
+	<sql id="basePage">
+		<if test="pageStart != null and pageSize != null">
+			LIMIT #{pageStart},#{pageSize}
+		</if>
+	</sql>
+
+	<sql id="baseSort">
+		<if test="pageSort != null and pageSort != ''">
+			ORDER BY ${pageSort}
+		</if>
+	</sql>
+
+	<select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.MaterialVo">
+		SELECT count(1)
+		from bns_material
+		<include refid="baseCondition"></include>
+	</select>
+
+	<select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.MaterialVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_material
+		<include refid="baseCondition"></include>
+		<include refid="basePage"></include>
+		<include refid="baseSort"></include>
+	</select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.MaterialVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_material
+		<include refid="baseCondition"></include>
+		<include refid="baseSort"></include>
+	</select>
+
+	<select id="simpleList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.MaterialVo">
+		SELECT <include refid="simpleColumn"></include>
+		from bns_material
+		<include refid="baseCondition"></include>
+		<include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.MaterialVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_material
+		<include refid="baseCondition"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.bns.Material">
+		insert into bns_material
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="name != null">name,</if>
+			<if test="image != null">image,</if>
+			<if test="price != null">price,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="delFlag != null">del_flag,</if>
+			<if test="type != null">type,</if>
+			<if test="num != null">num,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="name != null">#{name},</if>
+		    <if test="image != null">#{image},</if>
+		    <if test="price != null">#{price},</if>
+		    <if test="createTime != null">#{createTime},</if>
+		    <if test="delFlag != null">#{delFlag},</if>
+		    <if test="type != null">#{type},</if>
+		    <if test="num != null">#{num},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.bns.Material">
+		update bns_material
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="image != null">image = #{image},</if>
+			<if test="price != null">price = #{price},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="num != null">num = #{num},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from bns_material
+		where id = #{id}
+	</delete>
+
+</mapper>
