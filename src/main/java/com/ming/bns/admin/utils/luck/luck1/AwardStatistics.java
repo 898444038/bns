@@ -59,9 +59,9 @@ public class AwardStatistics {
         sb.append("\t").append("<table>").append("\r\n");
         sb.append("\t\t").append("<thead>").append("\r\n");
         sb.append("\t\t\t").append("<tr>").append("\r\n");
-        sb.append("\t\t\t\t").append("<th style='width:100px'>").append("名称").append("</th>").append("\r\n");
-        sb.append("\t\t\t\t").append("<th style='width:40px'>").append("权重").append("</th>").append("\r\n");
-        sb.append("\t\t\t\t").append("<th style='width:40px'>").append("数量").append("</th>").append("\r\n");
+        sb.append("\t\t\t\t").append("<th style='width:130px'>").append("名称").append("</th>").append("\r\n");
+        sb.append("\t\t\t\t").append("<th style='width:50px'>").append("权重").append("</th>").append("\r\n");
+        sb.append("\t\t\t\t").append("<th style='width:50px'>").append("数量").append("</th>").append("\r\n");
         sb.append("\t\t\t\t").append("<th>").append("位置").append("</th>").append("\r\n");
         sb.append("\t\t\t").append("</tr>").append("\r\n");
         sb.append("\t\t").append("</thead>").append("\r\n");
