@@ -47,16 +47,22 @@ public class Test {
         int loop = 1;
         int count = 50;
 
-        for (int i = 0; i < count; i++) {
-            award = awardGroup.startGetAward();
-            String record = addZeroForNumber((i+1)+"",3)+"、"+award;
-            System.out.println(record);
-            String indexs = award.getIndex() == null?"":award.getIndex()+",";
-            award.setIndex(indexs+(i+1));
-            statistics.addAward(award);
-            statistics.addAwardRecord(record);
+        for (int i = 0; i < loop; i++) {
+            for (int j = 0; j < count; j++) {
+                award = awardGroup.startGetAward();
+                String record = addZeroForNumber((j+1)+"",3)+"、"+award;
+                System.out.println(record);
+                String indexs = award.getIndex() == null?"":award.getIndex()+",";
+                award.setIndex(indexs+(j+1));
+                statistics.addAward(award);
+                statistics.addAwardRecord(record);
+            }
         }
         statistics.statisticsHtml();
+    }
+
+    public void count(){
+
     }
 
     public static String addZeroForNumber(String str,int strLength){
