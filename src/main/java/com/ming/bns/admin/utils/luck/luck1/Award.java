@@ -1,5 +1,7 @@
 package com.ming.bns.admin.utils.luck.luck1;
 
+import java.util.Map;
+
 public class Award {
     public Award() {
 

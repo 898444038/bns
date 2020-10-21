@@ -1,5 +1,10 @@
 package com.ming.bns.admin.utils.luck.luck1;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Test {
     public static void main(String[] args) {
         //https://bns.qq.com/webplat/info/news_version3/1298/15027/15030/m11526/201907/821205.shtml
@@ -41,24 +46,28 @@ public class Test {
         awardGroup.addAward(new Award("雪峰天光石(防御)", 15));*/
 
         System.out.println("总权重："+awardGroup.getTotal());
-        AwardStatistics statistics = new AwardStatistics();
-        statistics.initAward(awardGroup.getAwardgroup());
+
         Award award = null;
-        int loop = 1;
+        int loop = 100;
         int count = 50;
 
+        AwardStatistics statistics = new AwardStatistics();
         for (int i = 0; i < loop; i++) {
+            int group = i+1;
+            statistics.initAward(group,awardGroup.getAwardgroup());
             for (int j = 0; j < count; j++) {
                 award = awardGroup.startGetAward();
                 String record = addZeroForNumber((j+1)+"",3)+"、"+award;
                 System.out.println(record);
-                String indexs = award.getIndex() == null?"":award.getIndex()+",";
-                award.setIndex(indexs+(j+1));
-                statistics.addAward(award);
-                statistics.addAwardRecord(record);
+                award.setIndex((j+1)+"");
+
+                statistics.addAward(group,award);
+                statistics.addAwardRecord(group,record);
             }
+
         }
         statistics.statisticsHtml();
+        System.out.println(statistics);
     }
 
     public void count(){

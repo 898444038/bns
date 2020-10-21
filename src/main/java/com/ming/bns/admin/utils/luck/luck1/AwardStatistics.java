@@ -3,29 +3,40 @@ package com.ming.bns.admin.utils.luck.luck1;
 import com.ming.bns.admin.utils.consoletable.ConsoleTable;
 import com.ming.bns.admin.utils.consoletable.enums.Align;
 import com.ming.bns.admin.utils.consoletable.table.Cell;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AwardStatistics {
 
-    public Map<String,List<Award>> awardMap = new HashMap<>();
-    public List<String> recordList = new ArrayList<>();
+    public Map<Integer,Map<String,List<Award>>> awardMap = new LinkedHashMap<>();
+    public Map<Integer,List<String>> recordMap = new LinkedHashMap<>();
+    public List<Award> awardList = new ArrayList<>();
 
-    public void initAward(List<Award> awardList) {
-        for (Award award : awardList){
-            awardMap.put(award.getName(),new ArrayList<>());
+    public void initAward(Integer group,List<Award> awardList) {
+        this.awardList = awardList;
+        Map<String,List<Award>> groupMap = awardMap.get(group);
+        if(groupMap == null){
+            groupMap = new LinkedHashMap<>();
         }
+        for (Award award : awardList){
+            groupMap.put(award.getName(),new ArrayList<>());
+        }
+        awardMap.put(group,groupMap);
     }
 
-    public void addAward(Award award) {
+    public void addAward(int group,Award award) {
+        Map<String,List<Award>> groupMap = awardMap.get(group);
         String key = award.getName();
-        List<Award> awardList = awardMap.get(key);
+        List<Award> awardList = groupMap.get(key);
         awardList.add(award);
     }
 
@@ -36,6 +47,7 @@ public class AwardStatistics {
         sb.append("<head>").append("\r\n");
         sb.append("\t").append("<meta charset='utf-8'>").append("\r\n");
         sb.append("\t").append("<title></title>").append("\r\n");
+        sb.append("\t").append("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'/>").append("\r\n");
         sb.append("\t").append("<style type='text/css'>").append("\r\n");
         sb.append("\t\t").append("body {font-family: arial;}").append("\r\n");
         sb.append("\t\t").append("table{border: 1px solid #ccc;width: 80%;margin:0;padding:0;border-collapse: collapse;border-spacing: 0;margin: 0 auto;}").append("\r\n");
@@ -52,49 +64,81 @@ public class AwardStatistics {
         sb.append("\t\t\t").append("table td:before {content: attr(data-label);float: left;text-transform: uppercase;font-weight: bold;}").append("\r\n");
         sb.append("\t\t").append("}").append("\r\n");
         sb.append("\t\t").append(".note{max-width: 80%; margin: 0 auto;}").append("\r\n");
+        sb.append("\t\t").append("li{display:none;}").append("\r\n");
+        sb.append("\t\t").append(".duration-1 {--animate-duration: 0.4s;}").append("\r\n");
+        sb.append("\t\t").append(".group-span{width: 80%;padding: 0;margin: 0 auto;display: inherit;}").append("\r\n");
         sb.append("\t").append("</style>").append("\r\n");
+        sb.append("<script src='https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js'></script>").append("\r\n");
         sb.append("</head>").append("\r\n");
         sb.append("<body>").append("\r\n");
 
-        sb.append("\t").append("<table>").append("\r\n");
-        sb.append("\t\t").append("<thead>").append("\r\n");
-        sb.append("\t\t\t").append("<tr>").append("\r\n");
-        sb.append("\t\t\t\t").append("<th style='width:130px'>").append("名称").append("</th>").append("\r\n");
-        sb.append("\t\t\t\t").append("<th style='width:50px'>").append("权重").append("</th>").append("\r\n");
-        sb.append("\t\t\t\t").append("<th style='width:50px'>").append("数量").append("</th>").append("\r\n");
-        sb.append("\t\t\t\t").append("<th>").append("位置").append("</th>").append("\r\n");
-        sb.append("\t\t\t").append("</tr>").append("\r\n");
-        sb.append("\t\t").append("</thead>").append("\r\n");
-
-        List<Award> awardList = null;
-        for (Map.Entry<String,List<Award>> entry : awardMap.entrySet()) {
-            awardList = entry.getValue();
-            int size = awardList.size();
-            String indexs = "";
-            int weight = 0;
-            for (Award award : awardList){
-                weight = award.getWeight();
-                indexs = award.getIndex();
-            }
-            sb.append("\t\t").append("<tbody>").append("\r\n");
+        for (Map.Entry<Integer,Map<String,List<Award>>> group : awardMap.entrySet()) {
+            sb.append("\t").append("<span class='group-span'>第"+group.getKey()+"轮</span>").append("\r\n");
+            sb.append("\t").append("<table>").append("\r\n");
+            sb.append("\t\t").append("<thead>").append("\r\n");
             sb.append("\t\t\t").append("<tr>").append("\r\n");
-            sb.append("\t\t\t\t").append("<td data-label='名称'>").append(entry.getKey()).append("</td>").append("\r\n");
-            sb.append("\t\t\t\t").append("<td data-label='权重'>").append(weight+"").append("</td>").append("\r\n");
-            sb.append("\t\t\t\t").append("<td data-label='数量'>").append(size+"").append("</td>").append("\r\n");
-            sb.append("\t\t\t\t").append("<td data-label='位置'>").append(indexs).append("</td>").append("\r\n");
+            sb.append("\t\t\t\t").append("<th style='width:130px'>").append("名称").append("</th>").append("\r\n");
+            sb.append("\t\t\t\t").append("<th style='width:50px'>").append("权重").append("</th>").append("\r\n");
+            sb.append("\t\t\t\t").append("<th style='width:50px'>").append("数量").append("</th>").append("\r\n");
+            sb.append("\t\t\t\t").append("<th>").append("位置").append("</th>").append("\r\n");
             sb.append("\t\t\t").append("</tr>").append("\r\n");
-            sb.append("\t\t").append("</tbody>").append("\r\n");
-        }
+            sb.append("\t\t").append("</thead>").append("\r\n");
+            List<Award> awardLists = null;
+            Map<String,List<Award>> map = group.getValue();
+            for (Map.Entry<String,List<Award>> entry : map.entrySet()) {
+                awardLists = entry.getValue();
+                int size = awardLists.size();
+                int weight = 0;
+                for (Award award : awardList){
+                    if(entry.getKey().equals(award.getName())){
+                        weight = award.getWeight();
+                        break;
+                    }
+                }
+                String indexs = "";
+                List<String> indexList = new ArrayList<>();
+                for (Award award : awardLists){
+                    indexList.add(award.getIndex());
+                }
+                indexs = StringUtils.join(indexList,",");
 
-        sb.append("\t").append("</table>").append("\r\n");
+                sb.append("\t\t").append("<tbody>").append("\r\n");
+                sb.append("\t\t\t").append("<tr>").append("\r\n");
+                sb.append("\t\t\t\t").append("<td data-label='名称'>").append(entry.getKey()).append("</td>").append("\r\n");
+                sb.append("\t\t\t\t").append("<td data-label='权重'>").append(weight+"").append("</td>").append("\r\n");
+                sb.append("\t\t\t\t").append("<td data-label='数量'>").append(size+"").append("</td>").append("\r\n");
+                sb.append("\t\t\t\t").append("<td data-label='位置'>").append(indexs).append("</td>").append("\r\n");
+                sb.append("\t\t\t").append("</tr>").append("\r\n");
+                sb.append("\t\t").append("</tbody>").append("\r\n");
+            }
+            sb.append("\t").append("</table>").append("\r\n");
+        }
 
         sb.append("\t").append("<ul>").append("\r\n");
-        for (String record : recordList){
+        int i = 1;
+        /*for (String record : recordList){
             sb.append("\t\t").append("<li>").append(record).append("</li>").append("\r\n");
-        }
+            i++;
+        }*/
         sb.append("\t").append("</ul>").append("\r\n");
 
+        sb.append("<script>").append("\r\n");
+        sb.append("$(function() {").append("\r\n");
 
+        sb.append("\t").append("animate_show('li:eq(0)', 'fadeInUp');").append("\r\n");
+        /*for (int j=0;j<recordList.size();j++){
+            sb.append("\t").append("animate_delay('li:eq("+j+")', 'li:eq("+(j+1)+")', 'fadeInUp');").append("\r\n");
+            i++;
+        }*/
+
+        sb.append("\t").append("function animate_show(element, animate) {").append("\r\n");
+        sb.append("\t\t").append("$(element).show().addClass('animate__animated duration-1 animate__' + animate);").append("\r\n");
+        sb.append("\t").append("}").append("\r\n");
+        sb.append("\t").append("function animate_delay(element1, element2, animate) {").append("\r\n");
+        sb.append("\t\t").append("$(element1).one('webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd', function() {animate_show(element2, animate);});").append("\r\n");
+        sb.append("\t").append("}").append("\r\n");
+        sb.append("});").append("\r\n");
+        sb.append("</script>").append("\r\n");
 
         sb.append("</body>").append("\r\n");
         sb.append("</html>").append("\r\n");
@@ -102,36 +146,6 @@ public class AwardStatistics {
         generateFile("C:\\Users\\Administrator\\Desktop\\luck.html",sb.toString());
     }
 
-    //统计
-    public void statistics() {
-        List<Award> awardList = null;
-
-        List<Cell> header = new ArrayList<Cell>(){{
-            add(new Cell("名称"));
-            add(new Cell("数量"));
-            add(new Cell("第几次"));
-        }};
-        List<List<Cell>> body = new ArrayList<List<Cell>>();
-
-        for (Map.Entry<String,List<Award>> entry : awardMap.entrySet()){
-            awardList = entry.getValue();
-            int size = awardList.size();
-            String indexs = "";
-            for (Award award : awardList){
-                indexs = award.getIndex();
-            }
-            String finalIndexs = indexs;
-            body.add(new ArrayList<Cell>(){{
-                add(new Cell(entry.getKey()));
-                add(new Cell(Align.LEFT,size+""));
-                add(new Cell(Align.LEFT, finalIndexs));
-            }});
-        }
-        new ConsoleTable.ConsoleTableBuilder().addHeaders(header).addRows(body).build().print();
-
-        System.out.println("");
-
-    }
 
     public static void generateFile(String path,String content){
         File file = new File(path);
@@ -165,7 +179,12 @@ public class AwardStatistics {
         return flag;
     }
 
-    public void addAwardRecord(String record) {
+    public void addAwardRecord(int group,String record) {
+        List<String> recordList = recordMap.get(group);
+        if(recordList == null){
+            recordList = new ArrayList<>();
+        }
         recordList.add(record);
+        recordMap.put(group,recordList);
     }
 }

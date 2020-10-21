@@ -3,6 +3,7 @@ package com.ming.bns.admin.utils.luck.luck1;
 import com.ming.bns.admin.utils.consoletable.ConsoleTable;
 import com.ming.bns.admin.utils.consoletable.enums.Align;
 import com.ming.bns.admin.utils.consoletable.table.Cell;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +54,9 @@ public class AwardGroup {
     }
 
     public synchronized Award startGetAward() {
-        if (awardgroup == null || total <= 0)
+        if (awardgroup == null || total <= 0) {
             return null;
+        }
         Random random = new Random();
         int awardNUmber = random.nextInt(total);
         for (Award award : awardgroup) {
@@ -66,7 +68,9 @@ public class AwardGroup {
                 award.reduceWeight(1);
                 total -= 1;
             }
-            return award;
+            Award award1 = new Award();
+            BeanUtils.copyProperties(award, award1);
+            return award1;
         }
         return null;
     }
