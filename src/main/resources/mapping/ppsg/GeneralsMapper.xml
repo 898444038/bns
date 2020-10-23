@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.ppsg.GeneralsMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.ppsg.Generals">
+	    <result column="id" property="id"/>
+	    <result column="code" property="code"/>
+	    <result column="name" property="name"/>
+	    <result column="generals4" property="generals4"/>
+	    <result column="country_name" property="countryName"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    code,
+	    name,
+	    generals4,
+	    country_name
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="code != null"> and code = #{code}</if>
+		    <if test="name != null"> and name = #{name}</if>
+		    <if test="generals4 != null"> and generals4 = #{generals4}</if>
+		    <if test="countryName != null"> and country_name = #{countryName}</if>
+		</where>
+	</sql>
+
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.ppsg.GeneralsVo">
+        SELECT count(1)
+        from ppsg_generals
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ppsg.GeneralsVo">
+        SELECT <include refid="baseColumn"></include>
+        from ppsg_generals
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ppsg.GeneralsVo">
+		SELECT <include refid="baseColumn"></include>
+		from ppsg_generals
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.ppsg.GeneralsVo">
+		SELECT <include refid="baseColumn"></include>
+		from ppsg_generals
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.ppsg.Generals">
+		insert into ppsg_generals
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="code != null">code,</if>
+			<if test="name != null">name,</if>
+			<if test="generals4 != null">generals4,</if>
+			<if test="countryName != null">country_name,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="code != null">#{code},</if>
+		    <if test="name != null">#{name},</if>
+		    <if test="generals4 != null">#{generals4},</if>
+		    <if test="countryName != null">#{countryName},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.ppsg.Generals">
+		update ppsg_generals
+		<set>
+			<if test="code != null">code = #{code},</if>
+			<if test="name != null">name = #{name},</if>
+			<if test="generals4 != null">generals4 = #{generals4},</if>
+			<if test="countryName != null">country_name = #{countryName},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from ppsg_generals
+		where id = #{id}
+	</delete>
+
+</mapper>

@@ -29,5 +29,5 @@ spring:
       max-request-size: 10
 
 mybatis:
-  mapper-locations: classpath:mapping/*.xml
-  type-aliases-package: com.ming.ppsg.entity
+  mapper-locations: classpath:mapping/**/*.xml
+  type-aliases-package: com.ming.admin.entity

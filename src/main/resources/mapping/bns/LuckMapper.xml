@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.bns.admin.mapper.bns.LuckMapper">
+
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.bns.Luck">
+	    <result column="id" property="id"/>
+	    <result column="name" property="name"/>
+	    <result column="rule_ids" property="ruleIds"/>
+	    <result column="create_time" property="createTime"/>
+	</resultMap>
+
+	<sql id="baseColumn">
+	    id,
+	    name,
+	    rule_ids,
+	    create_time
+	</sql>
+
+	<sql id="baseCondition">
+		<where>
+		    <if test="id != null"> and id = #{id}</if>
+		    <if test="name != null and name !=''"> and name like concat('%',#{name},'%') </if>
+		    <if test="ruleIds != null and ruleIds !=''"> and rule_ids = #{ruleIds}</if>
+		    <if test="createTime != null"> and create_time = #{createTime}</if>
+		</where>
+	</sql>
+
+    <sql id="basePage">
+        <if test="pageStart != null and pageSize != null">
+            LIMIT #{pageStart},#{pageSize}
+        </if>
+    </sql>
+
+    <sql id="baseSort">
+        <if test="pageSort != null and pageSort != ''">
+            ORDER BY #{pageSort}
+        </if>
+    </sql>
+
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.LuckVo">
+        SELECT count(1)
+        from bns_luck
+        <include refid="baseCondition"></include>
+    </select>
+
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.LuckVo">
+        SELECT <include refid="baseColumn"></include>
+        from bns_luck
+        <include refid="baseCondition"></include>
+        <include refid="basePage"></include>
+        <include refid="baseSort"></include>
+    </select>
+
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.LuckVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_luck
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.LuckVo">
+		SELECT <include refid="baseColumn"></include>
+		from bns_luck
+		<include refid="baseCondition"></include>
+        <include refid="baseSort"></include>
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ming.bns.admin.entity.bns.Luck">
+		insert into bns_luck
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="name != null">name,</if>
+			<if test="ruleIds != null">rule_ids,</if>
+			<if test="createTime != null">create_time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="name != null">#{name},</if>
+		    <if test="ruleIds != null">#{ruleIds},</if>
+		    <if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.ming.bns.admin.entity.bns.Luck">
+		update bns_luck
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="ruleIds != null">rule_ids = #{ruleIds},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from bns_luck
+		where id = #{id}
+	</delete>
+
+</mapper>

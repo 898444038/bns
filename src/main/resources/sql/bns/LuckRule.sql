@@ -1,0 +1,15 @@
+-- 建表语句
+CREATE TABLE `bns_luck_rule` (
+`id` BIGINT(20)  NOT NULL AUTO_INCREMENT ,
+`name` VARCHAR(32)  DEFAULT NULL  COMMENT '名称',
+`code` VARCHAR(32)  DEFAULT NULL  COMMENT '编码',
+`create_time` datetime  DEFAULT NULL  COMMENT '创建时间',
+PRIMARY KEY (`id`)
+)ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- 新增字段
+ALTER TABLE `bns_luck_rule` ADD COLUMN id BIGINT(20)  DEFAULT NULL ;
+ALTER TABLE `bns_luck_rule` ADD COLUMN name VARCHAR(32)  DEFAULT NULL  COMMENT '名称';
+ALTER TABLE `bns_luck_rule` ADD COLUMN code VARCHAR(32)  DEFAULT NULL  COMMENT '编码';
+ALTER TABLE `bns_luck_rule` ADD COLUMN create_time datetime  DEFAULT NULL  COMMENT '创建时间';
+

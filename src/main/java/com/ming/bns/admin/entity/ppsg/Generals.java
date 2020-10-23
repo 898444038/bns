@@ -28,4 +28,47 @@ public class Generals {
     @Column
     @Comment("国家名称")
     private String countryName;
+
+    public Generals() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGenerals4() {
+        return generals4;
+    }
+
+    public void setGenerals4(String generals4) {
+        this.generals4 = generals4;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
 }
