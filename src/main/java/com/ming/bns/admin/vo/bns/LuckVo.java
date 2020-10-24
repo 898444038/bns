@@ -18,6 +18,9 @@ public class LuckVo extends Luck {
 
     private String pageSort;
 
+    private Integer loop;//轮数
+    private Integer count;//每轮次数
+
     public LuckVo() {
         if (pageSize == null) {
             this.pageSize = 20;
@@ -26,6 +29,22 @@ public class LuckVo extends Luck {
             this.pageNo = 1;
             this.pageStart = 0;
         }
+    }
+
+    public Integer getLoop() {
+        return loop;
+    }
+
+    public void setLoop(Integer loop) {
+        this.loop = loop;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public Integer getPageSize() {

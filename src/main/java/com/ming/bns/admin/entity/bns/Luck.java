@@ -20,6 +20,10 @@ public class Luck {
     private String name;
 
     @Column
+    @Comment("奖品项")
+    private String items;
+
+    @Column
     @Comment("规则")
     private String ruleIds;
 
@@ -28,6 +32,14 @@ public class Luck {
     private Date createTime;
 
     public Luck() {
+    }
+
+    public String getItems() {
+        return items;
+    }
+
+    public void setItems(String items) {
+        this.items = items;
     }
 
     public String getRuleIds() {

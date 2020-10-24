@@ -2,6 +2,7 @@
 CREATE TABLE `bns_luck` (
 `id` BIGINT(20)  NOT NULL AUTO_INCREMENT ,
 `name` VARCHAR(32)  DEFAULT NULL  COMMENT '名称',
+`items` VARCHAR(32)  DEFAULT NULL  COMMENT '奖品项',
 `rule_ids` VARCHAR(32)  DEFAULT NULL  COMMENT '规则',
 `create_time` datetime  DEFAULT NULL  COMMENT '创建时间',
 PRIMARY KEY (`id`)
@@ -10,6 +11,7 @@ PRIMARY KEY (`id`)
 -- 新增字段
 ALTER TABLE `bns_luck` ADD COLUMN id BIGINT(20)  DEFAULT NULL ;
 ALTER TABLE `bns_luck` ADD COLUMN name VARCHAR(32)  DEFAULT NULL  COMMENT '名称';
+ALTER TABLE `bns_luck` ADD COLUMN items VARCHAR(32)  DEFAULT NULL  COMMENT '奖品项';
 ALTER TABLE `bns_luck` ADD COLUMN rule_ids VARCHAR(32)  DEFAULT NULL  COMMENT '规则';
 ALTER TABLE `bns_luck` ADD COLUMN create_time datetime  DEFAULT NULL  COMMENT '创建时间';
 

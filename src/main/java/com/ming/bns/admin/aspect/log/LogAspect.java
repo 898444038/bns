@@ -55,6 +55,9 @@ public class LogAspect {
             log.setMethod(method.getName());
             log.setArgs(args);
             log.setResult(AspectUtils.getInstance().argValue(obj));
+            if(log.getResult()!=null && log.getResult().length()>200){
+                log.setResult(log.getResult().substring(0,200)+"......");
+            }
             log.setType(logAnno.value());
             log.setCreateTime(new Date());
             log.setExecuteTime((endTime-startTime)+"");

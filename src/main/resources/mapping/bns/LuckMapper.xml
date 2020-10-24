@@ -5,6 +5,7 @@
 	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.bns.Luck">
 	    <result column="id" property="id"/>
 	    <result column="name" property="name"/>
+	    <result column="items" property="items"/>
 	    <result column="rule_ids" property="ruleIds"/>
 	    <result column="create_time" property="createTime"/>
 	</resultMap>
@@ -13,6 +14,7 @@
 	    id,
 	    name,
 	    rule_ids,
+	    items,
 	    create_time
 	</sql>
 
@@ -69,11 +71,13 @@
 		insert into bns_luck
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="name != null">name,</if>
+			<if test="items != null">items,</if>
 			<if test="ruleIds != null">rule_ids,</if>
 			<if test="createTime != null">create_time,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 		    <if test="name != null">#{name},</if>
+		    <if test="items != null">#{items},</if>
 		    <if test="ruleIds != null">#{ruleIds},</if>
 		    <if test="createTime != null">#{createTime},</if>
 		</trim>
@@ -83,6 +87,7 @@
 		update bns_luck
 		<set>
 			<if test="name != null">name = #{name},</if>
+			<if test="items != null">items = #{items},</if>
 			<if test="ruleIds != null">rule_ids = #{ruleIds},</if>
 			<if test="createTime != null">create_time = #{createTime},</if>
 		</set>

@@ -70,10 +70,6 @@ public class Test {
         System.out.println(statistics);
     }
 
-    public void count(){
-
-    }
-
     public static String addZeroForNumber(String str,int strLength){
         int strLen = str.length();
         if(strLen<strLength){
