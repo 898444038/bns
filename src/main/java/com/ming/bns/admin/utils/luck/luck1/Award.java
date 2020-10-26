@@ -20,6 +20,15 @@ public class Award {
     private int weight; // 奖品权重
     private int money; // 奖品价值
     private String index;
+    private String loopIndex;
+
+    public String getLoopIndex() {
+        return loopIndex;
+    }
+
+    public void setLoopIndex(String loopIndex) {
+        this.loopIndex = loopIndex;
+    }
 
     public String getName() {
         return name;

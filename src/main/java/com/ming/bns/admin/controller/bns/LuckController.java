@@ -66,6 +66,7 @@ public class LuckController {
                 String record = LuckUtils.addZeroForNumber((j+1)+"",3)+"、"+award;
                 //System.out.println(record);
                 award.setIndex((j+1)+"");
+                award.setLoopIndex((i*count)+(j+1)+"");
                 statistics.addAward(group,award);
                 statistics.addAwardRecord(group,record);
             }
@@ -73,6 +74,7 @@ public class LuckController {
         //statistics.statisticsHtml();
         //System.out.println(statistics);
         List<Map<String,Object>> mapList = new ArrayList<>();
+        Map<String,Map<String,Object>> totalMap = new LinkedHashMap<>();
         for (Map.Entry<Integer,Map<String,List<Award>>> mapEntry : statistics.awardMap.entrySet()){
             List<Map<String,Object>> dataList = new ArrayList<>();
             Map<String,List<Award>> values = mapEntry.getValue();
@@ -86,8 +88,10 @@ public class LuckController {
 
                 List<Award> awards = entry.getValue();
                 StringBuffer sb = new StringBuffer("");
+                StringBuffer sb2 = new StringBuffer("");
                 for (Award a : awards){
                     sb.append(a.getIndex()+",");
+                    sb2.append(a.getLoopIndex()+",");
                 }
                 Map<String,Object> map = new LinkedHashMap<>();
                 map.put("name",entry.getKey());
@@ -95,6 +99,19 @@ public class LuckController {
                 map.put("count",entry.getValue().size());
                 map.put("index",sb.toString());
                 dataList.add(map);
+
+                Map<String,Object> total = totalMap.get(entry.getKey());
+                if(total == null){
+                    total = new LinkedHashMap<>();
+                    total.put("name",entry.getKey());
+                    total.put("weight",weight);
+                    total.put("count",entry.getValue().size());
+                    total.put("index",sb.toString());
+                }else{
+                    total.put("count",Integer.valueOf(total.get("count").toString())+entry.getValue().size());
+                    total.put("index",total.get("index")+sb2.toString());
+                }
+                totalMap.put(entry.getKey(),total);
             }
 
             Map<String,Object> map = new LinkedHashMap<>();
@@ -103,7 +120,11 @@ public class LuckController {
             map.put("record",statistics.recordMap.get(mapEntry.getKey()));
             mapList.add(map);
         }
-        return ResultMsg.success(mapList);
+        Map<String,Object> result = new HashMap<>();
+        List<Object> totalList = new ArrayList(totalMap.values());
+        result.put("total",totalList);
+        result.put("list",mapList);
+        return ResultMsg.success(result);
     }
 
     @Log("bns.Luck")
