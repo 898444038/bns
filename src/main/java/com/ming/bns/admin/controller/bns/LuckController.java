@@ -2,6 +2,7 @@ package com.ming.bns.admin.controller.bns;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ming.bns.admin.aspect.statistics.VisitStatistics;
 import com.ming.bns.admin.entity.bns.LuckItem;
 import com.ming.bns.admin.service.bns.LuckService;
 import com.ming.bns.admin.utils.luck.LuckUtils;
@@ -39,6 +40,7 @@ public class LuckController {
      * @date: 2020-10-23
      */
     @Log("bns.calculate")
+    @VisitStatistics(type = "countLuck",desc = "抽奖计算")
     @PostMapping("/calculate")
     public ResultMsg calculate(LuckVo luckVo){
         if(luckVo.getId() == null){
