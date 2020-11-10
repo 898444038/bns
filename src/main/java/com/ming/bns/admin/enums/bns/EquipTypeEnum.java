@@ -5,6 +5,7 @@ package com.ming.bns.admin.enums.bns;
  */
 public enum EquipTypeEnum {
 
+/*
     wu_qi(1,"武器"),
     yuan_qi_shi(2,"元气石"),
     zhen_qi_shi(3,"真气石"),
@@ -34,6 +35,7 @@ public enum EquipTypeEnum {
         this.code = code;
         this.name = name;
     }
+*/
 
 
 }

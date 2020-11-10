@@ -22,7 +22,7 @@ public class EquipType implements Serializable {
     private String name;
 
     @Column
-    @Comment("类型 EquipTypeEnum")
+    @Comment("类型")
     private Integer code;
 
     public EquipType() {
