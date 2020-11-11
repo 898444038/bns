@@ -23,23 +23,10 @@ public class Equip implements Serializable {
     private String name;
 
     @Column
-    @Comment("类型【】")
+    @Comment("类型")
     private Integer type;
 
-    @Column
-    @Comment("父级")
-    private Long parentId;
-
-    private List<EquipGrow> equipGrowList;
-
-    public Equip() {
-    }
-
-    public Equip(Long id, String name, Long parentId) {
-        this.id = id;
-        this.name = name;
-        this.parentId = parentId;
-    }
+    public Equip() {}
 
     public Long getId() {
         return id;
@@ -57,22 +44,6 @@ public class Equip implements Serializable {
         this.name = name;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    public List<EquipGrow> getEquipGrowList() {
-        return equipGrowList;
-    }
-
-    public void setEquipGrowList(List<EquipGrow> equipGrowList) {
-        this.equipGrowList = equipGrowList;
-    }
-
     public Integer getType() {
         return type;
     }
@@ -87,8 +58,6 @@ public class Equip implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type=" + type +
-                ", parentId=" + parentId +
-                ", equipGrowList=" + equipGrowList +
                 '}';
     }
 }

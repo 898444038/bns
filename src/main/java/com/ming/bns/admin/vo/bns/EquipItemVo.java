@@ -1,14 +1,14 @@
 package com.ming.bns.admin.vo.bns;
 
-import com.ming.bns.admin.entity.bns.Equip;
+import com.ming.bns.admin.entity.bns.EquipItem;
 
 
 /**
- * 装备
+ * 装备项
  * @author: Administrator
  * @date: 2020-11-11
  */
-public class EquipVo extends Equip {
+public class EquipItemVo extends EquipItem {
 
     private Integer pageNo;
 
@@ -18,7 +18,7 @@ public class EquipVo extends Equip {
 
     private String pageSort;
 
-    public EquipVo() {
+    public EquipItemVo() {
         if (pageSize == null) {
             this.pageSize = 20;
         }

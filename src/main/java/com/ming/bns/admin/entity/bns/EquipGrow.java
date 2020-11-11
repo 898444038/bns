@@ -40,8 +40,7 @@ public class EquipGrow implements Serializable {
 
     private List<EquipMaterial> equipMaterialList;
 
-    public EquipGrow() {
-    }
+    public EquipGrow() {}
 
     public EquipGrow(Long startEquipId, Long endEquipId) {
         this.startEquipId = startEquipId;

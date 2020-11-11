@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ming.bns.admin.mapper.bns.EquipMapper">
+<mapper namespace="com.ming.bns.admin.mapper.bns.EquipItemMapper">
 
-	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.bns.Equip">
+	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.bns.EquipItem">
 	    <result column="id" property="id"/>
+	    <result column="equip_id" property="equipId"/>
 	    <result column="name" property="name"/>
-	    <result column="type" property="type"/>
+	    <result column="parent_id" property="parentId"/>
 	</resultMap>
 
 	<sql id="baseColumn">
 	    id,
+	    equip_id,
 	    name,
-	    type
+	    parent_id
 	</sql>
 
 	<sql id="baseCondition">
 		<where>
 		    <if test="id != null"> and id = #{id}</if>
-		    <if test="name != '' and name != null "> and name = #{name}</if>
-		    <if test="type != null"> and type = #{type}</if>
+		    <if test="equipId != null"> and equip_id = #{equipId}</if>
+		    <if test="name != null"> and name = #{name}</if>
+		    <if test="parentId != null"> and parent_id = #{parentId}</if>
 		</where>
 	</sql>
 
@@ -34,57 +37,60 @@
         </if>
     </sql>
 
-    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.EquipVo">
+    <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.EquipItemVo">
         SELECT count(1)
-        from bns_equip
+        from bns_equip_item
         <include refid="baseCondition"></include>
     </select>
 
-    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipVo">
+    <select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipItemVo">
         SELECT <include refid="baseColumn"></include>
-        from bns_equip
+        from bns_equip_item
         <include refid="baseCondition"></include>
         <include refid="basePage"></include>
         <include refid="baseSort"></include>
     </select>
 
-	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipVo">
+	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipItemVo">
 		SELECT <include refid="baseColumn"></include>
-		from bns_equip
+		from bns_equip_item
 		<include refid="baseCondition"></include>
         <include refid="baseSort"></include>
 	</select>
 
-	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipVo">
+	<select id="selectOne" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipItemVo">
 		SELECT <include refid="baseColumn"></include>
-		from bns_equip
+		from bns_equip_item
 		<include refid="baseCondition"></include>
         <include refid="baseSort"></include>
 	</select>
 
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ming.bns.admin.entity.bns.Equip">
-		insert into bns_equip
+	<insert id="insert" parameterType="com.ming.bns.admin.entity.bns.EquipItem">
+		insert into bns_equip_item
 		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="equipId != null">equip_id,</if>
 			<if test="name != null">name,</if>
-			<if test="type != null">type,</if>
+			<if test="parentId != null">parent_id,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="equipId != null">#{equipId},</if>
 		    <if test="name != null">#{name},</if>
-		    <if test="type != null">#{type},</if>
+		    <if test="parentId != null">#{parentId},</if>
 		</trim>
 	</insert>
 
-	<update id="update" parameterType="com.ming.bns.admin.entity.bns.Equip">
-		update bns_equip
+	<update id="update" parameterType="com.ming.bns.admin.entity.bns.EquipItem">
+		update bns_equip_item
 		<set>
+			<if test="equipId != null">equip_id = #{equipId},</if>
 			<if test="name != null">name = #{name},</if>
-			<if test="type != null">type = #{type},</if>
+			<if test="parentId != null">parent_id = #{parentId},</if>
 		</set>
 		where id = #{id}
 	</update>
 
 	<delete id="delete" parameterType="java.lang.Long">
-		delete from bns_equip
+		delete from bns_equip_item
 		where id = #{id}
 	</delete>
 

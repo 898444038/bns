@@ -252,7 +252,11 @@ public class GenerateHelper {
                             if ("column".equalsIgnoreCase(strTrim0)) {
                                 result = result.replaceAll(reg0,fieldColumn.getFieldColumn());
                             }else if("property".equalsIgnoreCase(strTrim0)){
-                                result = result.replaceAll(reg0,fieldColumn.getFieldName());
+                                String content = fieldColumn.getFieldName();
+                                if("java.lang.String".equalsIgnoreCase(fieldColumn.getFieldType())){
+                                    content = fieldColumn.getFieldName()+" != '' and "+ fieldColumn.getFieldName();
+                                }
+                                result = result.replaceAll(reg0,content);
                             }else if("_column".equalsIgnoreCase(strTrim0)){
                                 if(index!=info.getFieldColumnList().size()-1){
                                     result = result.replaceAll(reg0,fieldColumn.getFieldColumn()+",");

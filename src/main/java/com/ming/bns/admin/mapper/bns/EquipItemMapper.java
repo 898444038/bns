@@ -1,25 +1,25 @@
 package com.ming.bns.admin.mapper.bns;
 
-import com.ming.bns.admin.entity.bns.Equip;
-import com.ming.bns.admin.vo.bns.EquipVo;
+import com.ming.bns.admin.entity.bns.EquipItem;
+import com.ming.bns.admin.vo.bns.EquipItemVo;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.ming.bns.system.config.datasource.TargetDataSource;
 import java.util.List;
 
 /**
- * 装备
+ * 装备项
  * @author: Administrator
  * @date: 2020-11-11
  */
 @Mapper
-public interface EquipMapper {
+public interface EquipItemMapper {
 
     @TargetDataSource("dataSource1")
-	int selectCount(EquipVo equipVo);
+	int selectCount(EquipItemVo equipItemVo);
 
     @TargetDataSource("dataSource1")
-	List<Equip> selectPage(EquipVo equipVo);
+	List<EquipItem> selectPage(EquipItemVo equipItemVo);
 
 	/**
 	 * 查询列表
@@ -27,7 +27,7 @@ public interface EquipMapper {
 	 * @date: 2020-11-11
 	 */
     @TargetDataSource("dataSource1")
-    List<Equip> selectList(EquipVo equipVo);
+    List<EquipItem> selectList(EquipItemVo equipItemVo);
 
 	/**
 	 * 查询详情
@@ -35,7 +35,7 @@ public interface EquipMapper {
 	 * @date: 2020-11-11
 	 */
     @TargetDataSource("dataSource1")
-    Equip selectOne(EquipVo equipVo);
+    EquipItem selectOne(EquipItemVo equipItemVo);
 
 	/**
 	 * 新增
@@ -43,7 +43,7 @@ public interface EquipMapper {
 	 * @date: 2020-11-11
 	 */
     @TargetDataSource("dataSource1")
-    int insert(Equip equip);
+    int insert(EquipItem equipItem);
 
 	/**
 	 * 根据id更新
@@ -51,7 +51,7 @@ public interface EquipMapper {
 	 * @date: 2020-11-11
 	 */
     @TargetDataSource("dataSource1")
-    int update(Equip equip);
+    int update(EquipItem equipItem);
 
 	/**
 	 * 根据id删除

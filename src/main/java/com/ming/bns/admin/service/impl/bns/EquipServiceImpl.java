@@ -1,9 +1,9 @@
 package com.ming.bns.admin.service.impl.bns;
 
 import com.ming.bns.admin.entity.bns.Equip;
-import com.ming.bns.admin.service.bns.EquipService;
-import com.ming.bns.admin.vo.bns.EquipVo;
 import com.ming.bns.admin.mapper.bns.EquipMapper;
+import com.ming.bns.admin.vo.bns.EquipVo;
+import com.ming.bns.admin.service.bns.EquipService;
 
 import com.ming.bns.admin.utils.Pagination;
 import javax.annotation.Resource;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 装备
  * @author: Administrator
- * @date: 2020-08-03
+ * @date: 2020-11-11
  */
 @Service
 public class EquipServiceImpl implements EquipService {
@@ -37,7 +37,7 @@ public class EquipServiceImpl implements EquipService {
 	/**
 	 * 查询列表
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-11-11
 	 */
     @Override
     public List<Equip> selectList(EquipVo equipVo) {
@@ -47,7 +47,7 @@ public class EquipServiceImpl implements EquipService {
 	/**
 	 * 查询详情
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-11-11
 	 */
     @Override
     public Equip selectOne(EquipVo equipVo) {
@@ -57,7 +57,7 @@ public class EquipServiceImpl implements EquipService {
 	/**
 	 * 新增
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-11-11
 	 */
     @Override
     public int insert(Equip equip) {
@@ -67,7 +67,7 @@ public class EquipServiceImpl implements EquipService {
 	/**
 	 * 根据id更新
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-11-11
 	 */
     @Override
     public int update(Equip equip) {
@@ -77,7 +77,7 @@ public class EquipServiceImpl implements EquipService {
 	/**
 	 * 根据id删除
 	 * @author: Administrator
-	 * @date: 2020-08-03
+	 * @date: 2020-11-11
 	 */
     @Override
     public int delete(Long id) {

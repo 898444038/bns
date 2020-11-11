@@ -1,8 +1,8 @@
 package com.ming.bns.admin.controller.bns;
 
-import com.ming.bns.admin.entity.bns.Equip;
-import com.ming.bns.admin.vo.bns.EquipVo;
-import com.ming.bns.admin.service.bns.EquipService;
+import com.ming.bns.admin.service.bns.EquipItemService;
+import com.ming.bns.admin.entity.bns.EquipItem;
+import com.ming.bns.admin.vo.bns.EquipItemVo;
 
 import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
@@ -12,21 +12,21 @@ import com.ming.bns.admin.aspect.log.Log;
 import java.util.List;
 
 /**
- * 装备
+ * 装备项
  * @author: Administrator
  * @date: 2020-11-11
  */
 @RestController
-@RequestMapping("/bns/equip")
-public class EquipController {
+@RequestMapping("/bns/equip/item")
+public class EquipItemController {
 
     @Autowired
-    private EquipService equipService;
+    private EquipItemService equipItemService;
 
-    @Log("bns.Equip")
+    @Log("bns.EquipItem")
 	@GetMapping("/selectPage")
-    public ResultMsg selectPage(EquipVo equipVo){
-        Pagination<Equip> pagination = equipService.selectPage(equipVo);
+    public ResultMsg selectPage(EquipItemVo equipItemVo){
+        Pagination<EquipItem> pagination = equipItemService.selectPage(equipItemVo);
         return ResultMsg.success(pagination);
     }
 
@@ -35,10 +35,10 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-11-11
 	 */
-    @Log("bns.Equip")
+    @Log("bns.EquipItem")
     @GetMapping("/selectList")
-    public ResultMsg selectList(EquipVo equipVo){
-        return ResultMsg.success(equipService.selectList(equipVo));
+    public ResultMsg selectList(EquipItemVo equipItemVo){
+        return ResultMsg.success(equipItemService.selectList(equipItemVo));
     }
 
 	/**
@@ -46,10 +46,10 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-11-11
 	 */
-    @Log("bns.Equip")
+    @Log("bns.EquipItem")
     @GetMapping("/selectOne")
-    public ResultMsg selectOne(EquipVo equipVo){
-        return ResultMsg.success(equipService.selectOne(equipVo));
+    public ResultMsg selectOne(EquipItemVo equipItemVo){
+        return ResultMsg.success(equipItemService.selectOne(equipItemVo));
     }
 
 	/**
@@ -57,13 +57,13 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-11-11
 	 */
-    @Log("bns.Equip")
+    @Log("bns.EquipItem")
     @PostMapping("/insert")
-    public ResultMsg insert(Equip equip){
-        if(equip == null){
+    public ResultMsg insert(EquipItem equipItem){
+        if(equipItem == null){
             return ResultMsg.failed();
         }
-        int i = equipService.insert(equip);
+        int i = equipItemService.insert(equipItem);
         if(i>0){
             return ResultMsg.success();
         }
@@ -75,13 +75,13 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-11-11
 	 */
-    @Log("bns.Equip")
+    @Log("bns.EquipItem")
     @PostMapping("/update")
-    public ResultMsg update(Equip equip){
-        if(equip == null || equip.getId() == null){
+    public ResultMsg update(EquipItem equipItem){
+        if(equipItem == null || equipItem.getId() == null){
             return ResultMsg.failed("ID不能为空！");
         }
-        int i = equipService.update(equip);
+        int i = equipItemService.update(equipItem);
         if(i>0){
             return ResultMsg.success();
         }
@@ -93,13 +93,13 @@ public class EquipController {
 	 * @author: Administrator
 	 * @date: 2020-11-11
 	 */
-    @Log("bns.Equip")
+    @Log("bns.EquipItem")
     @PostMapping("/delete/{id}")
     public ResultMsg delete(@PathVariable("id") Long id){
         if(id == null){
             return ResultMsg.failed("ID不能为空！");
         }
-        int i = equipService.delete(id);
+        int i = equipItemService.delete(id);
         if(i>0){
             return ResultMsg.success();
         }

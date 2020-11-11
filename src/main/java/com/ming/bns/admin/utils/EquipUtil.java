@@ -1,7 +1,7 @@
 package com.ming.bns.admin.utils;
 
-import com.ming.bns.admin.entity.bns.Equip;
 import com.ming.bns.admin.entity.bns.EquipGrow;
+import com.ming.bns.admin.entity.bns.EquipItem;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,16 +9,16 @@ import java.util.stream.Collectors;
 public class EquipUtil {
 
     public static void main(String[] args) {
-        //List<Equip> equipList = getEquipList(false);
-        List<Equip> equipAllList = getEquipList(true);
+        //List<EquipItem> equipList = getEquipList(false);
+        List<EquipItem> equipAllList = getEquipList(true);
 
         List<EquipGrow> equipGrowList = getEquipGrowList();
         Long startId = 3L;
         Long endId = 27L;
 
-        List<List<Equip>> routeList = routeTree(startId,endId,equipAllList,equipGrowList);
+        List<List<EquipItem>> routeList = routeTree(startId,endId,equipAllList,equipGrowList);
         System.out.println();
-        for(List<Equip> route : routeList){
+        for(List<EquipItem> route : routeList){
             routeCount(route);
         }
     }
@@ -26,9 +26,9 @@ public class EquipUtil {
     /**
      * 成长路线计算
      */
-    public static void routeCount(List<Equip> list){
+    public static void routeCount(List<EquipItem> list){
         System.out.println("-------------------");
-        for(Equip equip : list){
+        for(EquipItem equip : list){
             System.out.println(equip);
         }
     }
@@ -41,20 +41,20 @@ public class EquipUtil {
      * @param equipGrowList
      * @return
      */
-    public static List<List<Equip>> routeTree(Long startId,Long endId,List<Equip> equipAllList,List<EquipGrow> equipGrowList){
+    public static List<List<EquipItem>> routeTree(Long startId,Long endId,List<EquipItem> equipAllList,List<EquipGrow> equipGrowList){
         TreeNode treeAll = TreeUtil.getTree(equipAllList);
         List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
 
-        List<List<Equip>> lists = new ArrayList<>();
+        List<List<EquipItem>> lists = new ArrayList<>();
         boolean flag = false;
         for (List<TreeNode> nodeList : routeTreeAll){
-            List<Equip> equips = new ArrayList<>();
+            List<EquipItem> equips = new ArrayList<>();
             for (TreeNode node : nodeList){
                 if(startId.equals((long)node.getId())){
                     flag = true;
                 }
                 if(flag){
-                    equips.add(new Equip((long)node.getId(),node.getName(),(long)node.getParentId()));
+                    equips.add(new EquipItem((long)node.getId(),node.getName(),(long)node.getParentId()));
                 }
                 if(endId.equals((long)node.getId())){
                     flag = false;
@@ -65,8 +65,8 @@ public class EquipUtil {
             }
         }
 
-        for (List<Equip> equips : lists){
-            for (Equip equip : equips){
+        for (List<EquipItem> equips : lists){
+            for (EquipItem equip : equips){
                 List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartEquipId().equals(equip.getId())).collect(Collectors.toList());
                 equip.setEquipGrowList(equipGrowLists);
             }
@@ -115,43 +115,43 @@ public class EquipUtil {
      *
      * @return
      */
-    public static List<Equip> getEquipList(boolean flag){
-        List<Equip> equipList = new ArrayList<Equip>(){{
-            add(new Equip(1L,"晨辉星1段",0L));
-            add(new Equip(2L,"晨辉星2段",1L));
-            add(new Equip(3L,"晨辉星3段",2L));
-            add(new Equip(4L,"晨辉星4段",3L));
-            add(new Equip(5L,"晨辉星5段",4L));
-            add(new Equip(6L,"晨辉星6段",5L));
-            add(new Equip(7L,"晨辉星7段",6L));
-            add(new Equip(8L,"晨辉星8段",7L));
-            add(new Equip(9L,"晨辉星9段",8L));
-            add(new Equip(10L,"晨辉星10段",9L));
-            add(new Equip(11L,"晨辉星11段",10L));
-            add(new Equip(12L,"晨辉星12段",11L));
-            add(new Equip(13L,"晨辉星13段",12L));
-            add(new Equip(14L,"晨辉星14段",13L));
-            add(new Equip(15L,"晨辉星15段",14L));
+    public static List<EquipItem> getEquipList(boolean flag){
+        List<EquipItem> equipList = new ArrayList<EquipItem>(){{
+            add(new EquipItem(1L,"晨辉星1段",0L));
+            add(new EquipItem(2L,"晨辉星2段",1L));
+            add(new EquipItem(3L,"晨辉星3段",2L));
+            add(new EquipItem(4L,"晨辉星4段",3L));
+            add(new EquipItem(5L,"晨辉星5段",4L));
+            add(new EquipItem(6L,"晨辉星6段",5L));
+            add(new EquipItem(7L,"晨辉星7段",6L));
+            add(new EquipItem(8L,"晨辉星8段",7L));
+            add(new EquipItem(9L,"晨辉星9段",8L));
+            add(new EquipItem(10L,"晨辉星10段",9L));
+            add(new EquipItem(11L,"晨辉星11段",10L));
+            add(new EquipItem(12L,"晨辉星12段",11L));
+            add(new EquipItem(13L,"晨辉星13段",12L));
+            add(new EquipItem(14L,"晨辉星14段",13L));
+            add(new EquipItem(15L,"晨辉星15段",14L));
 
-            add(new Equip(16L,"金雷星1段",0L));
-            add(new Equip(17L,"金雷星2段",16L));
-            add(new Equip(18L,"金雷星3段",17L));
-            add(new Equip(19L,"金雷星4段",18L));
-            add(new Equip(20L,"金雷星5段",19L));
-            add(new Equip(21L,"金雷星6段",20L));
-            add(new Equip(22L,"金雷星7段",21L));
-            add(new Equip(23L,"金雷星8段",22L));
-            add(new Equip(24L,"金雷星9段",23L));
-            add(new Equip(25L,"金雷星10段",24L));
-            add(new Equip(26L,"金雷星11段",25L));
-            add(new Equip(27L,"金雷星12段",26L));
-            add(new Equip(28L,"金雷星13段",27L));
-            add(new Equip(29L,"金雷星14段",28L));
-            add(new Equip(30L,"金雷星15段",29L));
+            add(new EquipItem(16L,"金雷星1段",0L));
+            add(new EquipItem(17L,"金雷星2段",16L));
+            add(new EquipItem(18L,"金雷星3段",17L));
+            add(new EquipItem(19L,"金雷星4段",18L));
+            add(new EquipItem(20L,"金雷星5段",19L));
+            add(new EquipItem(21L,"金雷星6段",20L));
+            add(new EquipItem(22L,"金雷星7段",21L));
+            add(new EquipItem(23L,"金雷星8段",22L));
+            add(new EquipItem(24L,"金雷星9段",23L));
+            add(new EquipItem(25L,"金雷星10段",24L));
+            add(new EquipItem(26L,"金雷星11段",25L));
+            add(new EquipItem(27L,"金雷星12段",26L));
+            add(new EquipItem(28L,"金雷星13段",27L));
+            add(new EquipItem(29L,"金雷星14段",28L));
+            add(new EquipItem(30L,"金雷星15段",29L));
 
             if(flag){
-                add(new Equip(26L,"金雷星11段",15L));
-                add(new Equip(23L,"金雷星8段",12L));
+                add(new EquipItem(26L,"金雷星11段",15L));
+                add(new EquipItem(23L,"金雷星8段",12L));
             }
 
         }};
