@@ -2,6 +2,8 @@ package com.ming.bns.admin.vo.bns;
 
 import com.ming.bns.admin.entity.bns.EquipItem;
 
+import java.util.List;
+
 
 /**
  * 装备项
@@ -17,6 +19,8 @@ public class EquipItemVo extends EquipItem {
     private Integer pageStart;
 
     private String pageSort;
+
+    private String items;
 
     public EquipItemVo() {
         if (pageSize == null) {
@@ -51,6 +55,14 @@ public class EquipItemVo extends EquipItem {
             this.pageNo = 1;
             this.pageStart = 0;
         }
+    }
+
+    public String getItems() {
+        return items;
+    }
+
+    public void setItems(String items) {
+        this.items = items;
     }
 
     public String getPageSort() {

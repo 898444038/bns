@@ -1,11 +1,14 @@
 package com.ming.bns.admin.controller.bns;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ming.bns.admin.service.bns.EquipItemService;
 import com.ming.bns.admin.entity.bns.EquipItem;
 import com.ming.bns.admin.vo.bns.EquipItemVo;
 
 import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
+import net.sf.json.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.ming.bns.admin.aspect.log.Log;
@@ -66,6 +69,26 @@ public class EquipItemController {
         int i = equipItemService.insert(equipItem);
         if(i>0){
             return ResultMsg.success();
+        }
+        return ResultMsg.failed();
+    }
+
+    @Log("bns.EquipItem")
+    @PostMapping("/insertList")
+    public ResultMsg insertList(EquipItemVo equipItemVo){
+        Gson gson = new Gson();
+        List<EquipItem> list = gson.fromJson(equipItemVo.getItems(), new TypeToken<List<EquipItem>>() {}.getType());
+        if(list == null || list.size() == 0){
+            return ResultMsg.failed();
+        }
+        try {
+            equipItemService.deleteItems(list.get(0).getEquipId());
+            for (EquipItem item : list){
+                int i = equipItemService.insert(item);
+            }
+            return ResultMsg.success();
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return ResultMsg.failed();
     }

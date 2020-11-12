@@ -6,12 +6,31 @@
 	    <result column="id" property="id"/>
 	    <result column="name" property="name"/>
 	    <result column="type" property="type"/>
+		<collection property="items" ofType="com.ming.bns.admin.entity.bns.EquipItem">
+			<result column="item_id" property="id"/>
+			<result column="equip_id" property="equipId"/>
+			<result column="item_name" property="name"/>
+			<result column="parent_id" property="parentId"/>
+		</collection>
 	</resultMap>
 
 	<sql id="baseColumn">
 	    id,
 	    name,
 	    type
+	</sql>
+
+	<sql id="equipColumn">
+		t.id,
+	    t.name,
+	    t.type
+	</sql>
+
+	<sql id="itemColumn">
+	    i.id as item_id,
+	    i.equip_id,
+	    i.name as item_name,
+	    i.parent_id
 	</sql>
 
 	<sql id="baseCondition">
@@ -34,6 +53,14 @@
         </if>
     </sql>
 
+	<sql id="equipCondition">
+		<where>
+			<if test="id != null"> and t.id = #{id}</if>
+			<if test="name != '' and name != null "> and t.name = #{name}</if>
+			<if test="type != null"> and t.type = #{type}</if>
+		</where>
+	</sql>
+
     <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.EquipVo">
         SELECT count(1)
         from bns_equip
@@ -47,6 +74,13 @@
         <include refid="basePage"></include>
         <include refid="baseSort"></include>
     </select>
+	<!--<select id="selectPage" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipVo">
+		SELECT <include refid="equipColumn"></include>,<include refid="itemColumn"></include>
+		from bns_equip t
+		left join bns_equip_item i on t.id = i.equip_id
+		<include refid="equipCondition"></include>
+		<include refid="basePage"></include>
+	</select>-->
 
 	<select id="selectList" resultMap="baseResultMap" parameterType="com.ming.bns.admin.vo.bns.EquipVo">
 		SELECT <include refid="baseColumn"></include>

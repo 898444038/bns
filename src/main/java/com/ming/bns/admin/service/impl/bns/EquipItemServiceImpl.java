@@ -83,4 +83,9 @@ public class EquipItemServiceImpl implements EquipItemService {
     public int delete(Long id) {
         return equipItemMapper.delete(id);
     }
+
+    @Override
+    public int deleteItems(Long equipId) {
+        return equipItemMapper.deleteItems(equipId);
+    }
 }

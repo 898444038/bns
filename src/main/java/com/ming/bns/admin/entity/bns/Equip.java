@@ -26,6 +26,8 @@ public class Equip implements Serializable {
     @Comment("类型")
     private Integer type;
 
+    private List<EquipItem> items;
+
     public Equip() {}
 
     public Long getId() {
@@ -50,6 +52,14 @@ public class Equip implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public List<EquipItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<EquipItem> items) {
+        this.items = items;
     }
 
     @Override

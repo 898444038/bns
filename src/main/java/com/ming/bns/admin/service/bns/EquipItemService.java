@@ -52,4 +52,5 @@ public interface EquipItemService {
 	 */
     int delete(Long id);
 
+    int deleteItems(Long equipId);
 }

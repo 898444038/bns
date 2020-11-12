@@ -94,4 +94,8 @@
 		where id = #{id}
 	</delete>
 
+	<delete id="deleteItems" parameterType="java.lang.Long">
+		delete from bns_equip_item
+		where equip_id = #{equipId}
+	</delete>
 </mapper>
