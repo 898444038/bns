@@ -22,6 +22,8 @@ public class EquipItemVo extends EquipItem {
 
     private String items;
 
+    private String childrenIds;
+
     public EquipItemVo() {
         if (pageSize == null) {
             this.pageSize = 20;
@@ -30,6 +32,14 @@ public class EquipItemVo extends EquipItem {
             this.pageNo = 1;
             this.pageStart = 0;
         }
+    }
+
+    public String getChildrenIds() {
+        return childrenIds;
+    }
+
+    public void setChildrenIds(String childrenIds) {
+        this.childrenIds = childrenIds;
     }
 
     public Integer getPageSize() {

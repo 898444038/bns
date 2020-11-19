@@ -18,6 +18,8 @@ public class EquipGrowVo extends EquipGrow {
 
     private String pageSort;
 
+    private Integer type;
+
     public EquipGrowVo() {
         if (pageSize == null) {
             this.pageSize = 20;
@@ -26,6 +28,14 @@ public class EquipGrowVo extends EquipGrow {
             this.pageNo = 1;
             this.pageStart = 0;
         }
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getPageSize() {

@@ -29,8 +29,9 @@ public class EquipUtil {
     public static void routeCount(List<EquipItem> list){
         System.out.println("-------------------");
         for(EquipItem equip : list){
-            System.out.println(equip);
+            System.out.print(equip.getName()+" -> ");
         }
+        System.out.println();
     }
 
     /**

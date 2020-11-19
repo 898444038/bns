@@ -83,8 +83,11 @@ public class EquipItemController {
         }
         try {
             equipItemService.deleteItems(list.get(0).getEquipId());
+            Long parentId = 0L;
             for (EquipItem item : list){
+                item.setParentId(parentId);
                 int i = equipItemService.insert(item);
+                parentId = item.getId();
             }
             return ResultMsg.success();
         }catch (Exception e){
@@ -109,6 +112,24 @@ public class EquipItemController {
             return ResultMsg.success();
         }
         return ResultMsg.failed();
+    }
+
+    @Log("bns.EquipItem")
+    @PostMapping("/updateList")
+    public ResultMsg updateList(EquipItemVo equipItemVo){
+        Gson gson = new Gson();
+        List<EquipItem> list = gson.fromJson(equipItemVo.getItems(), new TypeToken<List<EquipItem>>() {}.getType());
+        if(list == null || list.size() == 0){
+            EquipItem equipItem = new EquipItem();
+            equipItem.setEquipId(equipItemVo.getEquipId());
+            equipItem.setChildren("");
+            equipItemService.update(equipItem);
+            return ResultMsg.success();
+        }
+        for (EquipItem equipItem : list){
+            equipItemService.update(equipItem);
+        }
+        return ResultMsg.success();
     }
 
 	/**

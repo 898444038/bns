@@ -9,6 +9,7 @@ import com.ming.tools.generate.template.annotation.orm.GenerateDataSource;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @GenerateDataSource(dataSource = "dataSource1")
 @Generate(isEffective = true,isCover = false,desc = "装备",tablePrefix = "bns",parentPackage = "bns")
@@ -26,7 +27,8 @@ public class Equip implements Serializable {
     @Comment("类型")
     private Integer type;
 
-    private List<EquipItem> items;
+    private List<EquipItem> items;//item type=0
+    private List<Map<String,Object>> relationItems;//item type=1
 
     public Equip() {}
 
@@ -52,6 +54,14 @@ public class Equip implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public List<Map<String, Object>> getRelationItems() {
+        return relationItems;
+    }
+
+    public void setRelationItems(List<Map<String, Object>> relationItems) {
+        this.relationItems = relationItems;
     }
 
     public List<EquipItem> getItems() {

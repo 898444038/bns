@@ -1,14 +1,23 @@
 package com.ming.bns.admin.controller.bns;
 
 import com.ming.bns.admin.aspect.log.Log;
+import com.ming.bns.admin.entity.bns.EquipItem;
 import com.ming.bns.admin.service.bns.EquipGrowService;
 import com.ming.bns.admin.entity.bns.EquipGrow;
+import com.ming.bns.admin.service.bns.EquipItemService;
+import com.ming.bns.admin.utils.EquipUtil;
 import com.ming.bns.admin.vo.bns.EquipGrowVo;
 
 import com.ming.bns.admin.utils.Pagination;
 import com.ming.bns.admin.utils.ResultMsg;
+import com.ming.bns.admin.vo.bns.EquipItemVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 装备成长
@@ -21,6 +30,49 @@ public class EquipGrowController {
 
     @Autowired
     private EquipGrowService equipGrowService;
+    @Autowired
+    private EquipItemService equipItemService;
+
+    @Log("EquipGrow")
+    @PostMapping("/auction")
+    public ResultMsg auction(EquipGrowVo equipGrowVo){
+        List<EquipItem> equipAllList = equipItemService.selectList(new EquipItemVo());
+        List<EquipGrow> equipGrowList = new ArrayList<>();
+        for(EquipItem item : equipAllList){
+            if(item.getParentId()!=0){
+                equipGrowList.add(new EquipGrow(item.getParentId(),item.getId()));
+            }
+        }
+
+        List<EquipItem> childrenList = equipAllList.stream().filter(s-> StringUtils.isNotBlank(s.getChildren())).collect(Collectors.toList());
+        List<EquipItem> equipItemList = new ArrayList<>();
+        for(EquipItem item : childrenList){
+            String[] childrens = item.getChildren().split(",");
+            for(String children : childrens){
+                List<EquipItem> items = equipAllList.stream().filter(s->s.getId().toString().equals(children)).collect(Collectors.toList());
+                EquipItem equipItem = new EquipItem();
+                equipItem.setId(items.get(0).getId());
+                equipItem.setEquipId(items.get(0).getEquipId());
+                equipItem.setName(items.get(0).getName());
+                equipItem.setParentId(item.getId());
+                equipItem.setType(0);
+                equipItemList.add(equipItem);
+                equipGrowList.add(new EquipGrow(equipItem.getParentId(),equipItem.getId()));
+            }
+        }
+        equipAllList.addAll(equipItemList);
+
+        Long startId = 225L;
+        Long endId = 233L;
+
+        List<List<EquipItem>> routeList = EquipUtil.routeTree(startId,endId,equipAllList,equipGrowList);
+        System.out.println();
+        for(List<EquipItem> route : routeList){
+            EquipUtil.routeCount(route);
+        }
+        return ResultMsg.success();
+    }
+
 
     @Log("EquipGrow")
 	@GetMapping("/selectPage")

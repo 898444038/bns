@@ -27,8 +27,20 @@ public class EquipItem implements Serializable {
     private String name;
 
     @Column
+    @Comment("类型【0：连续，1：越阶】")
+    private Integer type;
+
+    @Column
+    @Comment("排序")
+    private Integer sort;
+
+    @Column
     @Comment("父级")
     private Long parentId;
+
+    @Column
+    @Comment("子级")
+    private String children;
 
     private List<EquipGrow> equipGrowList;
 
@@ -39,6 +51,30 @@ public class EquipItem implements Serializable {
         this.id = id;
         this.name = name;
         this.parentId = parentId;
+    }
+
+    public String getChildren() {
+        return children;
+    }
+
+    public void setChildren(String children) {
+        this.children = children;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Long getId() {

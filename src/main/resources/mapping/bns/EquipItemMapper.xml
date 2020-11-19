@@ -6,6 +6,9 @@
 	    <result column="id" property="id"/>
 	    <result column="equip_id" property="equipId"/>
 	    <result column="name" property="name"/>
+	    <result column="sort" property="sort"/>
+	    <result column="type" property="type"/>
+	    <result column="children" property="children"/>
 	    <result column="parent_id" property="parentId"/>
 	</resultMap>
 
@@ -13,6 +16,9 @@
 	    id,
 	    equip_id,
 	    name,
+	    sort,
+	    type,
+	    children,
 	    parent_id
 	</sql>
 
@@ -21,7 +27,16 @@
 		    <if test="id != null"> and id = #{id}</if>
 		    <if test="equipId != null"> and equip_id = #{equipId}</if>
 		    <if test="name != null"> and name = #{name}</if>
+		    <if test="sort != null"> and sort = #{sort}</if>
+		    <if test="type != null"> and type = #{type}</if>
+		    <if test="children != null"> and children = #{children}</if>
 		    <if test="parentId != null"> and parent_id = #{parentId}</if>
+		    <if test="childrenIds != null and childrenIds!=''">
+				and id IN
+				<foreach item="item" collection="childrenIds.split(',')" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		    </if>
 		</where>
 	</sql>
 
@@ -65,16 +80,22 @@
         <include refid="baseSort"></include>
 	</select>
 
-	<insert id="insert" parameterType="com.ming.bns.admin.entity.bns.EquipItem">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ming.bns.admin.entity.bns.EquipItem">
 		insert into bns_equip_item
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="equipId != null">equip_id,</if>
 			<if test="name != null">name,</if>
+			<if test="sort != null">sort,</if>
+			<if test="type != null">type,</if>
+			<if test="children != null">children,</if>
 			<if test="parentId != null">parent_id,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 		    <if test="equipId != null">#{equipId},</if>
 		    <if test="name != null">#{name},</if>
+		    <if test="sort != null">#{sort},</if>
+		    <if test="type != null">#{type},</if>
+		    <if test="children != null">#{children},</if>
 		    <if test="parentId != null">#{parentId},</if>
 		</trim>
 	</insert>
@@ -84,6 +105,9 @@
 		<set>
 			<if test="equipId != null">equip_id = #{equipId},</if>
 			<if test="name != null">name = #{name},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="children != null">children = #{children},</if>
 			<if test="parentId != null">parent_id = #{parentId},</if>
 		</set>
 		where id = #{id}

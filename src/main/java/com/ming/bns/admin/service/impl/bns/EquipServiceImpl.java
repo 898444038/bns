@@ -10,9 +10,14 @@ import com.ming.bns.admin.service.bns.EquipService;
 
 import com.ming.bns.admin.utils.Pagination;
 import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -36,9 +41,22 @@ public class EquipServiceImpl implements EquipService {
         for (Equip equip : list){
             EquipItemVo equipItemVo = new EquipItemVo();
             equipItemVo.setEquipId(equip.getId());
+            equipItemVo.setType(0);
             List<EquipItem> items = equipItemMapper.selectList(equipItemVo);
-            items = items.stream().sorted((c1,c2)->Long.compare(c1.getParentId(),c2.getParentId())).collect(Collectors.toList());
+            items = items.stream().sorted((c1,c2)->Long.compare(c1.getSort(),c2.getSort())).collect(Collectors.toList());
             equip.setItems(items);
+
+            List<EquipItem> equipItems = items.stream().filter(s-> StringUtils.isNotBlank(s.getChildren())).collect(Collectors.toList());
+            List<Map<String, Object>> mapList = new ArrayList<>();
+            for(EquipItem equipItem : equipItems){
+                Map<String,Object> map = new HashMap<>();
+                map.put("id",equipItem);
+                EquipItemVo vo = new EquipItemVo();
+                vo.setChildrenIds(equipItem.getChildren());
+                map.put("children",equipItemMapper.selectList(vo));
+                mapList.add(map);
+            }
+            equip.setRelationItems(mapList);
         }
         pagination.setPageNo(equipVo.getPageNo());
         pagination.setPageSize(equipVo.getPageSize());
