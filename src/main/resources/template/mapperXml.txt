@@ -66,6 +66,16 @@
 		</trim>
 	</insert>
 
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into ${tableName}(
+            ${eachNotId::@[column],}
+         ) values
+        <foreach collection="list" item="item" index="index" separator=",">(
+                ${eachNotId::@[_item_property],}
+            )
+        </foreach>
+    </insert>
+
 	<update id="update" parameterType="${classPackage}">
 		update ${tableName}
 		<set>

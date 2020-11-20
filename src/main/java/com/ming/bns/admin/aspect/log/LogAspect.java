@@ -53,7 +53,11 @@ public class LogAspect {
             log.setLoginIp(ip);
             log.setMapping(mapping);
             log.setMethod(method.getName());
-            log.setArgs(args);
+            if(args!=null && args.length()>200){
+                log.setArgs(args.substring(0,200)+"......");
+            }else{
+                log.setArgs(args);
+            }
             log.setResult(AspectUtils.getInstance().argValue(obj));
             if(log.getResult()!=null && log.getResult().length()>200){
                 log.setResult(log.getResult().substring(0,200)+"......");

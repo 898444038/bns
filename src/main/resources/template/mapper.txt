@@ -27,6 +27,9 @@ public interface ${mapperName} {
     @TargetDataSource("${dataSource}")
     int insert(${className} ${lowerClassName});
 
+    @TargetDataSource("dataSource1")
+    int insertBatch(List<${className}> list);
+
     ${updateComment}
     @TargetDataSource("${dataSource}")
     int update(${className} ${lowerClassName});

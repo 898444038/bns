@@ -265,6 +265,8 @@ public class GenerateHelper {
                                 }
                             }else if("_property".equalsIgnoreCase(strTrim0)){
                                 result = result.replaceAll(reg0,"#{"+fieldColumn.getFieldName()+"}");
+                            }else if("_item_property".equalsIgnoreCase(strTrim0)){
+                                result = result.replaceAll(reg0,"#{item."+fieldColumn.getFieldName()+"}");
                             }else if("jdbcType".equalsIgnoreCase(strTrim0)){
                                 result = result.replaceAll(reg0,fieldColumn.getJdbcType());
                             }

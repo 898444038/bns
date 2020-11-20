@@ -63,4 +63,7 @@ public interface EquipItemMapper {
 
 	@TargetDataSource("dataSource1")
     int deleteItems(Long equipId);
+
+	@TargetDataSource("dataSource1")
+    int deleteItem(EquipItemVo equipItemVo);
 }

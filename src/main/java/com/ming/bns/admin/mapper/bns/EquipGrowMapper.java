@@ -5,6 +5,8 @@ import com.ming.bns.admin.vo.bns.EquipGrowVo;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.ming.bns.system.config.datasource.TargetDataSource;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -45,6 +47,9 @@ public interface EquipGrowMapper {
     @TargetDataSource("dataSource1")
     int insert(EquipGrow equipGrow);
 
+	@TargetDataSource("dataSource1")
+	int insertBatch(List<EquipGrow> list);
+
 	/**
 	 * 根据id更新
 	 * @author: Administrator
@@ -61,4 +66,6 @@ public interface EquipGrowMapper {
     @TargetDataSource("dataSource1")
     int delete(Long id);
 
+	@TargetDataSource("dataSource1")
+    int deleteByType(@Param("type") Integer type,@Param("equipId") Long equipId);
 }

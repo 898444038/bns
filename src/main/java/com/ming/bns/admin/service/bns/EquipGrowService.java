@@ -4,6 +4,7 @@ import com.ming.bns.admin.entity.bns.EquipGrow;
 import com.ming.bns.admin.vo.bns.EquipGrowVo;
 
 import com.ming.bns.admin.utils.Pagination;
+import com.ming.bns.admin.vo.bns.EquipItemVo;
 
 import java.util.List;
 
@@ -51,4 +52,5 @@ public interface EquipGrowService {
 	 */
     int delete(Long id);
 
+    int refresh(EquipItemVo equipItemVo);
 }

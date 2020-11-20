@@ -19,6 +19,18 @@ public class EquipGrow implements Serializable {
     private Long id;
 
     @Column
+    @Comment("Equip表主键")
+    private Long equipId;
+
+    @Column
+    @Comment("Equip表主键")
+    private Long equipId2;
+
+    @Column
+    @Comment("装备类型")
+    private Integer type;
+
+    @Column
     @Comment("开始段数")
     private Long startEquipId;
 
@@ -45,6 +57,38 @@ public class EquipGrow implements Serializable {
     public EquipGrow(Long startEquipId, Long endEquipId) {
         this.startEquipId = startEquipId;
         this.endEquipId = endEquipId;
+    }
+
+    public EquipGrow(Long equipId,Long equipId2, Integer type, Long startEquipId, Long endEquipId) {
+        this.equipId = equipId;
+        this.equipId2 = equipId2;
+        this.type = type;
+        this.startEquipId = startEquipId;
+        this.endEquipId = endEquipId;
+    }
+
+    public Long getEquipId2() {
+        return equipId2;
+    }
+
+    public void setEquipId2(Long equipId2) {
+        this.equipId2 = equipId2;
+    }
+
+    public Long getEquipId() {
+        return equipId;
+    }
+
+    public void setEquipId(Long equipId) {
+        this.equipId = equipId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Long getId() {

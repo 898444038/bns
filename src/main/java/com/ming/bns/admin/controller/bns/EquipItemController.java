@@ -2,6 +2,7 @@ package com.ming.bns.admin.controller.bns;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ming.bns.admin.service.bns.EquipGrowService;
 import com.ming.bns.admin.service.bns.EquipItemService;
 import com.ming.bns.admin.entity.bns.EquipItem;
 import com.ming.bns.admin.vo.bns.EquipItemVo;
@@ -25,6 +26,8 @@ public class EquipItemController {
 
     @Autowired
     private EquipItemService equipItemService;
+    @Autowired
+    private EquipGrowService equipGrowService;
 
     @Log("bns.EquipItem")
 	@GetMapping("/selectPage")
@@ -82,13 +85,37 @@ public class EquipItemController {
             return ResultMsg.failed();
         }
         try {
-            equipItemService.deleteItems(list.get(0).getEquipId());
+            EquipItemVo vo = new EquipItemVo();
+            vo.setEquipId(equipItemVo.getEquipId());
             Long parentId = 0L;
             for (EquipItem item : list){
-                item.setParentId(parentId);
-                int i = equipItemService.insert(item);
-                parentId = item.getId();
+                if(item.getId() == null){
+                    EquipItemVo itemVo = new EquipItemVo();
+                    itemVo.setEquipId(item.getEquipId());
+                    itemVo.setSort(item.getSort());
+                    EquipItem equipItem = equipItemService.selectOne(itemVo);
+                    /*for (EquipItem equipItem : equipItemList){
+                        if(item.getEquipId().equals(equipItem.getEquipId()) && item.getSort().equals(equipItem.getSort())){
+                            break;
+                        }
+                    }*/
+                    item.setType(equipItemVo.getType());
+                    item.setParentId(parentId);
+                    if(equipItem == null){
+                        equipItemService.insert(item);
+                    }else{
+                        item.setId(equipItem.getId());
+                        item.setChildren(equipItem.getChildren());
+                        equipItemService.update(item);
+                    }
+                    parentId = item.getId();
+                }else{
+                    item.setType(equipItemVo.getType());
+                    parentId = item.getId();
+                    equipItemService.update(item);
+                }
             }
+            equipGrowService.refresh(equipItemVo);
             return ResultMsg.success();
         }catch (Exception e){
             e.printStackTrace();
@@ -124,11 +151,12 @@ public class EquipItemController {
             equipItem.setEquipId(equipItemVo.getEquipId());
             equipItem.setChildren("");
             equipItemService.update(equipItem);
-            return ResultMsg.success();
+        }else{
+            for (EquipItem equipItem : list){
+                equipItemService.update(equipItem);
+            }
         }
-        for (EquipItem equipItem : list){
-            equipItemService.update(equipItem);
-        }
+        //equipGrowService.refresh(equipItemVo);
         return ResultMsg.success();
     }
 
@@ -144,6 +172,16 @@ public class EquipItemController {
             return ResultMsg.failed("ID不能为空！");
         }
         int i = equipItemService.delete(id);
+        if(i>0){
+            return ResultMsg.success();
+        }
+        return ResultMsg.failed();
+    }
+
+    @Log("bns.EquipItem")
+    @PostMapping("/deleteItem")
+    public ResultMsg deleteItem(EquipItemVo equipItemVo){
+        int i = equipItemService.deleteItem(equipItemVo);
         if(i>0){
             return ResultMsg.success();
         }

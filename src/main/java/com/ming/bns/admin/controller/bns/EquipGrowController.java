@@ -36,7 +36,9 @@ public class EquipGrowController {
     @Log("EquipGrow")
     @PostMapping("/auction")
     public ResultMsg auction(EquipGrowVo equipGrowVo){
-        List<EquipItem> equipAllList = equipItemService.selectList(new EquipItemVo());
+        EquipItemVo itemVo = new EquipItemVo();
+        itemVo.setType(equipGrowVo.getType());
+        List<EquipItem> equipAllList = equipItemService.selectList(itemVo);
         List<EquipGrow> equipGrowList = new ArrayList<>();
         for(EquipItem item : equipAllList){
             if(item.getParentId()!=0){

@@ -41,7 +41,6 @@ public class EquipServiceImpl implements EquipService {
         for (Equip equip : list){
             EquipItemVo equipItemVo = new EquipItemVo();
             equipItemVo.setEquipId(equip.getId());
-            equipItemVo.setType(0);
             List<EquipItem> items = equipItemMapper.selectList(equipItemVo);
             items = items.stream().sorted((c1,c2)->Long.compare(c1.getSort(),c2.getSort())).collect(Collectors.toList());
             equip.setItems(items);

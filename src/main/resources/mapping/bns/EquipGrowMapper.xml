@@ -4,6 +4,9 @@
 
 	<resultMap id="baseResultMap" type="com.ming.bns.admin.entity.bns.EquipGrow">
 	    <result column="id" property="id"/>
+	    <result column="equip_id" property="equipId"/>
+	    <result column="equip_id2" property="equipId2"/>
+	    <result column="type" property="type"/>
 	    <result column="start_equip_id" property="startEquipId"/>
 	    <result column="end_equip_id" property="endEquipId"/>
 	    <result column="grow_type" property="growType"/>
@@ -13,6 +16,9 @@
 
 	<sql id="baseColumn">
 	    id,
+	    equip_id,
+	    equip_id2,
+	    type,
 	    start_equip_id,
 	    end_equip_id,
 	    grow_type,
@@ -23,6 +29,9 @@
 	<sql id="baseCondition">
 		<where>
 		    <if test="id != null"> and id = #{id}</if>
+		    <if test="equipId != null"> and equip_id = #{equipId}</if>
+		    <if test="equipId2 != null"> and equip_id2 = #{equipId2}</if>
+		    <if test="type != null"> and type = #{type}</if>
 		    <if test="startEquipId != null"> and start_equip_id = #{startEquipId}</if>
 		    <if test="endEquipId != null"> and end_equip_id = #{endEquipId}</if>
 		    <if test="growType != null"> and grow_type = #{growType}</if>
@@ -71,9 +80,12 @@
         <include refid="baseSort"></include>
 	</select>
 
-	<insert id="insert" parameterType="com.ming.bns.admin.entity.bns.EquipGrow">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.ming.bns.admin.entity.bns.EquipGrow">
 		insert into bns_equip_grow
 		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="equipId != null">equip_id,</if>
+			<if test="equipId2 != null">equip_id2,</if>
+			<if test="type != null">type,</if>
 			<if test="startEquipId != null">start_equip_id,</if>
 			<if test="endEquipId != null">end_equip_id,</if>
 			<if test="growType != null">grow_type,</if>
@@ -81,6 +93,9 @@
 			<if test="gold != null">gold,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
+		    <if test="equipId != null">#{equipId},</if>
+		    <if test="equipId2 != null">#{equipId2},</if>
+		    <if test="type != null">#{type},</if>
 		    <if test="startEquipId != null">#{startEquipId},</if>
 		    <if test="endEquipId != null">#{endEquipId},</if>
 		    <if test="growType != null">#{growType},</if>
@@ -89,9 +104,22 @@
 		</trim>
 	</insert>
 
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into bns_equip_grow(
+			equip_id,equip_id2,type,start_equip_id,end_equip_id,grow_type,discount,gold
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">(
+			#{item.equipId},#{item.equipId2},#{item.type},#{item.startEquipId},#{item.endEquipId},
+			#{item.growType},#{item.discount},#{item.gold})
+		</foreach>
+	</insert>
+
 	<update id="update" parameterType="com.ming.bns.admin.entity.bns.EquipGrow">
 		update bns_equip_grow
 		<set>
+			<if test="equipId != null">equip_id = #{equipId},</if>
+			<if test="equipId2 != null">equip_id2 = #{equipId2},</if>
+			<if test="type != null">type = #{type},</if>
 			<if test="startEquipId != null">start_equip_id = #{startEquipId},</if>
 			<if test="endEquipId != null">end_equip_id = #{endEquipId},</if>
 			<if test="growType != null">grow_type = #{growType},</if>
@@ -106,4 +134,8 @@
 		where id = #{id}
 	</delete>
 
+	<delete id="deleteByType">
+		delete from bns_equip_grow
+		where type = #{type} and equip_id=#{equipId}
+	</delete>
 </mapper>

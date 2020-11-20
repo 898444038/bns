@@ -122,4 +122,9 @@
 		delete from bns_equip_item
 		where equip_id = #{equipId}
 	</delete>
+
+	<delete id="deleteItem" parameterType="com.ming.bns.admin.vo.bns.EquipItemVo">
+		delete from bns_equip_item
+		where equip_id = #{equipId} and sort = #{sort}
+	</delete>
 </mapper>

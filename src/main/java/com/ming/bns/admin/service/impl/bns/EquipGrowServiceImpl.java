@@ -1,5 +1,7 @@
 package com.ming.bns.admin.service.impl.bns;
 
+import com.ming.bns.admin.entity.bns.EquipItem;
+import com.ming.bns.admin.mapper.bns.EquipItemMapper;
 import com.ming.bns.admin.service.bns.EquipGrowService;
 import com.ming.bns.admin.entity.bns.EquipGrow;
 import com.ming.bns.admin.vo.bns.EquipGrowVo;
@@ -7,9 +9,14 @@ import com.ming.bns.admin.mapper.bns.EquipGrowMapper;
 
 import com.ming.bns.admin.utils.Pagination;
 import javax.annotation.Resource;
+
+import com.ming.bns.admin.vo.bns.EquipItemVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 装备成长
@@ -21,6 +28,8 @@ public class EquipGrowServiceImpl implements EquipGrowService {
 
     @Resource
     private EquipGrowMapper equipGrowMapper;
+    @Resource
+    private EquipItemMapper equipItemMapper;
 
 	@Override
 	public Pagination<EquipGrow> selectPage(EquipGrowVo equipGrowVo) {
@@ -82,5 +91,41 @@ public class EquipGrowServiceImpl implements EquipGrowService {
     @Override
     public int delete(Long id) {
         return equipGrowMapper.delete(id);
+    }
+
+    @Override
+    public int refresh(EquipItemVo equipItemVo) {
+        EquipItemVo itemVo = new EquipItemVo();
+        itemVo.setType(equipItemVo.getType());
+        List<EquipItem> allList = equipItemMapper.selectList(itemVo);
+        itemVo.setEquipId(equipItemVo.getEquipId());
+        List<EquipItem> equipAllList = equipItemMapper.selectList(itemVo);
+        List<EquipGrow> equipGrowList = new ArrayList<>();
+        for(EquipItem item : equipAllList){
+            if(item.getParentId()!=0){
+                //equipGrowList.add(new EquipGrow(equipItemVo.getEquipId(),equipItemVo.getType(),item.getParentId(),item.getId()));
+                Integer sort = 0;
+                Long equipId = null;
+                for(EquipItem item2 : equipAllList){
+                    if(item.getParentId().equals(item2.getId())){
+                        sort = item2.getSort();
+                        equipId = item2.getEquipId();
+                        break;
+                    }
+                }
+                equipGrowList.add(new EquipGrow(equipId,item.getEquipId(),equipItemVo.getType(),sort.longValue(),item.getSort().longValue()));
+            }
+        }
+        List<EquipItem> childrenList = equipAllList.stream().filter(s-> StringUtils.isNotBlank(s.getChildren())).collect(Collectors.toList());
+        for(EquipItem item : childrenList){
+            String[] childrens = item.getChildren().split(",");
+            for(String children : childrens){
+                List<EquipItem> items = allList.stream().filter(s->s.getId().toString().equals(children)).collect(Collectors.toList());
+                EquipGrow equipGrow = new EquipGrow(item.getEquipId(),items.get(0).getEquipId(),equipItemVo.getType(),item.getSort().longValue(),items.get(0).getSort().longValue());
+                equipGrowList.add(equipGrow);
+            }
+        }
+        equipGrowMapper.deleteByType(equipItemVo.getType(),equipItemVo.getEquipId());
+        return equipGrowMapper.insertBatch(equipGrowList);
     }
 }
