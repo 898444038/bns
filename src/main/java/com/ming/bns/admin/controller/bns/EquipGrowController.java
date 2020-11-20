@@ -34,40 +34,55 @@ public class EquipGrowController {
     private EquipItemService equipItemService;
 
     @Log("EquipGrow")
+    @PostMapping("/options")
+    public ResultMsg options(EquipGrowVo equipGrowVo){
+        EquipItemVo equipItemVo = new EquipItemVo();
+        equipItemVo.setType(equipGrowVo.getType());
+        List<EquipItem> itemList = equipItemService.selectList(equipItemVo);
+        return ResultMsg.success(itemList);
+    }
+
+    @Log("EquipGrow")
     @PostMapping("/auction")
     public ResultMsg auction(EquipGrowVo equipGrowVo){
-        EquipItemVo itemVo = new EquipItemVo();
-        itemVo.setType(equipGrowVo.getType());
-        List<EquipItem> equipAllList = equipItemService.selectList(itemVo);
+        Long startId = equipGrowVo.getStartId();
+        Long endId = equipGrowVo.getEndId();
+        if(equipGrowVo.getType()==null || startId==null || endId==null){
+            ResultMsg.failed();
+        }
+
+        List<EquipGrow> list = equipGrowService.selectList(equipGrowVo);
+        EquipItemVo equipItemVo = new EquipItemVo();
+        equipItemVo.setType(equipGrowVo.getType());
+        List<EquipItem> itemList = equipItemService.selectList(equipItemVo);
         List<EquipGrow> equipGrowList = new ArrayList<>();
-        for(EquipItem item : equipAllList){
-            if(item.getParentId()!=0){
-                equipGrowList.add(new EquipGrow(item.getParentId(),item.getId()));
+        for(EquipGrow equipGrow : list){
+            List<EquipItem> items1 = itemList.stream().filter(s->equipGrow.getEquipId().equals(s.getEquipId()) && equipGrow.getStartEquipId().equals(s.getSort().longValue())).collect(Collectors.toList());
+            List<EquipItem> items2 = itemList.stream().filter(s->equipGrow.getEquipId2().equals(s.getEquipId()) && equipGrow.getEndEquipId().equals(s.getSort().longValue())).collect(Collectors.toList());
+            EquipItem item1 = items1.get(0);
+            EquipItem item2 = items2.get(0);
+            equipGrowList.add(new EquipGrow(item1.getId(),item2.getId()));
+            System.out.println(item1.getId()+"|"+item2.getId()+"   "+item1.getName()+"->"+item2.getName());
+        }
+        System.out.println();
+        List<EquipItem> equipAllList = new ArrayList<>();
+        for (EquipItem equipItem : itemList){
+            equipAllList.add(equipItem);
+            if(StringUtils.isNotBlank(equipItem.getChildren())){
+                String[] childrens = equipItem.getChildren().split(",");
+                for(String children : childrens){
+                    List<EquipItem> items1 = itemList.stream().filter(s->children.equals(s.getId().toString())).collect(Collectors.toList());
+                    EquipItem equipItem1 = new EquipItem();
+                    equipItem1.setId(items1.get(0).getId());
+                    equipItem1.setName(items1.get(0).getName());
+                    equipItem1.setParentId(equipItem.getId());
+                    equipAllList.add(equipItem1);
+                }
             }
         }
-
-        List<EquipItem> childrenList = equipAllList.stream().filter(s-> StringUtils.isNotBlank(s.getChildren())).collect(Collectors.toList());
-        List<EquipItem> equipItemList = new ArrayList<>();
-        for(EquipItem item : childrenList){
-            String[] childrens = item.getChildren().split(",");
-            for(String children : childrens){
-                List<EquipItem> items = equipAllList.stream().filter(s->s.getId().toString().equals(children)).collect(Collectors.toList());
-                EquipItem equipItem = new EquipItem();
-                equipItem.setId(items.get(0).getId());
-                equipItem.setEquipId(items.get(0).getEquipId());
-                equipItem.setName(items.get(0).getName());
-                equipItem.setParentId(item.getId());
-                equipItem.setType(0);
-                equipItemList.add(equipItem);
-                equipGrowList.add(new EquipGrow(equipItem.getParentId(),equipItem.getId()));
-            }
-        }
-        equipAllList.addAll(equipItemList);
-
-        Long startId = 225L;
-        Long endId = 233L;
 
         List<List<EquipItem>> routeList = EquipUtil.routeTree(startId,endId,equipAllList,equipGrowList);
+        //if(routeList.size() == 0){}
         System.out.println();
         for(List<EquipItem> route : routeList){
             EquipUtil.routeCount(route);

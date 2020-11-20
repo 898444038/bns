@@ -46,11 +46,25 @@ public class EquipUtil {
         TreeNode treeAll = TreeUtil.getTree(equipAllList);
         List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
 
-        List<List<EquipItem>> lists = new ArrayList<>();
-        boolean flag = false;
+        List<List<TreeNode>> routeTreeResult = new ArrayList<>();
+//        List<List<EquipItem>> lists = new ArrayList<>();
+//        boolean flag = false;
         for (List<TreeNode> nodeList : routeTreeAll){
-            List<EquipItem> equips = new ArrayList<>();
+//            List<EquipItem> equips = new ArrayList<>();
+            boolean startFlag = false;
+            boolean endFlag = false;
             for (TreeNode node : nodeList){
+                if(startId.equals((long)node.getId())){
+                    startFlag = true;
+                }
+                if(endId.equals((long)node.getId())){
+                    endFlag = true;
+                }
+            }
+            if(startFlag && endFlag){
+                routeTreeResult.add(nodeList);
+            }
+            /*for (TreeNode node : nodeList){
                 if(startId.equals((long)node.getId())){
                     flag = true;
                 }
@@ -63,15 +77,17 @@ public class EquipUtil {
             }
             if(equips.size()!=0 && equips.get(0).getId().equals(startId) && equips.get(equips.size()-1).getId().equals(endId)){
                 lists.add(equips);
-            }
+            }*/
         }
+        List<List<EquipItem>> lists = new ArrayList<>();
 
-        for (List<EquipItem> equips : lists){
+
+        /*for (List<EquipItem> equips : lists){
             for (EquipItem equip : equips){
                 List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartEquipId().equals(equip.getId())).collect(Collectors.toList());
                 equip.setEquipGrowList(equipGrowLists);
             }
-        }
+        }*/
         return lists;
     }
 
