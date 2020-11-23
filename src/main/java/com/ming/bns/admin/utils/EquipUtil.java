@@ -16,11 +16,11 @@ public class EquipUtil {
         Long startId = 3L;
         Long endId = 27L;
 
-        List<List<EquipItem>> routeList = routeTree(startId,endId,equipAllList,equipGrowList);
+        /*List<List<EquipItem>> routeList = routeTree(startId,endId,equipAllList,equipGrowList);
         System.out.println();
         for(List<EquipItem> route : routeList){
             routeCount(route);
-        }
+        }*/
     }
 
     /**
@@ -42,7 +42,7 @@ public class EquipUtil {
      * @param equipGrowList
      * @return
      */
-    public static List<List<EquipItem>> routeTree(Long startId,Long endId,List<EquipItem> equipAllList,List<EquipGrow> equipGrowList){
+    public static List<Map<String,Object>> routeTree(Long startId,Long endId,List<EquipItem> equipAllList,List<EquipGrow> equipGrowList){
         TreeNode treeAll = TreeUtil.getTree(equipAllList);
         List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
 
@@ -79,17 +79,20 @@ public class EquipUtil {
         List<Map<String,Object>> resultList = new ArrayList<>();
         for (List<EquipItem> equips : lists){
             List<EquipGrow> grows = new ArrayList<>();
-            for(int i=1;i<equips.size();i++){
-                final int index = i;
-                List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartEquipId().equals(equips.get(index-1).getId()) && g.getEndEquipId().equals(equips.get(index).getId())).collect(Collectors.toList());
-                grows.add(equipGrowLists.get(0));
+            for(EquipItem equipItem : equips){
+                if(equipItem.getParentId()!=0){
+                    final Long parentId = equipItem.getParentId();
+                    final Long cuurId = equipItem.getId();
+                    List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartItemId().equals(parentId) && g.getEndItemId().equals(cuurId)).collect(Collectors.toList());
+                    grows.add(equipGrowLists.get(0));
+                }
             }
             Map<String,Object> resultMap = new HashMap<>();
             resultMap.put("list",equips);
             resultMap.put("grow",grows);
             resultList.add(resultMap);
         }
-        return lists;
+        return resultList;
     }
 
     public static List<EquipGrow> getEquipGrowList(){

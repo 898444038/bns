@@ -113,7 +113,9 @@ public class EquipGrowServiceImpl implements EquipGrowService {
                         break;
                     }
                 }
-                equipGrowList.add(new EquipGrow(equipId,item.getEquipId(),equipItemVo.getType(),sort.longValue(),item.getSort().longValue()));
+                EquipGrow equipGrow = new EquipGrow(equipId,item.getEquipId(),equipItemVo.getType(),sort.longValue(),item.getSort().longValue());
+                //equipGrowList.add(equipGrow);
+                handle(equipGrow);
             }
         }
         List<EquipItem> childrenList = equipAllList.stream().filter(s-> StringUtils.isNotBlank(s.getChildren())).collect(Collectors.toList());
@@ -122,10 +124,29 @@ public class EquipGrowServiceImpl implements EquipGrowService {
             for(String children : childrens){
                 List<EquipItem> items = allList.stream().filter(s->s.getId().toString().equals(children)).collect(Collectors.toList());
                 EquipGrow equipGrow = new EquipGrow(item.getEquipId(),items.get(0).getEquipId(),equipItemVo.getType(),item.getSort().longValue(),items.get(0).getSort().longValue());
-                equipGrowList.add(equipGrow);
+                //equipGrowList.add(equipGrow);
+                handle(equipGrow);
             }
         }
-        equipGrowMapper.deleteByType(equipItemVo.getType(),equipItemVo.getEquipId());
-        return equipGrowMapper.insertBatch(equipGrowList);
+//        equipGrowMapper.deleteByType(equipItemVo.getType(),equipItemVo.getEquipId());
+//        return equipGrowMapper.insertBatch(equipGrowList);
+        return 1;
+    }
+
+    public void handle(EquipGrow equipGrow){
+        EquipGrowVo equipGrowVo = new EquipGrowVo();
+        equipGrowVo.setType(equipGrow.getType());
+        equipGrowVo.setStartSort(equipGrow.getStartSort());
+        equipGrowVo.setEndSort(equipGrow.getEndSort());
+        EquipGrow grow = equipGrowMapper.selectOne(equipGrowVo);
+        if(grow == null){
+            equipGrowMapper.insert(equipGrow);
+        }else{
+            if(!equipGrow.getEquipId().equals(grow.getEquipId()) || !equipGrow.getEquipId2().equals(grow.getEquipId2())){
+                grow.setEquipId(equipGrow.getEquipId());
+                grow.setEquipId2(equipGrow.getEquipId2());
+                equipGrowMapper.update(grow);
+            }
+        }
     }
 }

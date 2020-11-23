@@ -2,9 +2,10 @@
 CREATE TABLE `bns_equip_grow` (
 `id` BIGINT(20)  NOT NULL AUTO_INCREMENT ,
 `equip_id` BIGINT(20)  DEFAULT NULL  COMMENT 'Equip表主键',
+`equip_id2` BIGINT(20)  DEFAULT NULL  COMMENT 'Equip表主键',
 `type` INTEGER(11)  DEFAULT NULL  COMMENT '装备类型',
-`start_equip_id` BIGINT(20)  DEFAULT NULL  COMMENT '开始段数',
-`end_equip_id` BIGINT(20)  DEFAULT NULL  COMMENT '结束段数',
+`start_sort` BIGINT(20)  DEFAULT NULL  COMMENT '开始段数',
+`end_sort` BIGINT(20)  DEFAULT NULL  COMMENT '结束段数',
 `grow_type` INTEGER(11)  DEFAULT NULL  COMMENT '成长方式',
 `discount` DECIMAL(12,2)  DEFAULT NULL  COMMENT '成长折扣',
 `gold` DECIMAL(12,2)  DEFAULT NULL  COMMENT '金',
@@ -14,9 +15,10 @@ PRIMARY KEY (`id`)
 -- 新增字段
 ALTER TABLE `bns_equip_grow` ADD COLUMN id BIGINT(20)  DEFAULT NULL ;
 ALTER TABLE `bns_equip_grow` ADD COLUMN equip_id BIGINT(20)  DEFAULT NULL  COMMENT 'Equip表主键';
+ALTER TABLE `bns_equip_grow` ADD COLUMN equip_id2 BIGINT(20)  DEFAULT NULL  COMMENT 'Equip表主键';
 ALTER TABLE `bns_equip_grow` ADD COLUMN type INTEGER(11)  DEFAULT NULL  COMMENT '装备类型';
-ALTER TABLE `bns_equip_grow` ADD COLUMN start_equip_id BIGINT(20)  DEFAULT NULL  COMMENT '开始段数';
-ALTER TABLE `bns_equip_grow` ADD COLUMN end_equip_id BIGINT(20)  DEFAULT NULL  COMMENT '结束段数';
+ALTER TABLE `bns_equip_grow` ADD COLUMN start_sort BIGINT(20)  DEFAULT NULL  COMMENT '开始段数';
+ALTER TABLE `bns_equip_grow` ADD COLUMN end_sort BIGINT(20)  DEFAULT NULL  COMMENT '结束段数';
 ALTER TABLE `bns_equip_grow` ADD COLUMN grow_type INTEGER(11)  DEFAULT NULL  COMMENT '成长方式';
 ALTER TABLE `bns_equip_grow` ADD COLUMN discount DECIMAL(12,2)  DEFAULT NULL  COMMENT '成长折扣';
 ALTER TABLE `bns_equip_grow` ADD COLUMN gold DECIMAL(12,2)  DEFAULT NULL  COMMENT '金';

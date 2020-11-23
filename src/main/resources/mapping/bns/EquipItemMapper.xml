@@ -47,9 +47,7 @@
     </sql>
 
     <sql id="baseSort">
-        <if test="pageSort != null and pageSort != ''">
-            ORDER BY #{pageSort}
-        </if>
+		ORDER BY equip_id asc,sort asc
     </sql>
 
     <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.EquipItemVo">

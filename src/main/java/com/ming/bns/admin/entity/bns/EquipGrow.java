@@ -32,11 +32,11 @@ public class EquipGrow implements Serializable {
 
     @Column
     @Comment("开始段数")
-    private Long startEquipId;
+    private Long startSort;
 
     @Column
     @Comment("结束段数")
-    private Long endEquipId;
+    private Long endSort;
 
     @Column
     @Comment("成长方式")
@@ -50,21 +50,40 @@ public class EquipGrow implements Serializable {
     @Comment("金")
     private BigDecimal gold;
 
+    private Long startItemId;
+    private Long endItemId;
+
     private List<EquipMaterial> equipMaterialList;
 
     public EquipGrow() {}
 
-    public EquipGrow(Long startEquipId, Long endEquipId) {
-        this.startEquipId = startEquipId;
-        this.endEquipId = endEquipId;
+    public EquipGrow(Long startSort, Long endSort) {
+        this.startSort = startSort;
+        this.endSort = endSort;
     }
 
-    public EquipGrow(Long equipId,Long equipId2, Integer type, Long startEquipId, Long endEquipId) {
+    public EquipGrow(Long equipId,Long equipId2, Integer type, Long startSort, Long endSort) {
         this.equipId = equipId;
         this.equipId2 = equipId2;
         this.type = type;
-        this.startEquipId = startEquipId;
-        this.endEquipId = endEquipId;
+        this.startSort = startSort;
+        this.endSort = endSort;
+    }
+
+    public Long getStartItemId() {
+        return startItemId;
+    }
+
+    public void setStartItemId(Long startItemId) {
+        this.startItemId = startItemId;
+    }
+
+    public Long getEndItemId() {
+        return endItemId;
+    }
+
+    public void setEndItemId(Long endItemId) {
+        this.endItemId = endItemId;
     }
 
     public Long getEquipId2() {
@@ -99,20 +118,20 @@ public class EquipGrow implements Serializable {
         this.id = id;
     }
 
-    public Long getStartEquipId() {
-        return startEquipId;
+    public Long getStartSort() {
+        return startSort;
     }
 
-    public void setStartEquipId(Long startEquipId) {
-        this.startEquipId = startEquipId;
+    public void setStartSort(Long startSort) {
+        this.startSort = startSort;
     }
 
-    public Long getEndEquipId() {
-        return endEquipId;
+    public Long getEndSort() {
+        return endSort;
     }
 
-    public void setEndEquipId(Long endEquipId) {
-        this.endEquipId = endEquipId;
+    public void setEndSort(Long endSort) {
+        this.endSort = endSort;
     }
 
     public Integer getGrowType() {
@@ -145,5 +164,20 @@ public class EquipGrow implements Serializable {
 
     public void setEquipMaterialList(List<EquipMaterial> equipMaterialList) {
         this.equipMaterialList = equipMaterialList;
+    }
+
+    @Override
+    public String toString() {
+        return "EquipGrow{" +
+                "id=" + id +
+                ", equipId=" + equipId +
+                ", equipId2=" + equipId2 +
+                ", type=" + type +
+                ", startSort=" + startSort +
+                ", endSort=" + endSort +
+                ", startItemId=" + startItemId +
+                ", endItemId=" + endItemId +
+                ", equipMaterialList=" + equipMaterialList +
+                '}';
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -51,18 +52,17 @@ public class EquipGrowController {
             ResultMsg.failed();
         }
 
-        List<EquipGrow> list = equipGrowService.selectList(equipGrowVo);
+        List<EquipGrow> equipGrowList = equipGrowService.selectList(equipGrowVo);
         EquipItemVo equipItemVo = new EquipItemVo();
         equipItemVo.setType(equipGrowVo.getType());
         List<EquipItem> itemList = equipItemService.selectList(equipItemVo);
-        List<EquipGrow> equipGrowList = new ArrayList<>();
-        for(EquipGrow equipGrow : list){
-            List<EquipItem> items1 = itemList.stream().filter(s->equipGrow.getEquipId().equals(s.getEquipId()) && equipGrow.getStartEquipId().equals(s.getSort().longValue())).collect(Collectors.toList());
-            List<EquipItem> items2 = itemList.stream().filter(s->equipGrow.getEquipId2().equals(s.getEquipId()) && equipGrow.getEndEquipId().equals(s.getSort().longValue())).collect(Collectors.toList());
+        for(EquipGrow equipGrow : equipGrowList){
+            List<EquipItem> items1 = itemList.stream().filter(s->equipGrow.getEquipId().equals(s.getEquipId()) && equipGrow.getStartSort().equals(s.getSort().longValue())).collect(Collectors.toList());
+            List<EquipItem> items2 = itemList.stream().filter(s->equipGrow.getEquipId2().equals(s.getEquipId()) && equipGrow.getEndSort().equals(s.getSort().longValue())).collect(Collectors.toList());
             EquipItem item1 = items1.get(0);
             EquipItem item2 = items2.get(0);
-            equipGrowList.add(new EquipGrow(item1.getId(),item2.getId()));
-            //System.out.println(item1.getId()+"|"+item2.getId()+"   "+item1.getName()+"->"+item2.getName());
+            equipGrow.setStartItemId(item1.getId());
+            equipGrow.setEndItemId(item2.getId());
         }
         System.out.println();
         List<EquipItem> equipAllList = new ArrayList<>();
@@ -81,13 +81,12 @@ public class EquipGrowController {
             }
         }
 
-        List<List<EquipItem>> routeList = EquipUtil.routeTree(startId,endId,equipAllList,equipGrowList);
-        //if(routeList.size() == 0){}
-        System.out.println();
-        for(List<EquipItem> route : routeList){
+        List<Map<String,Object>> routeList = EquipUtil.routeTree(startId,endId,equipAllList,equipGrowList);
+        //System.out.println();
+        /*for(List<EquipItem> route : routeList){
             EquipUtil.routeCount(route);
-        }
-        return ResultMsg.success();
+        }*/
+        return ResultMsg.success(routeList);
     }
 
 

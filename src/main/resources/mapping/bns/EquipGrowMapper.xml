@@ -7,8 +7,8 @@
 	    <result column="equip_id" property="equipId"/>
 	    <result column="equip_id2" property="equipId2"/>
 	    <result column="type" property="type"/>
-	    <result column="start_equip_id" property="startEquipId"/>
-	    <result column="end_equip_id" property="endEquipId"/>
+	    <result column="start_sort" property="startSort"/>
+	    <result column="end_sort" property="endSort"/>
 	    <result column="grow_type" property="growType"/>
 	    <result column="discount" property="discount"/>
 	    <result column="gold" property="gold"/>
@@ -19,8 +19,8 @@
 	    equip_id,
 	    equip_id2,
 	    type,
-	    start_equip_id,
-	    end_equip_id,
+	    start_sort,
+	    end_sort,
 	    grow_type,
 	    discount,
 	    gold
@@ -32,8 +32,8 @@
 		    <if test="equipId != null"> and equip_id = #{equipId}</if>
 		    <if test="equipId2 != null"> and equip_id2 = #{equipId2}</if>
 		    <if test="type != null"> and type = #{type}</if>
-		    <if test="startEquipId != null"> and start_equip_id = #{startEquipId}</if>
-		    <if test="endEquipId != null"> and end_equip_id = #{endEquipId}</if>
+		    <if test="startSort != null"> and start_sort = #{startSort}</if>
+		    <if test="endSort != null"> and end_sort = #{endSort}</if>
 		    <if test="growType != null"> and grow_type = #{growType}</if>
 		    <if test="discount != null"> and discount = #{discount}</if>
 		    <if test="gold != null"> and gold = #{gold}</if>
@@ -47,9 +47,7 @@
     </sql>
 
     <sql id="baseSort">
-        <if test="pageSort != null and pageSort != ''">
-            ORDER BY #{pageSort}
-        </if>
+        ORDER BY equip_id asc,start_sort asc,end_sort asc
     </sql>
 
     <select id="selectCount" resultType="int" parameterType="com.ming.bns.admin.vo.bns.EquipGrowVo">
@@ -86,8 +84,8 @@
 			<if test="equipId != null">equip_id,</if>
 			<if test="equipId2 != null">equip_id2,</if>
 			<if test="type != null">type,</if>
-			<if test="startEquipId != null">start_equip_id,</if>
-			<if test="endEquipId != null">end_equip_id,</if>
+			<if test="startSort != null">start_sort,</if>
+			<if test="endSort != null">end_sort,</if>
 			<if test="growType != null">grow_type,</if>
 			<if test="discount != null">discount,</if>
 			<if test="gold != null">gold,</if>
@@ -96,8 +94,8 @@
 		    <if test="equipId != null">#{equipId},</if>
 		    <if test="equipId2 != null">#{equipId2},</if>
 		    <if test="type != null">#{type},</if>
-		    <if test="startEquipId != null">#{startEquipId},</if>
-		    <if test="endEquipId != null">#{endEquipId},</if>
+		    <if test="startSort != null">#{startSort},</if>
+		    <if test="endSort != null">#{endSort},</if>
 		    <if test="growType != null">#{growType},</if>
 		    <if test="discount != null">#{discount},</if>
 		    <if test="gold != null">#{gold},</if>
@@ -106,10 +104,10 @@
 
 	<insert id="insertBatch" parameterType="java.util.List">
 		insert into bns_equip_grow(
-			equip_id,equip_id2,type,start_equip_id,end_equip_id,grow_type,discount,gold
+			equip_id,equip_id2,type,start_sort,end_sort,grow_type,discount,gold
 		) values
 		<foreach collection="list" item="item" index="index" separator=",">(
-			#{item.equipId},#{item.equipId2},#{item.type},#{item.startEquipId},#{item.endEquipId},
+			#{item.equipId},#{item.equipId2},#{item.type},#{item.startSort},#{item.endSort},
 			#{item.growType},#{item.discount},#{item.gold})
 		</foreach>
 	</insert>
@@ -120,8 +118,8 @@
 			<if test="equipId != null">equip_id = #{equipId},</if>
 			<if test="equipId2 != null">equip_id2 = #{equipId2},</if>
 			<if test="type != null">type = #{type},</if>
-			<if test="startEquipId != null">start_equip_id = #{startEquipId},</if>
-			<if test="endEquipId != null">end_equip_id = #{endEquipId},</if>
+			<if test="startSort != null">start_sort = #{startSort},</if>
+			<if test="endSort != null">end_sort = #{endSort},</if>
 			<if test="growType != null">grow_type = #{growType},</if>
 			<if test="discount != null">discount = #{discount},</if>
 			<if test="gold != null">gold = #{gold},</if>
