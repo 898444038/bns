@@ -62,7 +62,7 @@ public class EquipGrowController {
             EquipItem item1 = items1.get(0);
             EquipItem item2 = items2.get(0);
             equipGrowList.add(new EquipGrow(item1.getId(),item2.getId()));
-            System.out.println(item1.getId()+"|"+item2.getId()+"   "+item1.getName()+"->"+item2.getName());
+            //System.out.println(item1.getId()+"|"+item2.getId()+"   "+item1.getName()+"->"+item2.getName());
         }
         System.out.println();
         List<EquipItem> equipAllList = new ArrayList<>();

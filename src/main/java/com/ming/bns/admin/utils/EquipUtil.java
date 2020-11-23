@@ -46,48 +46,49 @@ public class EquipUtil {
         TreeNode treeAll = TreeUtil.getTree(equipAllList);
         List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
 
-        List<List<TreeNode>> routeTreeResult = new ArrayList<>();
-//        List<List<EquipItem>> lists = new ArrayList<>();
-//        boolean flag = false;
+        //List<List<TreeNode>> routeTreeResult = new ArrayList<>();
+        List<List<EquipItem>> lists = new ArrayList<>();
         for (List<TreeNode> nodeList : routeTreeAll){
-//            List<EquipItem> equips = new ArrayList<>();
             boolean startFlag = false;
             boolean endFlag = false;
+            int index = 0;
+            int startIndex = 0;
+            int endIndex = 0;
             for (TreeNode node : nodeList){
                 if(startId.equals((long)node.getId())){
                     startFlag = true;
+                    startIndex = index;
                 }
                 if(endId.equals((long)node.getId())){
                     endFlag = true;
+                    endIndex = index;
                 }
+                index++;
             }
             if(startFlag && endFlag){
-                routeTreeResult.add(nodeList);
+                List<TreeNode> nodeLists = nodeList.subList(startIndex,endIndex+1);
+                List<EquipItem> equipItems = new ArrayList<>();
+                for (TreeNode node : nodeLists){
+                    equipItems.add(new EquipItem((long)node.getId(),node.getName(),(long)node.getParentId()));
+                }
+                //routeTreeResult.add(nodeLists);
+                lists.add(equipItems);
             }
-            /*for (TreeNode node : nodeList){
-                if(startId.equals((long)node.getId())){
-                    flag = true;
-                }
-                if(flag){
-                    equips.add(new EquipItem((long)node.getId(),node.getName(),(long)node.getParentId()));
-                }
-                if(endId.equals((long)node.getId())){
-                    flag = false;
-                }
-            }
-            if(equips.size()!=0 && equips.get(0).getId().equals(startId) && equips.get(equips.size()-1).getId().equals(endId)){
-                lists.add(equips);
-            }*/
         }
-        List<List<EquipItem>> lists = new ArrayList<>();
 
-
-        /*for (List<EquipItem> equips : lists){
-            for (EquipItem equip : equips){
-                List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartEquipId().equals(equip.getId())).collect(Collectors.toList());
-                equip.setEquipGrowList(equipGrowLists);
+        List<Map<String,Object>> resultList = new ArrayList<>();
+        for (List<EquipItem> equips : lists){
+            List<EquipGrow> grows = new ArrayList<>();
+            for(int i=1;i<equips.size();i++){
+                final int index = i;
+                List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartEquipId().equals(equips.get(index-1).getId()) && g.getEndEquipId().equals(equips.get(index).getId())).collect(Collectors.toList());
+                grows.add(equipGrowLists.get(0));
             }
-        }*/
+            Map<String,Object> resultMap = new HashMap<>();
+            resultMap.put("list",equips);
+            resultMap.put("grow",grows);
+            resultList.add(resultMap);
+        }
         return lists;
     }
 
