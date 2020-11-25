@@ -1,7 +1,11 @@
 package com.ming.bns.admin.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ming.bns.admin.entity.bns.EquipGrow;
 import com.ming.bns.admin.entity.bns.EquipItem;
+import com.ming.bns.admin.entity.bns.EquipMaterial;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,7 +46,7 @@ public class EquipUtil {
      * @param equipGrowList
      * @return
      */
-    public static List<Map<String,Object>> routeTree(Long startId,Long endId,List<EquipItem> equipAllList,List<EquipGrow> equipGrowList){
+    public static Map<String,Object> routeTree(Long startId,Long endId,List<EquipItem> equipAllList,List<EquipGrow> equipGrowList){
         TreeNode treeAll = TreeUtil.getTree(equipAllList);
         List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
 
@@ -77,6 +81,8 @@ public class EquipUtil {
         }
 
         List<Map<String,Object>> resultList = new ArrayList<>();
+        Map<Long,String> materialMap = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         for (List<EquipItem> equips : lists){
             List<EquipGrow> grows = new ArrayList<>();
             for(EquipItem equipItem : equips){
@@ -84,7 +90,15 @@ public class EquipUtil {
                     final Long parentId = equipItem.getParentId();
                     final Long cuurId = equipItem.getId();
                     List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartItemId().equals(parentId) && g.getEndItemId().equals(cuurId)).collect(Collectors.toList());
-                    grows.add(equipGrowLists.get(0));
+                    EquipGrow equipGrow = equipGrowLists.get(0);
+                    if(StringUtils.isNotBlank(equipGrow.getMaterials())){
+                        Gson gson = new Gson();
+                        List<EquipMaterial> list = gson.fromJson(equipGrow.getMaterials(), new TypeToken<List<EquipMaterial>>() {}.getType());
+                        for (EquipMaterial material : list){
+                            materialMap.put(material.getMaterial().getId(),material.getMaterial().getName());
+                        }
+                    }
+                    grows.add(equipGrow);
                 }
             }
             Map<String,Object> resultMap = new HashMap<>();
@@ -92,7 +106,9 @@ public class EquipUtil {
             resultMap.put("grow",grows);
             resultList.add(resultMap);
         }
-        return resultList;
+        map.put("materials",materialMap);
+        map.put("routes",resultList);
+        return map;
     }
 
     public static List<EquipGrow> getEquipGrowList(){

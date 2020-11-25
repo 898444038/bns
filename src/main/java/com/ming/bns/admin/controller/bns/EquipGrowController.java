@@ -1,7 +1,10 @@
 package com.ming.bns.admin.controller.bns;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ming.bns.admin.aspect.log.Log;
 import com.ming.bns.admin.entity.bns.EquipItem;
+import com.ming.bns.admin.entity.bns.EquipMaterial;
 import com.ming.bns.admin.service.bns.EquipGrowService;
 import com.ming.bns.admin.entity.bns.EquipGrow;
 import com.ming.bns.admin.service.bns.EquipItemService;
@@ -56,15 +59,6 @@ public class EquipGrowController {
         EquipItemVo equipItemVo = new EquipItemVo();
         equipItemVo.setType(equipGrowVo.getType());
         List<EquipItem> itemList = equipItemService.selectList(equipItemVo);
-        for(EquipGrow equipGrow : equipGrowList){
-            List<EquipItem> items1 = itemList.stream().filter(s->equipGrow.getEquipId().equals(s.getEquipId()) && equipGrow.getStartSort().equals(s.getSort().longValue())).collect(Collectors.toList());
-            List<EquipItem> items2 = itemList.stream().filter(s->equipGrow.getEquipId2().equals(s.getEquipId()) && equipGrow.getEndSort().equals(s.getSort().longValue())).collect(Collectors.toList());
-            EquipItem item1 = items1.get(0);
-            EquipItem item2 = items2.get(0);
-            equipGrow.setStartItemId(item1.getId());
-            equipGrow.setEndItemId(item2.getId());
-        }
-        System.out.println();
         List<EquipItem> equipAllList = new ArrayList<>();
         for (EquipItem equipItem : itemList){
             equipAllList.add(equipItem);
@@ -81,12 +75,12 @@ public class EquipGrowController {
             }
         }
 
-        List<Map<String,Object>> routeList = EquipUtil.routeTree(startId,endId,equipAllList,equipGrowList);
+        Map<String,Object> map = EquipUtil.routeTree(startId,endId,equipAllList,equipGrowList);
         //System.out.println();
         /*for(List<EquipItem> route : routeList){
             EquipUtil.routeCount(route);
         }*/
-        return ResultMsg.success(routeList);
+        return ResultMsg.success(map);
     }
 
 
@@ -105,7 +99,28 @@ public class EquipGrowController {
     @Log("EquipGrow")
     @GetMapping("/selectList")
     public ResultMsg selectList(EquipGrowVo equipGrowVo){
-        return ResultMsg.success(equipGrowService.selectList(equipGrowVo));
+        List<EquipGrow> equipGrowList = equipGrowService.selectList(equipGrowVo);
+        EquipItemVo equipItemVo = new EquipItemVo();
+        equipItemVo.setType(equipGrowVo.getType());
+        List<EquipItem> itemList = equipItemService.selectList(equipItemVo);
+        for(EquipGrow equipGrow : equipGrowList){
+            List<EquipItem> items1 = itemList.stream().filter(s->equipGrow.getEquipId().equals(s.getEquipId()) && equipGrow.getStartSort().equals(s.getSort().longValue())).collect(Collectors.toList());
+            List<EquipItem> items2 = itemList.stream().filter(s->equipGrow.getEquipId2().equals(s.getEquipId()) && equipGrow.getEndSort().equals(s.getSort().longValue())).collect(Collectors.toList());
+            EquipItem item1 = items1.get(0);
+            EquipItem item2 = items2.get(0);
+            equipGrow.setStartItemName(item1.getName());
+            equipGrow.setEndItemName(item2.getName());
+            if(StringUtils.isNotBlank(equipGrow.getMaterials())){
+                Gson gson = new Gson();
+                List<EquipMaterial> list = gson.fromJson(equipGrow.getMaterials(), new TypeToken<List<EquipMaterial>>() {}.getType());
+                equipGrow.setEquipMaterialList(list);
+            }
+
+            if(equipGrow.getEquipMaterialList() == null){
+                equipGrow.setEquipMaterialList(new ArrayList<>());
+            }
+        }
+        return ResultMsg.success(equipGrowList);
     }
 
 	/**

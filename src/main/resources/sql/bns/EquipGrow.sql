@@ -9,6 +9,9 @@ CREATE TABLE `bns_equip_grow` (
 `grow_type` INTEGER(11)  DEFAULT NULL  COMMENT '成长方式',
 `discount` DECIMAL(12,2)  DEFAULT NULL  COMMENT '成长折扣',
 `gold` DECIMAL(12,2)  DEFAULT NULL  COMMENT '金',
+`start_item_id` BIGINT(20)  DEFAULT NULL  COMMENT '起始项',
+`end_item_id` BIGINT(20)  DEFAULT NULL  COMMENT '目标项',
+`materials` VARCHAR(32)  DEFAULT NULL  COMMENT '材料明细',
 PRIMARY KEY (`id`)
 )ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -22,4 +25,7 @@ ALTER TABLE `bns_equip_grow` ADD COLUMN end_sort BIGINT(20)  DEFAULT NULL  COMME
 ALTER TABLE `bns_equip_grow` ADD COLUMN grow_type INTEGER(11)  DEFAULT NULL  COMMENT '成长方式';
 ALTER TABLE `bns_equip_grow` ADD COLUMN discount DECIMAL(12,2)  DEFAULT NULL  COMMENT '成长折扣';
 ALTER TABLE `bns_equip_grow` ADD COLUMN gold DECIMAL(12,2)  DEFAULT NULL  COMMENT '金';
+ALTER TABLE `bns_equip_grow` ADD COLUMN start_item_id BIGINT(20)  DEFAULT NULL  COMMENT '起始项';
+ALTER TABLE `bns_equip_grow` ADD COLUMN end_item_id BIGINT(20)  DEFAULT NULL  COMMENT '目标项';
+ALTER TABLE `bns_equip_grow` ADD COLUMN materials VARCHAR(32)  DEFAULT NULL  COMMENT '材料明细';
 

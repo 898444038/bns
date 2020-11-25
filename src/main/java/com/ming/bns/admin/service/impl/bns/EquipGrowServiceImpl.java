@@ -138,13 +138,28 @@ public class EquipGrowServiceImpl implements EquipGrowService {
         equipGrowVo.setType(equipGrow.getType());
         equipGrowVo.setStartSort(equipGrow.getStartSort());
         equipGrowVo.setEndSort(equipGrow.getEndSort());
+        equipGrowVo.setEquipId(equipGrow.getEquipId());
+        equipGrowVo.setEquipId2(equipGrow.getEquipId2());
         EquipGrow grow = equipGrowMapper.selectOne(equipGrowVo);
+
+        EquipItemVo equipItemVo = new EquipItemVo();
+        equipItemVo.setType(equipGrowVo.getType());
+        List<EquipItem> itemList = equipItemMapper.selectList(equipItemVo);
+        List<EquipItem> items1 = itemList.stream().filter(s->equipGrow.getEquipId().equals(s.getEquipId()) && equipGrow.getStartSort().equals(s.getSort().longValue())).collect(Collectors.toList());
+        List<EquipItem> items2 = itemList.stream().filter(s->equipGrow.getEquipId2().equals(s.getEquipId()) && equipGrow.getEndSort().equals(s.getSort().longValue())).collect(Collectors.toList());
+        EquipItem item1 = items1.get(0);
+        EquipItem item2 = items2.get(0);
+        equipGrow.setStartItemId(item1.getId());
+        equipGrow.setEndItemId(item2.getId());
+
         if(grow == null){
             equipGrowMapper.insert(equipGrow);
         }else{
-            if(!equipGrow.getEquipId().equals(grow.getEquipId()) || !equipGrow.getEquipId2().equals(grow.getEquipId2())){
-                grow.setEquipId(equipGrow.getEquipId());
-                grow.setEquipId2(equipGrow.getEquipId2());
+            if(!equipGrow.getStartItemId().equals(grow.getStartItemId())
+               || !equipGrow.getEndItemId().equals(grow.getEndItemId())
+            ){
+                grow.setStartItemId(equipGrow.getStartItemId());
+                grow.setEndItemId(equipGrow.getEndItemId());
                 equipGrowMapper.update(grow);
             }
         }

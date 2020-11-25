@@ -50,10 +50,22 @@ public class EquipGrow implements Serializable {
     @Comment("金")
     private BigDecimal gold;
 
+    @Column
+    @Comment("起始项")
     private Long startItemId;
+
+    @Column
+    @Comment("目标项")
     private Long endItemId;
 
     private List<EquipMaterial> equipMaterialList;
+
+    private String startItemName;
+    private String endItemName;
+
+    @Column
+    @Comment("材料明细")
+    private String materials;
 
     public EquipGrow() {}
 
@@ -68,6 +80,30 @@ public class EquipGrow implements Serializable {
         this.type = type;
         this.startSort = startSort;
         this.endSort = endSort;
+    }
+
+    public String getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(String materials) {
+        this.materials = materials;
+    }
+
+    public String getStartItemName() {
+        return startItemName;
+    }
+
+    public void setStartItemName(String startItemName) {
+        this.startItemName = startItemName;
+    }
+
+    public String getEndItemName() {
+        return endItemName;
+    }
+
+    public void setEndItemName(String endItemName) {
+        this.endItemName = endItemName;
     }
 
     public Long getStartItemId() {

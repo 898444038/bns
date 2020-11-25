@@ -9,6 +9,9 @@
 	    <result column="type" property="type"/>
 	    <result column="start_sort" property="startSort"/>
 	    <result column="end_sort" property="endSort"/>
+		<result column="start_item_id" property="startItemId"/>
+		<result column="end_item_id" property="endItemId"/>
+		<result column="materials" property="materials"/>
 	    <result column="grow_type" property="growType"/>
 	    <result column="discount" property="discount"/>
 	    <result column="gold" property="gold"/>
@@ -21,6 +24,9 @@
 	    type,
 	    start_sort,
 	    end_sort,
+	    start_item_id,
+	    end_item_id,
+	    materials,
 	    grow_type,
 	    discount,
 	    gold
@@ -34,6 +40,9 @@
 		    <if test="type != null"> and type = #{type}</if>
 		    <if test="startSort != null"> and start_sort = #{startSort}</if>
 		    <if test="endSort != null"> and end_sort = #{endSort}</if>
+			<if test="startItemId != null"> and start_item_id = #{startItemId}</if>
+			<if test="endItemId != null"> and end_item_id = #{endItemId}</if>
+			<if test="materials != null"> and materials = #{materials}</if>
 		    <if test="growType != null"> and grow_type = #{growType}</if>
 		    <if test="discount != null"> and discount = #{discount}</if>
 		    <if test="gold != null"> and gold = #{gold}</if>
@@ -86,6 +95,9 @@
 			<if test="type != null">type,</if>
 			<if test="startSort != null">start_sort,</if>
 			<if test="endSort != null">end_sort,</if>
+			<if test="startItemId != null">start_item_id,</if>
+			<if test="endItemId != null">end_item_id,</if>
+			<if test="materials != null">materials,</if>
 			<if test="growType != null">grow_type,</if>
 			<if test="discount != null">discount,</if>
 			<if test="gold != null">gold,</if>
@@ -96,6 +108,9 @@
 		    <if test="type != null">#{type},</if>
 		    <if test="startSort != null">#{startSort},</if>
 		    <if test="endSort != null">#{endSort},</if>
+			<if test="startItemId != null">#{startItemId},</if>
+			<if test="endItemId != null">#{endItemId},</if>
+			<if test="materials != null">#{materials},</if>
 		    <if test="growType != null">#{growType},</if>
 		    <if test="discount != null">#{discount},</if>
 		    <if test="gold != null">#{gold},</if>
@@ -104,10 +119,21 @@
 
 	<insert id="insertBatch" parameterType="java.util.List">
 		insert into bns_equip_grow(
-			equip_id,equip_id2,type,start_sort,end_sort,grow_type,discount,gold
+			equip_id,
+			equip_id2,
+			type,
+			start_sort,
+			end_sort,
+			start_item_id,
+			end_item_id,
+			materials,
+			grow_type,
+			discount,
+			gold
 		) values
 		<foreach collection="list" item="item" index="index" separator=",">(
 			#{item.equipId},#{item.equipId2},#{item.type},#{item.startSort},#{item.endSort},
+			#{item.startItemId},#{item.endItemId},#{item.materials},
 			#{item.growType},#{item.discount},#{item.gold})
 		</foreach>
 	</insert>
@@ -120,6 +146,9 @@
 			<if test="type != null">type = #{type},</if>
 			<if test="startSort != null">start_sort = #{startSort},</if>
 			<if test="endSort != null">end_sort = #{endSort},</if>
+			<if test="startItemId != null">start_item_id = #{startItemId},</if>
+			<if test="endItemId != null">end_item_id = #{endItemId},</if>
+			<if test="materials != null">materials = #{materials},</if>
 			<if test="growType != null">grow_type = #{growType},</if>
 			<if test="discount != null">discount = #{discount},</if>
 			<if test="gold != null">gold = #{gold},</if>

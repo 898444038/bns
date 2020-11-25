@@ -25,7 +25,17 @@ public class EquipMaterial implements Serializable {
     @Comment("材料数量")
     private Integer count;
 
+    private Material material;
+
     public EquipMaterial() {
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     public Long getId() {
