@@ -91,6 +91,14 @@ public class EquipUtil {
                     final Long cuurId = equipItem.getId();
                     List<EquipGrow> equipGrowLists = equipGrowList.stream().filter(g->g.getStartItemId().equals(parentId) && g.getEndItemId().equals(cuurId)).collect(Collectors.toList());
                     EquipGrow equipGrow = equipGrowLists.get(0);
+
+                    List<EquipItem> items1 = equipAllList.stream().filter(s->equipGrow.getEquipId().equals(s.getEquipId()) && equipGrow.getStartSort().equals(s.getSort().longValue())).collect(Collectors.toList());
+                    List<EquipItem> items2 = equipAllList.stream().filter(s->equipGrow.getEquipId2().equals(s.getEquipId()) && equipGrow.getEndSort().equals(s.getSort().longValue())).collect(Collectors.toList());
+                    EquipItem item1 = items1.get(0);
+                    EquipItem item2 = items2.get(0);
+                    equipGrow.setStartItemName(item1.getName());
+                    equipGrow.setEndItemName(item2.getName());
+
                     if(StringUtils.isNotBlank(equipGrow.getMaterials())){
                         Gson gson = new Gson();
                         List<EquipMaterial> list = gson.fromJson(equipGrow.getMaterials(), new TypeToken<List<EquipMaterial>>() {}.getType());
