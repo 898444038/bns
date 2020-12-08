@@ -47,6 +47,7 @@ public class EquipUtil {
      * @return
      */
     public static Map<String,Object> routeTree(Long startId,Long endId,List<EquipItem> equipAllList,List<EquipGrow> equipGrowList){
+        Gson gson = new Gson();
         TreeNode treeAll = TreeUtil.getTree(equipAllList);
         List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
 
@@ -81,10 +82,14 @@ public class EquipUtil {
         }
 
         List<Map<String,Object>> resultList = new ArrayList<>();
-        Map<Long,String> materialMap = new HashMap<>();
+        List<Map<String,Object>> materialList = new ArrayList<>();
+        Map<String,Object> materialMap = new HashMap<>();
         Map<String,Object> map = new HashMap<>();
         for (List<EquipItem> equips : lists){
             List<EquipGrow> grows = new ArrayList<>();
+            List<Map<String,Object>> titleList = new ArrayList<>();
+            List<Map<String,Object>> tableList = new ArrayList<>();
+            Map<String,Object> titleMap = new LinkedHashMap<>();
             for(EquipItem equipItem : equips){
                 if(equipItem.getParentId()!=0){
                     final Long parentId = equipItem.getParentId();
@@ -100,21 +105,53 @@ public class EquipUtil {
                     equipGrow.setEndItemName(item2.getName());
 
                     if(StringUtils.isNotBlank(equipGrow.getMaterials())){
-                        Gson gson = new Gson();
                         List<EquipMaterial> list = gson.fromJson(equipGrow.getMaterials(), new TypeToken<List<EquipMaterial>>() {}.getType());
+                        equipGrow.setEquipMaterialList(list);
+
+                        Map<String,Object> tableMap = new HashMap<>();
+                        tableMap.put("startItemName",equipGrow.getStartItemName());
+                        tableMap.put("endItemName",equipGrow.getEndItemName());
+
+                        titleMap.put("startItemName","起始");
+                        titleMap.put("endItemName","目标");
                         for (EquipMaterial material : list){
-                            materialMap.put(material.getMaterial().getId(),material.getMaterial().getName());
+                            String id = "material_"+material.getMaterial().getId();
+
+                            titleMap.put(id,material.getMaterial().getName());
+
+                            materialMap.put(id,material.getMaterial().getName());
+
+                            tableMap.put(id,material.getCount());
                         }
+                        
+                        tableList.add(tableMap);
                     }
                     grows.add(equipGrow);
                 }
             }
+
+
             Map<String,Object> resultMap = new HashMap<>();
+            for (Map.Entry<String,Object> entry : titleMap.entrySet()){
+                Map<String,Object> map1 = new HashMap<>();
+                map1.put("field",entry.getKey());
+                map1.put("title",entry.getValue());
+                titleList.add(map1);
+            }
             resultMap.put("list",equips);
             resultMap.put("grow",grows);
+            resultMap.put("title",titleList);
+            resultMap.put("data",tableList);
             resultList.add(resultMap);
         }
-        map.put("materials",materialMap);
+        for (Map.Entry<String,Object> entry : materialMap.entrySet()){
+            Map<String,Object> map1 = new HashMap<>();
+            map1.put("id",entry.getKey());
+            map1.put("name",entry.getValue());
+            map1.put("value",0);
+            materialList.add(map1);
+        }
+        map.put("materials",materialList);
         map.put("routes",resultList);
         return map;
     }
