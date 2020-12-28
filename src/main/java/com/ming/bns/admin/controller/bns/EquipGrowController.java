@@ -76,10 +76,6 @@ public class EquipGrowController {
         }
 
         Map<String,Object> map = EquipUtil.routeTree(startId,endId,equipAllList,equipGrowList);
-        //System.out.println();
-        /*for(List<EquipItem> route : routeList){
-            EquipUtil.routeCount(route);
-        }*/
         return ResultMsg.success(map);
     }
 

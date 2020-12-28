@@ -51,7 +51,6 @@ public class EquipUtil {
         TreeNode treeAll = TreeUtil.getTree(equipAllList);
         List<List<TreeNode>> routeTreeAll = TreeUtil.bfsTree(treeAll);
 
-        //List<List<TreeNode>> routeTreeResult = new ArrayList<>();
         List<List<EquipItem>> lists = new ArrayList<>();
         for (List<TreeNode> nodeList : routeTreeAll){
             boolean startFlag = false;
@@ -71,7 +70,7 @@ public class EquipUtil {
                 index++;
             }
             if(startFlag && endFlag){
-                List<TreeNode> nodeLists = nodeList.subList(startIndex,endIndex+1);
+                List<TreeNode> nodeLists = nodeList.subList(startIndex+1,endIndex+1);
                 List<EquipItem> equipItems = new ArrayList<>();
                 for (TreeNode node : nodeLists){
                     equipItems.add(new EquipItem((long)node.getId(),node.getName(),(long)node.getParentId()));

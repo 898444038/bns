@@ -13,12 +13,11 @@ import org.springframework.context.annotation.Bean;
 @MapperScan(basePackages = {
 	"com.ming.bns.admin.mapper.bns",
 	"com.ming.bns.admin.mapper.ppsg",
-	"com.ming.bns.ppsg.mapper"
+	"com.ming.bns.admin.mapper.sys"
 })
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableGenerate(basePackages = {
-		"com.ming.bns.admin",
-		"com.ming.bns.ppsg"
+		"com.ming.bns.admin"
 })
 public class BnsApplication {
 
